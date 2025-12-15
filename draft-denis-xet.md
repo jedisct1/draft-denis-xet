@@ -1723,6 +1723,8 @@ For both strategies:
 - Cache keys SHOULD include the byte range when `Range` headers are present
 - Cache keys SHOULD NOT include `Authorization` headers, since different users have different tokens but request identical content
 
+For deployments with access-controlled content (e.g., gated models requiring user agreement), see {{access-controlled-content}} for additional CDN considerations.
+
 ### Range Request Caching
 
 CDNs SHOULD cache partial responses (`206 Partial Content`) by byte range.
@@ -1767,6 +1769,51 @@ The keyed hash protection in global deduplication prevents enumeration attacks:
 - Servers never reveal raw chunk hashes
 - Clients can only match chunks they possess
 - The chunk hash key rotates periodically, and shard expiry limits the reuse window
+
+## Access-Controlled Content {#access-controlled-content}
+
+XET deployments may support access-controlled or "gated" content, where users must be authorized (e.g., by accepting terms of service or requesting access) before downloading certain files.
+This has several implications for XET implementations.
+
+### Repository-Level Access Control
+
+Access control in XET is typically enforced at the repository or file level, not at the xorb or chunk level.
+The reconstruction API MUST verify that the requesting user has access to the file before returning pre-signed URLs.
+Unauthorized requests MUST return `401 Unauthorized` or `403 Forbidden`.
+
+### CDN Considerations for Gated Content
+
+Since the same xorb may be referenced by both public and access-controlled files, CDN caching requires careful design:
+
+Edge-Authenticated Deployments:
+: When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
+  Xorbs referenced only by access-controlled files remain protected even when cached.
+  This is the recommended approach for deployments with gated content.
+
+Query-Signed URL Deployments:
+: When using query-signed URLs, each authorized user receives unique signatures.
+  Cache efficiency is reduced, but access control is enforced by signature validity.
+  Deployments MAY choose to exclude xorbs from access-controlled repositories from CDN caching entirely.
+
+### Cross-Repository Deduplication
+
+The same chunk may exist in both access-controlled and public repositories.
+XET's content-addressable design allows storage deduplication across access boundaries:
+
+- When a user uploads to a public repository, chunks matching access-controlled content may be deduplicated
+- The user does not gain access to the access-controlled repository; they simply avoid re-uploading data they already possess
+- The keyed hash protection in global deduplication ({{global-deduplication}}) ensures users can only match chunks they possess
+
+This is a storage optimization, not an access control bypass.
+Implementations MUST still enforce repository-level access control for all download operations.
+
+### Privacy Implications
+
+Deployments with access-controlled content SHOULD consider:
+
+- Global deduplication responses reveal that a chunk exists somewhere in the system, though not where
+- The keyed hash rotation and shard expiry limit the window for existence probing
+- For highly sensitive content, deployments MAY exclude chunks from the global deduplication index entirely
 
 ## Denial of Service Considerations
 
