@@ -185,8 +185,7 @@ Table of Contents
      15.1.  Content Integrity
      15.2.  Authentication and Authorization
      15.3.  Global Deduplication Privacy
-     15.4.  Transport Security
-     15.5.  Denial of Service Considerations
+     15.4.  Denial of Service Considerations
    IANA Considerations
    References
      Normative References
@@ -703,7 +702,7 @@ function merged_hash_of_sequence(hash_pairs):
 
    Each line contains: - The hash as a fixed-length 64-character
    lowercase hexadecimal string - A space, colon, space (:) - The size
-   as decimal integer - A newline character (\n)
+   as a decimal integer - A newline character (\n)
 
 6.2.2.4.  Root Computation
 
@@ -752,7 +751,7 @@ function compute_merkle_root(entries):
    final keyed hash step for domain separation.
 
    For the XET-GEARHASH-BLAKE3 suite, file hashes use an all-zero key
-   for the final hash:
+   (ZERO_KEY) for the final hash:
 
    ZERO_KEY = {
      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -1025,7 +1024,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
 
    *  Hashes version: 8-bit unsigned, MUST be 0
 
-   *  Num chunks: 32-bit unsigned
+   *  num_chunks: 32-bit unsigned
 
    *  Chunk hashes: 32 bytes each, in chunk order
 
@@ -1035,7 +1034,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
 
    *  Boundaries version: 8-bit unsigned, MUST be 1
 
-   *  Num chunks: 32-bit unsigned
+   *  num_chunks: 32-bit unsigned
 
    *  Chunk boundary offsets: Array of num_chunks 32-bit unsigned
       values.  Each value is the end offset (in bytes) of the
@@ -1049,7 +1048,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
 
 7.5.4.  Trailer
 
-   *  Num chunks: 32-bit unsigned (repeated for convenience)
+   *  num_chunks: 32-bit unsigned (repeated for convenience)
 
    *  Hashes section offset from end: 32-bit unsigned distance from the
       end of the footer to the start of the hash section
@@ -2132,12 +2131,7 @@ Offset  Size  Field
    *  The chunk hash key rotates periodically, and shard expiry limits
       the reuse window
 
-15.4.  Transport Security
-
-   All API communications MUST use TLS 1.2 or later.  Implementations
-   MUST verify server certificates.
-
-15.5.  Denial of Service Considerations
+15.4.  Denial of Service Considerations
 
    Large file uploads could exhaust server resources.  Servers SHOULD
    implement:
