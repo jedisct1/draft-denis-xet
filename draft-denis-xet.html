@@ -1704,68 +1704,65 @@ It defines the <code>XET-GEARHASH-BLAKE3</code> algorithm suite as the default, 
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">Throughout this document, the following terms apply:<a href="#section-2-2" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-2-3">
-        <dt id="section-2-3.1">Algorithm Suite:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.2">
-          <p id="section-2-3.2.1">A specification of the cryptographic hash function and content-defined chunking algorithm used by an XET deployment. All participants in an XET system <span class="bcp14">MUST</span> use the same algorithm suite for interoperability.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.3">Chunk:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.4">
-          <p id="section-2-3.4.1">A variable-sized unit of data derived from a file using content-defined chunking. Chunks are the fundamental unit of deduplication in XET.<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.5">Chunk Hash:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.6">
-          <p id="section-2-3.6.1">A 32-byte cryptographic hash that uniquely identifies a chunk based on its content.<a href="#section-2-3.6.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.7">Xorb:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.8">
-          <p id="section-2-3.8.1">A container object that aggregates multiple compressed chunks for efficient storage and transfer. The name derives from “XET orb.”<a href="#section-2-3.8.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.9">Xorb Hash:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.10">
-          <p id="section-2-3.10.1">A 32-byte cryptographic hash computed from the chunk hashes within a xorb using a Merkle tree construction.<a href="#section-2-3.10.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.11">File Hash:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.12">
-          <p id="section-2-3.12.1">A 32-byte cryptographic hash that uniquely identifies a file based on its chunk composition.<a href="#section-2-3.12.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.13">Shard:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.14">
-          <p id="section-2-3.14.1">A binary metadata structure that describes file reconstructions and xorb contents, used for registering uploads and enabling deduplication.<a href="#section-2-3.14.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.15">Term:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.16">
-          <p id="section-2-3.16.1">A reference to a contiguous range of chunks within a specific xorb, used to describe how to reconstruct a file.<a href="#section-2-3.16.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.17">File Reconstruction:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.18">
-          <p id="section-2-3.18.1">An ordered list of terms that describes how to reassemble a file from chunks stored in xorbs.<a href="#section-2-3.18.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.19">Content-Defined Chunking (CDC):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.20">
-          <p id="section-2-3.20.1">An algorithm that determines chunk boundaries based on file content rather than fixed offsets, enabling stable boundaries across file modifications.<a href="#section-2-3.20.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.21">Content-Addressable Storage (CAS):</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.22">
-          <p id="section-2-3.22.1">A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name.<a href="#section-2-3.22.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-3.23">Global Deduplication:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-3.24">
-          <p id="section-2-3.24.1">The process of identifying chunks that already exist in the storage system to avoid redundant uploads.<a href="#section-2-3.24.1" class="pilcrow">¶</a></p>
-</dd>
-      <dd class="break"></dd>
-</dl>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Term</th>
+            <th class="text-left" rowspan="1" colspan="1">Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Algorithm Suite</td>
+            <td class="text-left" rowspan="1" colspan="1">A specification of the cryptographic hash function and content-defined chunking algorithm used by an XET deployment. All participants in an XET system <span class="bcp14">MUST</span> use the same algorithm suite for interoperability.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Chunk</td>
+            <td class="text-left" rowspan="1" colspan="1">A variable-sized unit of data derived from a file using content-defined chunking. Chunks are the fundamental unit of deduplication in XET.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Chunk Hash</td>
+            <td class="text-left" rowspan="1" colspan="1">A 32-byte cryptographic hash that uniquely identifies a chunk based on its content.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Xorb</td>
+            <td class="text-left" rowspan="1" colspan="1">A container object that aggregates multiple compressed chunks for efficient storage and transfer. The name derives from “XET orb.”</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Xorb Hash</td>
+            <td class="text-left" rowspan="1" colspan="1">A 32-byte cryptographic hash computed from the chunk hashes within a xorb using a Merkle tree construction.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">File Hash</td>
+            <td class="text-left" rowspan="1" colspan="1">A 32-byte cryptographic hash that uniquely identifies a file based on its chunk composition.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Shard</td>
+            <td class="text-left" rowspan="1" colspan="1">A binary metadata structure that describes file reconstructions and xorb contents, used for registering uploads and enabling deduplication.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Term</td>
+            <td class="text-left" rowspan="1" colspan="1">A reference to a contiguous range of chunks within a specific xorb, used to describe how to reconstruct a file.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">File Reconstruction</td>
+            <td class="text-left" rowspan="1" colspan="1">An ordered list of terms that describes how to reassemble a file from chunks stored in xorbs.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Content-Defined Chunking (CDC)</td>
+            <td class="text-left" rowspan="1" colspan="1">An algorithm that determines chunk boundaries based on file content rather than fixed offsets, enabling stable boundaries across file modifications.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Content-Addressable Storage (CAS)</td>
+            <td class="text-left" rowspan="1" colspan="1">A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name.</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Global Deduplication</td>
+            <td class="text-left" rowspan="1" colspan="1">The process of identifying chunks that already exist in the storage system to avoid redundant uploads.</td>
+          </tr>
+        </tbody>
+      </table>
 <div id="notational-conventions">
 <section id="section-2.1">
         <h3 id="name-notational-conventions">
@@ -1776,8 +1773,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <p id="section-2.1-3">Range specifications use different conventions depending on context:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<table class="center" id="table-2">
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Context</th>
@@ -2538,8 +2535,8 @@ When collecting chunks:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-chunk-header-format" class="section-name selfRef">Chunk Header Format</a>
         </h3>
 <p id="section-7.3-1">Each chunk header is 8 bytes with the following layout:<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<table class="center" id="table-3">
+          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Offset</th>
@@ -2602,8 +2599,8 @@ Given the maximum chunk size of 128 KiB, this provides ample range.<a href="#sec
           <h4 id="name-compression-type">
 <a href="#section-7.3.3" class="section-number selfRef">7.3.3. </a><a href="#name-compression-type" class="section-name selfRef">Compression Type</a>
           </h4>
-<table class="center" id="table-3">
-            <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<table class="center" id="table-4">
+            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Value</th>
@@ -3062,8 +3059,8 @@ Offset  Size  Field
 </pre><a href="#section-9.4.2-1" class="pilcrow">¶</a>
 </div>
 <p id="section-9.4.2-2">File Flags:<a href="#section-9.4.2-2" class="pilcrow">¶</a></p>
-<table class="center" id="table-4">
-            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<table class="center" id="table-5">
+            <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Bit</th>
@@ -3257,8 +3254,8 @@ Chunk 2: unpacked_segment_bytes = 500
             <h5 id="name-chunk-flags">
 <a href="#section-9.5.3.2" class="section-number selfRef">9.5.3.2. </a><a href="#name-chunk-flags" class="section-name selfRef">Chunk Flags</a>
             </h5>
-<table class="center" id="table-5">
-              <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
+<table class="center" id="table-6">
+              <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
 <thead>
                 <tr>
                   <th class="text-left" rowspan="1" colspan="1">Bit</th>
@@ -4369,35 +4366,27 @@ The content-addressable design is well-suited for CDN caching:<a href="#section-
 Since xorb content is immutable and identified by hash, the ideal cache key includes only the xorb hash and byte range—maximizing cache reuse.
 However, access control requirements constrain this choice.<a href="#section-14.7.1-1" class="pilcrow">¶</a></p>
 <p id="section-14.7.1-2">Two URL authorization strategies are applicable to XET deployments:<a href="#section-14.7.1-2" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-14.7.1-3">
-            <dt id="section-14.7.1-3.1">Edge-Authenticated URLs:</dt>
-            <dd style="margin-left: 1.5em" id="section-14.7.1-3.2">
-              <p id="section-14.7.1-3.2.1">The URL path contains the xorb hash with no signature parameters.
+<p id="section-14.7.1-3"><strong>Edge-Authenticated URLs.</strong>
+The URL path contains the xorb hash with no signature parameters.
 Authorization is enforced at the CDN edge via signed cookies or tokens validated on every request.
 The cache key is derived from the xorb hash and byte range only, excluding any authorization tokens.
 This allows all authorized users to share the same cache entries.
-This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth <span class="bcp14">MUST NOT</span> be used.<a href="#section-14.7.1-3.2.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-14.7.1-3.3">Query-Signed URLs:</dt>
-            <dd style="margin-left: 1.5em" id="section-14.7.1-3.4">
-              <p id="section-14.7.1-3.4.1">The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
+This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth <span class="bcp14">MUST NOT</span> be used.<a href="#section-14.7.1-3" class="pilcrow">¶</a></p>
+<p id="section-14.7.1-4"><strong>Query-Signed URLs.</strong>
+The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
 Cache keys <span class="bcp14">MUST</span> include all signature-bearing query parameters.
 Each unique signature produces a separate cache entry, resulting in lower hit rates.
-This approach works with any CDN but sacrifices cache efficiency for simplicity.<a href="#section-14.7.1-3.4.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-</dl>
-<p id="section-14.7.1-4">For both strategies:<a href="#section-14.7.1-4" class="pilcrow">¶</a></p>
+This approach works with any CDN but sacrifices cache efficiency for simplicity.<a href="#section-14.7.1-4" class="pilcrow">¶</a></p>
+<p id="section-14.7.1-5">For both strategies:<a href="#section-14.7.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.7.1-5.1">
-              <p id="section-14.7.1-5.1.1">Cache keys <span class="bcp14">SHOULD</span> include the byte range when <code>Range</code> headers are present<a href="#section-14.7.1-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.7.1-6.1">
+              <p id="section-14.7.1-6.1.1">Cache keys <span class="bcp14">SHOULD</span> include the byte range when <code>Range</code> headers are present<a href="#section-14.7.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.7.1-5.2">
-              <p id="section-14.7.1-5.2.1">Cache keys <span class="bcp14">SHOULD NOT</span> include <code>Authorization</code> headers, since different users have different tokens but request identical content<a href="#section-14.7.1-5.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.7.1-6.2">
+              <p id="section-14.7.1-6.2.1">Cache keys <span class="bcp14">SHOULD NOT</span> include <code>Authorization</code> headers, since different users have different tokens but request identical content<a href="#section-14.7.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-14.7.1-6">For deployments with access-controlled content (e.g., gated models requiring user agreement), see <a href="#access-controlled-content" class="auto internal xref">Section 15.4</a> for additional CDN considerations.<a href="#section-14.7.1-6" class="pilcrow">¶</a></p>
+<p id="section-14.7.1-7">For deployments with access-controlled content (e.g., gated models requiring user agreement), see <a href="#access-controlled-content" class="auto internal xref">Section 15.4</a> for additional CDN considerations.<a href="#section-14.7.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="range-request-caching">
@@ -4515,22 +4504,14 @@ Unauthorized requests <span class="bcp14">MUST</span> return <code>401 Unauthori
 <a href="#section-15.4.2" class="section-number selfRef">15.4.2. </a><a href="#name-cdn-considerations-for-gate" class="section-name selfRef">CDN Considerations for Gated Content</a>
           </h4>
 <p id="section-15.4.2-1">Since the same xorb may be referenced by both public and access-controlled files, CDN caching requires careful design:<a href="#section-15.4.2-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-15.4.2-2">
-            <dt id="section-15.4.2-2.1">Edge-Authenticated Deployments:</dt>
-            <dd style="margin-left: 1.5em" id="section-15.4.2-2.2">
-              <p id="section-15.4.2-2.2.1">When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
+<p id="section-15.4.2-2"><strong>Edge-Authenticated Deployments.</strong>
+When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
 Xorbs referenced only by access-controlled files remain protected even when cached.
-This is the recommended approach for deployments with gated content.<a href="#section-15.4.2-2.2.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-15.4.2-2.3">Query-Signed URL Deployments:</dt>
-            <dd style="margin-left: 1.5em" id="section-15.4.2-2.4">
-              <p id="section-15.4.2-2.4.1">When using query-signed URLs, each authorized user receives unique signatures.
+This is the recommended approach for deployments with gated content.<a href="#section-15.4.2-2" class="pilcrow">¶</a></p>
+<p id="section-15.4.2-3"><strong>Query-Signed URL Deployments.</strong>
+When using query-signed URLs, each authorized user receives unique signatures.
 Cache efficiency is reduced, but access control is enforced by signature validity.
-Deployments <span class="bcp14">MAY</span> choose to exclude xorbs from access-controlled repositories from CDN caching entirely.<a href="#section-15.4.2-2.4.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-</dl>
+Deployments <span class="bcp14">MAY</span> choose to exclude xorbs from access-controlled repositories from CDN caching entirely.<a href="#section-15.4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cross-repository-deduplication">
