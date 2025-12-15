@@ -92,9 +92,12 @@ def _next_merge_cut(entries: list[tuple[bytes, int]]) -> int:
     """Determine the next cut point for Merkle tree construction.
 
     A cut point occurs when:
-    1. Minimum children (2) accumulated AND hash % MEAN_BRANCHING_FACTOR == 0
+    1. At least 3 children accumulated AND hash % MEAN_BRANCHING_FACTOR == 0
     2. Maximum children (9) reached
     3. End of list reached
+
+    When input has 2 or fewer entries, all are merged together.
+    This ensures each internal node has at least 2 children.
 
     Args:
         entries: List of (hash, size) pairs.
@@ -107,7 +110,8 @@ def _next_merge_cut(entries: list[tuple[bytes, int]]) -> int:
 
     end = min(MAX_CHILDREN, len(entries))
 
-    for i in range(MIN_CHILDREN - 1, end):
+    # Check indices [2, end) - minimum merge is 3 children when input > 2
+    for i in range(2, end):
         h = entries[i][0]
         # Interpret last 8 bytes of hash as little-endian u64
         hash_value = struct.unpack("<Q", h[24:32])[0]
