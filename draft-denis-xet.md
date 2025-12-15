@@ -137,6 +137,17 @@ Range specifications use two conventions:
 
 The `url_range` field uses inclusive semantics so it can be used directly in HTTP `Range` headers without modification.
 
+### Pseudo-Code Conventions
+
+Pseudo-code in this document uses the following conventions:
+
+- `for i = a to b:` iterates with `i` taking values `a, a+1, ..., b` (inclusive)
+- `for each x in list:` iterates over each element in `list`
+- `//` denotes integer division (truncating toward zero)
+- `%` denotes the modulo operator
+- `array[start:end]` slices from index `start` (inclusive) to `end` (exclusive)
+- `+` on arrays denotes concatenation
+
 # Protocol Overview
 
 XET operates as a client-server protocol.
