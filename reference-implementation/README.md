@@ -1,6 +1,6 @@
-# XET Reference Implementation
+# XET Python Implementation
 
-This is a simple Python reference implementation of the XET protocol, designed to closely match the specification and serve as an illustration of how the protocol works.
+This is the reference implementation for the [XET Internet-Draft specification](../draft-denis-xet.md) in this repository. It is a simple Python implementation designed to closely match the specification text and serve as an illustration of how the protocol works.
 
 This code prioritizes clarity and correctness over performance. It is intended for:
 
