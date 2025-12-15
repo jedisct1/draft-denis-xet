@@ -15,10 +15,12 @@ Abstract
 
    This document specifies XET, a content-addressable storage (CAS)
    protocol designed for efficient storage and transfer of large files
-   with chunk-level deduplication.  XET uses content-defined chunking to
-   split files into variable-sized chunks, aggregates chunks into
-   containers called xorbs, and enables deduplication across files and
-   repositories through cryptographic hashing.
+   with chunk-level deduplication.
+
+   XET uses content-defined chunking to split files into variable-sized
+   chunks, aggregates chunks into containers called xorbs, and enables
+   deduplication across files and repositories through cryptographic
+   hashing.
 
 Discussion Venues
 
@@ -179,8 +181,6 @@ Table of Contents
        14.7.1.  CDN Cache Keys
        14.7.2.  Range Request Caching
      14.8.  Proxy and Intermediary Considerations
-       14.8.1.  TLS Termination
-       14.8.2.  Authentication
    15. Security Considerations
      15.1.  Content Integrity
      15.2.  Authentication and Authorization
@@ -2085,19 +2085,6 @@ Offset  Size  Field
 14.8.  Proxy and Intermediary Considerations
 
    Corporate proxies and other intermediaries MAY cache XET traffic.
-   The following considerations apply:
-
-14.8.1.  TLS Termination
-
-   XET traffic MUST use TLS.  Intermediaries that do not terminate TLS
-   cannot cache XET traffic, which is acceptable from a security
-   perspective.
-
-   Intermediaries that do terminate TLS (e.g., corporate proxies with
-   certificate injection) SHOULD cache xorb downloads based on the URL
-   path hash, respecting Cache-Control headers.
-
-14.8.2.  Authentication
 
    Pre-signed URLs include authentication in the URL itself, allowing
    unauthenticated intermediaries to cache responses.  However,
