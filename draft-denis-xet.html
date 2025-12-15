@@ -1572,7 +1572,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.15.2.3.1"><a href="#section-15.3" class="auto internal xref">15.3</a>.  <a href="#name-global-deduplication-privac" class="internal xref">Global Deduplication Privacy</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4">
-                <p id="section-toc.1-1.15.2.4.1"><a href="#section-15.4" class="auto internal xref">15.4</a>.  <a href="#name-denial-of-service-considera" class="internal xref">Denial of Service Considerations</a></p>
+                <p id="section-toc.1-1.15.2.4.1"><a href="#section-15.4" class="auto internal xref">15.4</a>.  <a href="#name-access-controlled-content" class="internal xref">Access-Controlled Content</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.1">
+                    <p id="section-toc.1-1.15.2.4.2.1.1"><a href="#section-15.4.1" class="auto internal xref">15.4.1</a>.  <a href="#name-repository-level-access-con" class="internal xref">Repository-Level Access Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.2">
+                    <p id="section-toc.1-1.15.2.4.2.2.1"><a href="#section-15.4.2" class="auto internal xref">15.4.2</a>.  <a href="#name-cdn-considerations-for-gate" class="internal xref">CDN Considerations for Gated Content</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.3">
+                    <p id="section-toc.1-1.15.2.4.2.3.1"><a href="#section-15.4.3" class="auto internal xref">15.4.3</a>.  <a href="#name-cross-repository-deduplicat" class="internal xref">Cross-Repository Deduplication</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.4">
+                    <p id="section-toc.1-1.15.2.4.2.4.1"><a href="#section-15.4.4" class="auto internal xref">15.4.4</a>.  <a href="#name-privacy-implications" class="internal xref">Privacy Implications</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.5">
+                <p id="section-toc.1-1.15.2.5.1"><a href="#section-15.5" class="auto internal xref">15.5</a>.  <a href="#name-denial-of-service-considera" class="internal xref">Denial of Service Considerations</a></p>
 </li>
             </ul>
 </li>
@@ -4380,6 +4397,7 @@ This approach works with any CDN but sacrifices cache efficiency for simplicity.
               <p id="section-14.7.1-5.2.1">Cache keys <span class="bcp14">SHOULD NOT</span> include <code>Authorization</code> headers, since different users have different tokens but request identical content<a href="#section-14.7.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-14.7.1-6">For deployments with access-controlled content (e.g., gated models requiring user agreement), see <a href="#access-controlled-content" class="auto internal xref">Section 15.4</a> for additional CDN considerations.<a href="#section-14.7.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="range-request-caching">
@@ -4474,22 +4492,106 @@ Implementations <span class="bcp14">MUST</span>:<a href="#section-15.2-1" class=
         </ul>
 </section>
 </div>
-<div id="denial-of-service-considerations">
+<div id="access-controlled-content">
 <section id="section-15.4">
-        <h3 id="name-denial-of-service-considera">
-<a href="#section-15.4" class="section-number selfRef">15.4. </a><a href="#name-denial-of-service-considera" class="section-name selfRef">Denial of Service Considerations</a>
+        <h3 id="name-access-controlled-content">
+<a href="#section-15.4" class="section-number selfRef">15.4. </a><a href="#name-access-controlled-content" class="section-name selfRef">Access-Controlled Content</a>
         </h3>
-<p id="section-15.4-1">Large file uploads could exhaust server resources.
-Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.4-1" class="pilcrow">¶</a></p>
+<p id="section-15.4-1">XET deployments may support access-controlled or “gated” content, where users must be authorized (e.g., by accepting terms of service or requesting access) before downloading certain files.
+This has several implications for XET implementations.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
+<div id="repository-level-access-control">
+<section id="section-15.4.1">
+          <h4 id="name-repository-level-access-con">
+<a href="#section-15.4.1" class="section-number selfRef">15.4.1. </a><a href="#name-repository-level-access-con" class="section-name selfRef">Repository-Level Access Control</a>
+          </h4>
+<p id="section-15.4.1-1">Access control in XET is typically enforced at the repository or file level, not at the xorb or chunk level.
+The reconstruction API <span class="bcp14">MUST</span> verify that the requesting user has access to the file before returning pre-signed URLs.
+Unauthorized requests <span class="bcp14">MUST</span> return <code>401 Unauthorized</code> or <code>403 Forbidden</code>.<a href="#section-15.4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="cdn-considerations-for-gated-content">
+<section id="section-15.4.2">
+          <h4 id="name-cdn-considerations-for-gate">
+<a href="#section-15.4.2" class="section-number selfRef">15.4.2. </a><a href="#name-cdn-considerations-for-gate" class="section-name selfRef">CDN Considerations for Gated Content</a>
+          </h4>
+<p id="section-15.4.2-1">Since the same xorb may be referenced by both public and access-controlled files, CDN caching requires careful design:<a href="#section-15.4.2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-15.4.2-2">
+            <dt id="section-15.4.2-2.1">Edge-Authenticated Deployments:</dt>
+            <dd style="margin-left: 1.5em" id="section-15.4.2-2.2">
+              <p id="section-15.4.2-2.2.1">When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
+Xorbs referenced only by access-controlled files remain protected even when cached.
+This is the recommended approach for deployments with gated content.<a href="#section-15.4.2-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-15.4.2-2.3">Query-Signed URL Deployments:</dt>
+            <dd style="margin-left: 1.5em" id="section-15.4.2-2.4">
+              <p id="section-15.4.2-2.4.1">When using query-signed URLs, each authorized user receives unique signatures.
+Cache efficiency is reduced, but access control is enforced by signature validity.
+Deployments <span class="bcp14">MAY</span> choose to exclude xorbs from access-controlled repositories from CDN caching entirely.<a href="#section-15.4.2-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="cross-repository-deduplication">
+<section id="section-15.4.3">
+          <h4 id="name-cross-repository-deduplicat">
+<a href="#section-15.4.3" class="section-number selfRef">15.4.3. </a><a href="#name-cross-repository-deduplicat" class="section-name selfRef">Cross-Repository Deduplication</a>
+          </h4>
+<p id="section-15.4.3-1">The same chunk may exist in both access-controlled and public repositories.
+XET’s content-addressable design allows storage deduplication across access boundaries:<a href="#section-15.4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.4-2.1">
-            <p id="section-15.4-2.1.1">Rate limiting on API endpoints<a href="#section-15.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-15.4.3-2.1">
+              <p id="section-15.4.3-2.1.1">When a user uploads to a public repository, chunks matching access-controlled content may be deduplicated<a href="#section-15.4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.4-2.2">
-            <p id="section-15.4-2.2.1">Maximum shard size limits (64 MiB)<a href="#section-15.4-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-15.4.3-2.2">
+              <p id="section-15.4.3-2.2.1">The user does not gain access to the access-controlled repository; they simply avoid re-uploading data they already possess<a href="#section-15.4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.4-2.3">
-            <p id="section-15.4-2.3.1">Maximum xorb size limits (64 MiB)<a href="#section-15.4-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-15.4.3-2.3">
+              <p id="section-15.4.3-2.3.1">The keyed hash protection in global deduplication (<a href="#global-deduplication" class="auto internal xref">Section 10.3</a>) ensures users can only match chunks they possess<a href="#section-15.4.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-15.4.3-3">This is a storage optimization, not an access control bypass.
+Implementations <span class="bcp14">MUST</span> still enforce repository-level access control for all download operations.<a href="#section-15.4.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="privacy-implications">
+<section id="section-15.4.4">
+          <h4 id="name-privacy-implications">
+<a href="#section-15.4.4" class="section-number selfRef">15.4.4. </a><a href="#name-privacy-implications" class="section-name selfRef">Privacy Implications</a>
+          </h4>
+<p id="section-15.4.4-1">Deployments with access-controlled content <span class="bcp14">SHOULD</span> consider:<a href="#section-15.4.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.4.4-2.1">
+              <p id="section-15.4.4-2.1.1">Global deduplication responses reveal that a chunk exists somewhere in the system, though not where<a href="#section-15.4.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.4.4-2.2">
+              <p id="section-15.4.4-2.2.1">The keyed hash rotation and shard expiry limit the window for existence probing<a href="#section-15.4.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-15.4.4-2.3">
+              <p id="section-15.4.4-2.3.1">For highly sensitive content, deployments <span class="bcp14">MAY</span> exclude chunks from the global deduplication index entirely<a href="#section-15.4.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="denial-of-service-considerations">
+<section id="section-15.5">
+        <h3 id="name-denial-of-service-considera">
+<a href="#section-15.5" class="section-number selfRef">15.5. </a><a href="#name-denial-of-service-considera" class="section-name selfRef">Denial of Service Considerations</a>
+        </h3>
+<p id="section-15.5-1">Large file uploads could exhaust server resources.
+Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-15.5-2.1">
+            <p id="section-15.5-2.1.1">Rate limiting on API endpoints<a href="#section-15.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.5-2.2">
+            <p id="section-15.5-2.2.1">Maximum shard size limits (64 MiB)<a href="#section-15.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-15.5-2.3">
+            <p id="section-15.5-2.3.1">Maximum xorb size limits (64 MiB)<a href="#section-15.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
