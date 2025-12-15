@@ -1772,45 +1772,16 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-2.1-2">Hash values are 32 bytes (256 bits).
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.1-3">Range specifications use different conventions depending on context:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
-<thead>
-            <tr>
-              <th class="text-left" rowspan="1" colspan="1">Context</th>
-              <th class="text-left" rowspan="1" colspan="1">End Semantics</th>
-              <th class="text-left" rowspan="1" colspan="1">Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">HTTP <code>Range</code> header</td>
-              <td class="text-left" rowspan="1" colspan="1">Inclusive</td>
-              <td class="text-left" rowspan="1" colspan="1">
-                <code>bytes=0-999</code> means bytes 0 through 999</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">
-                <code>url_range</code> in <code>fetch_info</code>
-</td>
-              <td class="text-left" rowspan="1" colspan="1">Inclusive</td>
-              <td class="text-left" rowspan="1" colspan="1">
-                <code>{"start": 0, "end": 999}</code> means bytes 0 through 999</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">Chunk index ranges</td>
-              <td class="text-left" rowspan="1" colspan="1">Exclusive</td>
-              <td class="text-left" rowspan="1" colspan="1">
-                <code>{"start": 0, "end": 4}</code> means chunks 0, 1, 2, 3</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">Shard chunk ranges</td>
-              <td class="text-left" rowspan="1" colspan="1">Exclusive</td>
-              <td class="text-left" rowspan="1" colspan="1">
-                <code>chunk_index_end</code> is exclusive</td>
-            </tr>
-          </tbody>
-        </table>
+<p id="section-2.1-3">Range specifications use two conventions:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-4.1">
+            <p id="section-2.1-4.1.1">Index ranges (chunk indices): exclusive end, <code>[start, end)</code>. Example: <code>{"start": 0, "end": 4}</code> means indices 0, 1, 2, 3.<a href="#section-2.1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-4.2">
+            <p id="section-2.1-4.2.1">Byte ranges (<code>url_range</code>, HTTP <code>Range</code> header): inclusive end, <code>[start, end]</code>. Example: <code>{"start": 0, "end": 999}</code> means bytes 0 through 999.<a href="#section-2.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-2.1-5">The <code>url_range</code> field uses inclusive semantics so it can be used directly in HTTP <code>Range</code> headers without modification.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2548,8 +2519,8 @@ When collecting chunks:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-chunk-header-format" class="section-name selfRef">Chunk Header Format</a>
         </h3>
 <p id="section-7.3-1">Each chunk header is 8 bytes with the following layout:<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-3">
-          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<table class="center" id="table-2">
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Offset</th>
@@ -2612,8 +2583,8 @@ Given the maximum chunk size of 128 KiB, this provides ample range.<a href="#sec
           <h4 id="name-compression-type">
 <a href="#section-7.3.3" class="section-number selfRef">7.3.3. </a><a href="#name-compression-type" class="section-name selfRef">Compression Type</a>
           </h4>
-<table class="center" id="table-4">
-            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<table class="center" id="table-3">
+            <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Value</th>
@@ -3072,8 +3043,8 @@ Offset  Size  Field
 </pre><a href="#section-9.4.2-1" class="pilcrow">¶</a>
 </div>
 <p id="section-9.4.2-2">File Flags:<a href="#section-9.4.2-2" class="pilcrow">¶</a></p>
-<table class="center" id="table-5">
-            <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
+<table class="center" id="table-4">
+            <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
 <thead>
               <tr>
                 <th class="text-left" rowspan="1" colspan="1">Bit</th>
@@ -3267,8 +3238,8 @@ Chunk 2: unpacked_segment_bytes = 500
             <h5 id="name-chunk-flags">
 <a href="#section-9.5.3.2" class="section-number selfRef">9.5.3.2. </a><a href="#name-chunk-flags" class="section-name selfRef">Chunk Flags</a>
             </h5>
-<table class="center" id="table-6">
-              <caption><a href="#table-6" class="selfRef">Table 6</a></caption>
+<table class="center" id="table-5">
+              <caption><a href="#table-5" class="selfRef">Table 5</a></caption>
 <thead>
                 <tr>
                   <th class="text-left" rowspan="1" colspan="1">Bit</th>
@@ -3663,7 +3634,7 @@ GET /v1/reconstructions/{file_id}
             <p id="section-11.3-12.2.1"><code>url</code>: Pre-signed URL for downloading xorb data<a href="#section-11.3-12.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-12.3">
-            <p id="section-11.3-12.3.1"><code>url_range</code>: Byte range within the xorb for HTTP <code>Range</code> header (end inclusive).
+            <p id="section-11.3-12.3.1"><code>url_range</code>: Byte range within the xorb (end inclusive), directly usable as HTTP <code>Range</code> header values.
 The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.<a href="#section-11.3-12.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>

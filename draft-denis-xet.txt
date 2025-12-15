@@ -348,25 +348,17 @@ Table of Contents
    stored as raw bytes.  When displayed as strings, they use a specific
    byte-swapped hexadecimal format (see Section 6.5).
 
-   Range specifications use different conventions depending on context:
+   Range specifications use two conventions:
 
-     +===================+===============+===========================+
-     | Context           | End Semantics | Example                   |
-     +===================+===============+===========================+
-     | HTTP Range header | Inclusive     | bytes=0-999 means bytes 0 |
-     |                   |               | through 999               |
-     +-------------------+---------------+---------------------------+
-     | url_range in      | Inclusive     | {"start": 0, "end": 999}  |
-     | fetch_info        |               | means bytes 0 through 999 |
-     +-------------------+---------------+---------------------------+
-     | Chunk index       | Exclusive     | {"start": 0, "end": 4}    |
-     | ranges            |               | means chunks 0, 1, 2, 3   |
-     +-------------------+---------------+---------------------------+
-     | Shard chunk       | Exclusive     | chunk_index_end is        |
-     | ranges            |               | exclusive                 |
-     +-------------------+---------------+---------------------------+
+   *  Index ranges (chunk indices): exclusive end, [start, end).
+      Example: {"start": 0, "end": 4} means indices 0, 1, 2, 3.
 
-                                  Table 2
+   *  Byte ranges (url_range, HTTP Range header): inclusive end, [start,
+      end].  Example: {"start": 0, "end": 999} means bytes 0 through
+      999.
+
+   The url_range field uses inclusive semantics so it can be used
+   directly in HTTP Range headers without modification.
 
 3.  Protocol Overview
 
@@ -933,7 +925,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
        | 5      | 3    | Uncompressed Size (little-endian, bytes) |
        +--------+------+------------------------------------------+
 
-                                 Table 3
+                                 Table 2
 
 7.3.1.  Version Field
 
@@ -971,7 +963,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
      |       |                  | followed by LZ4                   |
      +-------+------------------+-----------------------------------+
 
-                                 Table 4
+                                 Table 3
 
 7.4.  Compression Schemes
 
@@ -1272,7 +1264,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
            |     |                   | present at end         |
            +-----+-------------------+------------------------+
 
-                                 Table 5
+                                 Table 4
 
 9.4.3.  FileDataSequenceEntry
 
@@ -1390,7 +1382,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
        | 0-30 | Reserved              | MUST be zero               |
        +------+-----------------------+----------------------------+
 
-                                  Table 6
+                                  Table 5
 
 9.5.4.  Bookend Entry
 
@@ -1649,10 +1641,10 @@ Offset  Size  Field
 
    *  url: Pre-signed URL for downloading xorb data
 
-   *  url_range: Byte range within the xorb for HTTP Range header (end
-      inclusive).  The start offset is always aligned to a chunk header
-      boundary, so clients can parse chunk headers sequentially from the
-      start of the fetched data.
+   *  url_range: Byte range within the xorb (end inclusive), directly
+      usable as HTTP Range header values.  The start offset is always
+      aligned to a chunk header boundary, so clients can parse chunk
+      headers sequentially from the start of the fetched data.
 
    Error Responses:
 
