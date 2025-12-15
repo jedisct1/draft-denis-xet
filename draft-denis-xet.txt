@@ -606,7 +606,7 @@ Table of Contents
    computed.
 
    For the XET-GEARHASH-BLAKE3 suite, chunk hashes use BLAKE3 keyed hash
-   with DATA_KEY:
+   with DATA_KEY as the key:
 
    DATA_KEY = {
      0x66, 0x97, 0xf5, 0x77, 0x5b, 0x95, 0x50, 0xde,
@@ -631,7 +631,7 @@ Table of Contents
    function is determined by the algorithm suite.
 
    For the XET-GEARHASH-BLAKE3 suite, internal node hashes use BLAKE3
-   keyed hash with INTERNAL_NODE_KEY:
+   keyed hash with INTERNAL_NODE_KEY as the key:
 
    INTERNAL_NODE_KEY = {
      0x01, 0x7e, 0xc5, 0xc7, 0xa5, 0x47, 0x29, 0x96,
@@ -806,7 +806,7 @@ function compute_merkle_root(entries):
    function is determined by the algorithm suite.
 
    For the XET-GEARHASH-BLAKE3 suite, verification hashes use BLAKE3
-   keyed hash with VERIFICATION_KEY:
+   keyed hash with VERIFICATION_KEY as the key:
 
    VERIFICATION_KEY = {
      0x7f, 0x18, 0x57, 0xd6, 0xce, 0x56, 0xed, 0x66,

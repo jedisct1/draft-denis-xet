@@ -2113,7 +2113,7 @@ Different key values provide domain separation between hash types.<a href="#sect
         </h3>
 <p id="section-6.1-1">Chunk hashes uniquely identify individual chunks based on their content.
 The algorithm suite determines how chunk hashes are computed.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, chunk hashes use <code>BLAKE3</code> keyed hash with <code>DATA_KEY</code>:<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, chunk hashes use <code>BLAKE3</code> keyed hash with <code>DATA_KEY</code> as the key:<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-3">
 <pre>
 DATA_KEY = {
@@ -2147,7 +2147,7 @@ The Merkle tree construction is defined separately from the hash function.<a hre
           </h4>
 <p id="section-6.2.1-1">Internal node hashes combine child hashes with their sizes.
 The hash function is determined by the algorithm suite.<a href="#section-6.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.2.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, internal node hashes use <code>BLAKE3</code> keyed hash with <code>INTERNAL_NODE_KEY</code>:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.2.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, internal node hashes use <code>BLAKE3</code> keyed hash with <code>INTERNAL_NODE_KEY</code> as the key:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2.1-3">
 <pre>
 INTERNAL_NODE_KEY = {
@@ -2389,7 +2389,7 @@ The file hash is therefore <code>blake3_keyed_hash(ZERO_KEY, zero_hash())</code>
         </h3>
 <p id="section-6.4-1">Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata.
 The hash function is determined by the algorithm suite.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
-<p id="section-6.4-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, verification hashes use <code>BLAKE3</code> keyed hash with <code>VERIFICATION_KEY</code>:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, verification hashes use <code>BLAKE3</code> keyed hash with <code>VERIFICATION_KEY</code> as the key:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.4-3">
 <pre>
 VERIFICATION_KEY = {
