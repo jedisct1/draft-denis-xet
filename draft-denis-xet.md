@@ -689,6 +689,11 @@ Implementations MUST reject chunks with unknown version values.
 Both size fields use 3-byte little-endian encoding, supporting values up to 16,777,215 bytes.
 Given the maximum chunk size of 128 KiB, this provides ample range.
 
+Implementations MUST validate size fields before allocating buffers or invoking decompression:
+
+- `uncompressed_size` MUST be greater than zero and MUST NOT exceed `MAX_CHUNK_SIZE` (128 KiB). Chunks that declare larger sizes MUST be rejected and the containing xorb considered invalid.
+- `compressed_size` MUST be greater than zero and MUST NOT exceed the lesser of `MAX_CHUNK_SIZE` and the remaining bytes in the serialized xorb payload. Oversize or truncated compressed payloads MUST cause the xorb to be rejected.
+
 ### Compression Type
 
 | Value | Name               | Description                                   |
@@ -793,7 +798,7 @@ Implementations MUST serialize fields in this exact order and reject unknown ide
 - Boundaries version: 8-bit unsigned, MUST be `1`
 - `num_chunks`: 32-bit unsigned
 - Chunk boundary offsets: Array of `num_chunks` 32-bit unsigned values.
-  Each value is the end offset (in bytes) of the corresponding chunk in the serialized chunk data region, **including headers**.
+  Each value is the end offset (in bytes) of the corresponding chunk in the serialized chunk data region, including headers.
   Chunk 0 starts at offset 0; chunk `i` starts at `chunk_boundary_offsets[i-1]`.
 - Unpacked chunk offsets: Array of `num_chunks` 32-bit unsigned values.
   Each value is the end offset of the corresponding chunk in the concatenated uncompressed stream.
@@ -1649,11 +1654,15 @@ CAS servers SHOULD return appropriate HTTP caching headers for xorb downloads:
 For xorb content (immutable):
 
 ~~~
-Cache-Control: public, max-age=31536000, immutable
+Cache-Control: public, immutable, max-age=<url_ttl_seconds>
 ETag: "<xorb_hash>"
 ~~~
 
-The `immutable` directive indicates the content will never change, allowing caches to skip revalidation entirely.
+- `max-age` MUST be set to a value no greater than the remaining validity window of the pre-signed URL used to serve the object (e.g., a URL that expires in 900 seconds MUST NOT be served with `max-age` larger than 900).
+- Servers SHOULD also emit an `Expires` header aligned to the URL expiry time.
+- Shared caches MUST NOT serve the response after either header indicates expiry, even if the content is immutable.
+
+The `immutable` directive still applies within that bounded window, allowing caches to skip revalidation until the signature expires.
 
 For reconstruction API responses (ephemeral):
 
