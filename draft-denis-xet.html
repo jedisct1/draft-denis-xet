@@ -4348,22 +4348,36 @@ The content-addressable design is well-suited for CDN caching:<a href="#section-
           <h4 id="name-cdn-cache-keys">
 <a href="#section-14.7.1" class="section-number selfRef">14.7.1. </a><a href="#name-cdn-cache-keys" class="section-name selfRef">CDN Cache Keys</a>
           </h4>
-<p id="section-14.7.1-1">CDN cache keys <span class="bcp14">SHOULD</span> include:<a href="#section-14.7.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.7.1-1">Effective cache key design determines whether multiple users can share cached xorb data.
+Since xorb content is immutable and identified by hash, the ideal cache key includes only the xorb hash and byte range—maximizing cache reuse.
+However, access control requirements constrain this choice.<a href="#section-14.7.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.7.1-2">Two URL authorization strategies are applicable to XET deployments:<a href="#section-14.7.1-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-14.7.1-3">
+            <dt id="section-14.7.1-3.1">Edge-Authenticated URLs:</dt>
+            <dd style="margin-left: 1.5em" id="section-14.7.1-3.2">
+              <p id="section-14.7.1-3.2.1">The URL path contains the xorb hash with no signature parameters.
+Authorization is enforced at the CDN edge via signed cookies or tokens validated on every request.
+The cache key is derived from the xorb hash and byte range only, excluding any authorization tokens.
+This allows all authorized users to share the same cache entries.
+This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth <span class="bcp14">MUST NOT</span> be used.<a href="#section-14.7.1-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-14.7.1-3.3">Query-Signed URLs:</dt>
+            <dd style="margin-left: 1.5em" id="section-14.7.1-3.4">
+              <p id="section-14.7.1-3.4.1">The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
+Cache keys <span class="bcp14">MUST</span> include all signature-bearing query parameters.
+Each unique signature produces a separate cache entry, resulting in lower hit rates.
+This approach works with any CDN but sacrifices cache efficiency for simplicity.<a href="#section-14.7.1-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<p id="section-14.7.1-4">For both strategies:<a href="#section-14.7.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.7.1-2.1">
-              <p id="section-14.7.1-2.1.1">The xorb hash (from the URL path)<a href="#section-14.7.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.7.1-5.1">
+              <p id="section-14.7.1-5.1.1">Cache keys <span class="bcp14">SHOULD</span> include the byte range when <code>Range</code> headers are present<a href="#section-14.7.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.7.1-2.2">
-              <p id="section-14.7.1-2.2.1">The byte range (if Range header is present)<a href="#section-14.7.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-14.7.1-3">CDN cache keys <span class="bcp14">SHOULD NOT</span> include:<a href="#section-14.7.1-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-14.7.1-4.1">
-              <p id="section-14.7.1-4.1.1">Authorization headers (these vary per user but content is identical)<a href="#section-14.7.1-4.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-14.7.1-4.2">
-              <p id="section-14.7.1-4.2.1">Query string parameters for pre-signed URLs (these vary but content is identical)<a href="#section-14.7.1-4.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.7.1-5.2">
+              <p id="section-14.7.1-5.2.1">Cache keys <span class="bcp14">SHOULD NOT</span> include <code>Authorization</code> headers, since different users have different tokens but request identical content<a href="#section-14.7.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
