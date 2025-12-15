@@ -237,33 +237,30 @@ function chunk_file(data):
     h = 0                    # 64-bit rolling hash
     start_offset = 0         # Start of current chunk
     chunks = []
+    n = length(data)
 
-    for i from 0 to length(data):
+    for i = 0 to n - 1:      # Inclusive range [0, n-1]
         b = data[i]
         h = ((h << 1) + TABLE[b]) & 0xFFFFFFFFFFFFFFFF  # 64-bit wrap
 
         chunk_size = i - start_offset + 1
 
-        # Skip boundary checks until minimum size reached
         if chunk_size < MIN_CHUNK_SIZE:
             continue
 
-        # Force boundary at maximum size
         if chunk_size >= MAX_CHUNK_SIZE:
             chunks.append(data[start_offset : i + 1])
             start_offset = i + 1
             h = 0
             continue
 
-        # Check for natural boundary
         if (h & MASK) == 0:
             chunks.append(data[start_offset : i + 1])
             start_offset = i + 1
             h = 0
 
-    # Emit final chunk if any data remains
-    if start_offset < length(data):
-        chunks.append(data[start_offset : length(data)])
+    if start_offset < n:
+        chunks.append(data[start_offset : n])
 
     return chunks
 ~~~
@@ -360,14 +357,6 @@ Where:
 - `{size}` is the decimal representation of the child's byte size
 - Lines are separated by newline characters (`\n`)
 
-~~~
-function compute_internal_hash(children):
-    buffer = ""
-    for (hash, size) in children:
-        buffer += hash_to_string(hash) + " : " + str(size) + "\n"
-    return blake3_keyed_hash(INTERNAL_NODE_KEY, buffer.encode("utf-8"))
-~~~
-
 ### Merkle Tree Construction {#merkle-tree}
 
 XET uses an aggregated hash tree construction with variable fan-out, not a traditional binary Merkle tree.
@@ -397,17 +386,18 @@ This ensures each internal node has at least 2 children.
 function next_merge_cut(hashes):
     # hashes is a list of (hash, size) pairs
     # Returns the number of entries to merge (cut point)
-    if length(hashes) <= 2:
-        return length(hashes)
+    n = length(hashes)
+    if n <= 2:
+        return n
 
-    end = min(MAX_CHILDREN, length(hashes))
+    end = min(MAX_CHILDREN, n)
 
-    # Check indices [2, end) using 0-based indexing
+    # Check indices 2 through end-1 (0-based indexing)
     # Minimum merge is 3 children when input has more than 2 hashes
-    for i from 2 to end:
+    for i = 2 to end - 1:
         h = hashes[i].hash
         # Interpret last 8 bytes of hash as little-endian 64-bit unsigned int
-        hash_value = bytes_to_u64_le(h[24:32])
+        hash_value = u64_le(h[24:32])
         if hash_value % MEAN_BRANCHING_FACTOR == 0:
             return i + 1  # Cut after element i (include i+1 elements)
 
@@ -422,11 +412,11 @@ function merged_hash_of_sequence(hash_pairs):
     buffer = ""
     total_size = 0
 
-    for (h, s) in hash_pairs:
-        buffer += hash_to_string(h) + " : " + str(s) + "\n"
+    for each (h, s) in hash_pairs:
+        buffer += hash_to_string(h) + " : " + decimal_string(s) + "\n"
         total_size += s
 
-    new_hash = blake3_keyed_hash(INTERNAL_NODE_KEY, buffer.encode("utf-8"))
+    new_hash = blake3_keyed_hash(INTERNAL_NODE_KEY, utf8_encode(buffer))
     return (new_hash, total_size)
 ~~~
 
@@ -449,28 +439,26 @@ Each line contains:
 function compute_merkle_root(entries):
     # entries is a list of (hash, size) pairs
     if length(entries) == 0:
-        return zero_hash()  # 32 zero bytes
+        return ZERO_HASH  # 32 zero bytes
 
-    hv = copy(entries)
+    hv = entries  # Working copy
 
     while length(hv) > 1:
         write_idx = 0
         read_idx = 0
 
         while read_idx < length(hv):
-            # Find the next cut point
-            next_cut = read_idx + next_merge_cut(hv[read_idx:])
-
-            # Merge this slice into one parent node
-            hv[write_idx] = merged_hash_of_sequence(hv[read_idx:next_cut])
+            cut = read_idx + next_merge_cut(hv[read_idx:])
+            hv[write_idx] = merged_hash_of_sequence(hv[read_idx:cut])
             write_idx += 1
-
-            read_idx = next_cut
+            read_idx = cut
 
         hv = hv[0:write_idx]
 
     return hv[0].hash
 ~~~
+
+Where `ZERO_HASH` is 32 bytes of zeros, and `hv[start:end]` denotes slicing elements from index `start` (inclusive) to `end` (exclusive).
 
 ### Xorb Hash Computation
 
@@ -478,12 +466,10 @@ The xorb hash is the root of a Merkle tree built from chunk hashes:
 
 ~~~
 function compute_xorb_hash(chunk_hashes, chunk_sizes):
-    # Build leaf entries
+    n = length(chunk_hashes)
     entries = []
-    for i from 0 to length(chunk_hashes):
+    for i = 0 to n - 1:
         entries.append((chunk_hashes[i], chunk_sizes[i]))
-
-    # Compute root using the aggregated hash tree algorithm
     return compute_merkle_root(entries)
 ~~~
 
@@ -505,14 +491,16 @@ ZERO_KEY = {
 
 ~~~
 function compute_file_hash(chunk_hashes, chunk_sizes):
-    # Build (hash, size) pairs for Merkle tree
-    entries = zip(chunk_hashes, chunk_sizes)
+    n = length(chunk_hashes)
+    entries = []
+    for i = 0 to n - 1:
+        entries.append((chunk_hashes[i], chunk_sizes[i]))
     merkle_root = compute_merkle_root(entries)
     return blake3_keyed_hash(ZERO_KEY, merkle_root)
 ~~~
 
-For empty files (zero bytes), there are no chunks, so `compute_merkle_root([])` returns 32 zero bytes.
-The file hash is therefore `blake3_keyed_hash(ZERO_KEY, zero_hash())`, where `zero_hash()` is 32 zero bytes.
+For empty files (zero bytes), there are no chunks, so `compute_merkle_root([])` returns `ZERO_HASH` (32 zero bytes).
+The file hash is therefore `blake3_keyed_hash(ZERO_KEY, ZERO_HASH)`.
 
 ## Term Verification Hashes {#verification-hashes}
 
@@ -534,8 +522,9 @@ The input is the raw concatenation of chunk hashes (not hex-encoded) for the ter
 
 ~~~
 function compute_verification_hash(chunk_hashes, start_index, end_index):
-    buffer = bytes()
-    for i from start_index to end_index:  # end_index is exclusive
+    # Range is [start_index, end_index) - end is exclusive
+    buffer = empty_byte_array()
+    for i = start_index to end_index - 1:
         buffer += chunk_hashes[i]  # 32 bytes each
     return blake3_keyed_hash(VERIFICATION_KEY, buffer)
 ~~~
@@ -556,20 +545,27 @@ The 32-byte hash is interpreted as four little-endian 64-bit unsigned values, an
 ~~~
 function hash_to_string(hash):
     out = ""
-    for segment in 0..4:                       # segments 0,1,2,3
+    for segment = 0 to 3:
         offset = segment * 8
-        value  = little_endian_to_u64(hash[offset : offset + 8])
-        out   += format("{:016x}", value)      # always 16 hex digits
+        value = u64_le(hash[offset : offset + 8])
+        out += hex16(value)    # 16-digit lowercase hex
     return out
 
 function string_to_hash(hex_string):
-    hash = []
-    for segment in 0..4:
+    hash = empty_byte_array()
+    for segment = 0 to 3:
         start = segment * 16
-        value = parse_u64_from_hex(hex_string[start : start + 16])
-        hash.extend(u64_to_little_endian_bytes(value))
+        value = parse_hex_u64(hex_string[start : start + 16])
+        hash += u64_le_bytes(value)
     return hash
 ~~~
+
+Where:
+
+- `u64_le(bytes)` interprets 8 bytes as a little-endian 64-bit unsigned integer
+- `u64_le_bytes(value)` converts a 64-bit unsigned integer to 8 little-endian bytes
+- `hex16(value)` formats a 64-bit value as a 16-character lowercase hexadecimal string
+- `parse_hex_u64(str)` parses a 16-character hexadecimal string as a 64-bit unsigned integer
 
 ### Example
 
@@ -690,31 +686,36 @@ function byte_group_4(data):
     n = length(data)
     groups = [[], [], [], []]
 
-    for i from 0 to n:
+    for i = 0 to n - 1:
         groups[i % 4].append(data[i])
 
-    return concatenate(groups[0], groups[1], groups[2], groups[3])
+    return groups[0] + groups[1] + groups[2] + groups[3]
 
 function byte_ungroup_4(grouped_data, original_length):
     n = original_length
-    base_size = n / 4
+    base_size = n // 4         # Integer division
     remainder = n % 4
 
-    # Calculate group sizes
-    sizes = [base_size + (1 if i < remainder else 0) for i in range(4)]
+    # Group sizes: first 'remainder' groups get base_size + 1
+    sizes = []
+    for i = 0 to 3:
+        if i < remainder:
+            sizes.append(base_size + 1)
+        else:
+            sizes.append(base_size)
 
-    # Extract groups
+    # Extract groups from grouped_data
     groups = []
     offset = 0
-    for size in sizes:
-        groups.append(grouped_data[offset : offset + size])
-        offset += size
+    for i = 0 to 3:
+        groups.append(grouped_data[offset : offset + sizes[i]])
+        offset += sizes[i]
 
     # Interleave back to original order
     data = []
-    for i from 0 to n:
+    for i = 0 to n - 1:
         group_idx = i % 4
-        pos_in_group = i / 4
+        pos_in_group = i // 4  # Integer division
         data.append(groups[group_idx][pos_in_group])
 
     return data
@@ -1003,7 +1004,7 @@ It is calculated as the sum of `unpacked_segment_bytes` for all preceding chunks
 ~~~
 function calculate_byte_range_starts(chunks):
     position = 0
-    for chunk in chunks:
+    for each chunk in chunks:
         chunk.byte_range_start = position
         position += chunk.unpacked_segment_bytes
 ~~~
@@ -1879,20 +1880,7 @@ Expected XET string:
   07060504030201000f0e0d0c0b0a090817161514131211101f1e1d1c1b1a1918
 ~~~
 
-The conversion formula:
-
-~~~
-function hash_to_string(h):
-    # h is a 32-byte array
-    result = ""
-    for i from 0 to 4:
-        start = i * 8
-        end = (i + 1) * 8
-        u64_bytes = slice(h, start, end)
-        u64_val = little_endian_to_u64(u64_bytes)
-        result += format("{:016x}", u64_val)
-    return result
-~~~
+See the `hash_to_string` function in {{hash-string-format}} for the conversion algorithm.
 
 ## Internal Node Hash Test Vector
 
