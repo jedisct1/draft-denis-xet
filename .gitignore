@@ -22,3 +22,4 @@ draft-denis-xet.xml
 package-lock.json
 report.xml
 !requirements.txt
+reference-implementation/__pycache__/
