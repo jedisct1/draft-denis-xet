@@ -1845,14 +1845,6 @@ Verification hash (XET string):
 Complete reference files including sample chunks, xorbs, and shards are available at:
 https://huggingface.co/datasets/xet-team/xet-spec-reference-files
 
-Key crates:
-
-- `cas_types`: Common type definitions
-- `cas_client`: CAS API client implementation
-- `mdb_shard`: Shard format serialization
-- `deduplication`: Chunking and deduplication logic
-- `merklehash`: Hash computation functions
-
 # Acknowledgments
 {:numbered="false"}
 
