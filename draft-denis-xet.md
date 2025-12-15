@@ -84,13 +84,9 @@ This enables efficient deduplication not only within a single file across versio
 The protocol is designed around several key principles:
 
 - Determinism: Given the same input data, any conforming implementation MUST produce identical chunks, hashes, and serialized formats, ensuring interoperability.
-
 - Content Addressing: All objects (chunks, xorbs, files) are identified by cryptographic hashes of their content, enabling integrity verification and natural deduplication.
-
 - Efficient Transfer: The reconstruction-based download model allows clients to fetch only the data they need, supporting range queries and parallel downloads.
-
 - Algorithm Agility: The chunking and hashing algorithms are encapsulated in algorithm suites, enabling future evolution while maintaining compatibility within a deployment.
-
 - Provider Agnostic: While originally developed for machine learning model and dataset storage, XET is a generic protocol applicable to any large file storage scenario.
 
 This specification provides the complete details necessary for implementing interoperable XET clients and servers.
@@ -101,11 +97,8 @@ It defines the `XET-GEARHASH-BLAKE3` algorithm suite as the default, using `Gear
 XET is particularly well-suited for scenarios involving:
 
 - Machine Learning: Model checkpoints often share common layers and parameters across versions, enabling significant storage savings through deduplication.
-
 - Dataset Management: Large datasets with incremental updates benefit from chunk-level deduplication, where only changed portions need to be transferred.
-
 - Version Control: Similar to Git LFS but with content-aware chunking that enables sharing across different files, not just versions of the same file.
-
 - Content Distribution: The reconstruction-based model enables efficient range queries and partial downloads of large files.
 
 # Terminology
@@ -114,20 +107,20 @@ XET is particularly well-suited for scenarios involving:
 
 Throughout this document, the following terms apply:
 
-| Term | Definition |
-| ---- | ---------- |
-| Algorithm Suite | A specification of the cryptographic hash function and content-defined chunking algorithm used by an XET deployment. All participants in an XET system MUST use the same algorithm suite for interoperability. |
-| Chunk | A variable-sized unit of data derived from a file using content-defined chunking. Chunks are the fundamental unit of deduplication in XET. |
-| Chunk Hash | A 32-byte cryptographic hash that uniquely identifies a chunk based on its content. |
-| Xorb | A container object that aggregates multiple compressed chunks for efficient storage and transfer. The name derives from "XET orb." |
-| Xorb Hash | A 32-byte cryptographic hash computed from the chunk hashes within a xorb using a Merkle tree construction. |
-| File Hash | A 32-byte cryptographic hash that uniquely identifies a file based on its chunk composition. |
-| Shard | A binary metadata structure that describes file reconstructions and xorb contents, used for registering uploads and enabling deduplication. |
-| Term | A reference to a contiguous range of chunks within a specific xorb, used to describe how to reconstruct a file. |
-| File Reconstruction | An ordered list of terms that describes how to reassemble a file from chunks stored in xorbs. |
-| Content-Defined Chunking (CDC) | An algorithm that determines chunk boundaries based on file content rather than fixed offsets, enabling stable boundaries across file modifications. |
-| Content-Addressable Storage (CAS) | A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name. |
-| Global Deduplication | The process of identifying chunks that already exist in the storage system to avoid redundant uploads. |
+| Term                              | Definition                                                                                                                                                                                                     |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Algorithm Suite                   | A specification of the cryptographic hash function and content-defined chunking algorithm used by an XET deployment. All participants in an XET system MUST use the same algorithm suite for interoperability. |
+| Chunk                             | A variable-sized unit of data derived from a file using content-defined chunking. Chunks are the fundamental unit of deduplication in XET.                                                                     |
+| Chunk Hash                        | A 32-byte cryptographic hash that uniquely identifies a chunk based on its content.                                                                                                                            |
+| Xorb                              | A container object that aggregates multiple compressed chunks for efficient storage and transfer. The name derives from "XET orb."                                                                             |
+| Xorb Hash                         | A 32-byte cryptographic hash computed from the chunk hashes within a xorb using a Merkle tree construction.                                                                                                    |
+| File Hash                         | A 32-byte cryptographic hash that uniquely identifies a file based on its chunk composition.                                                                                                                   |
+| Shard                             | A binary metadata structure that describes file reconstructions and xorb contents, used for registering uploads and enabling deduplication.                                                                    |
+| Term                              | A reference to a contiguous range of chunks within a specific xorb, used to describe how to reconstruct a file.                                                                                                |
+| File Reconstruction               | An ordered list of terms that describes how to reassemble a file from chunks stored in xorbs.                                                                                                                  |
+| Content-Defined Chunking (CDC)    | An algorithm that determines chunk boundaries based on file content rather than fixed offsets, enabling stable boundaries across file modifications.                                                           |
+| Content-Addressable Storage (CAS) | A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name.                                                                                         |
+| Global Deduplication              | The process of identifying chunks that already exist in the storage system to avoid redundant uploads.                                                                                                         |
 
 ## Notational Conventions
 
@@ -157,15 +150,10 @@ The CAS server provides APIs for reconstruction queries, global deduplication, a
 The upload process transforms files into content-addressed storage:
 
 1. Chunking: Split files into variable-sized chunks using content-defined chunking (see {{content-defined-chunking}}).
-
 2. Deduplication: Query for existing chunks to avoid redundant uploads (see {{deduplication}}).
-
 3. Xorb Formation: Group new chunks into xorbs, applying compression (see {{xorb-format}}).
-
 4. Xorb Upload: Upload serialized xorbs to the CAS server.
-
 5. Shard Formation: Create shard metadata describing file reconstructions.
-
 6. Shard Upload: Upload the shard to register files in the system.
 
 ## Download Flow
@@ -173,13 +161,9 @@ The upload process transforms files into content-addressed storage:
 The download process reconstructs files from stored chunks:
 
 1. Reconstruction Query: Request reconstruction information for a file hash.
-
 2. Term Processing: Parse the ordered list of terms describing the file.
-
 3. Data Fetching: Download required xorb ranges using provided URLs.
-
 4. Chunk Extraction: Deserialize and decompress chunks from xorb data.
-
 5. File Assembly: Concatenate chunks in term order to reconstruct the file.
 
 # Algorithm Suites {#algorithm-suites}
@@ -192,11 +176,8 @@ This enables future algorithm agility while maintaining full backward compatibil
 An algorithm suite specifies:
 
 1. Content-Defined Chunking Algorithm: The rolling hash function and boundary detection logic used to split files into chunks.
-
 2. Cryptographic Hash Function: The hash algorithm used for all content addressing (chunk hashes, xorb hashes, file hashes, verification hashes).
-
 3. Keying Material: Domain separation keys for the hash function.
-
 4. Algorithm Parameters: Chunk size bounds, mask values, lookup tables, and other constants.
 
 ## Suite Requirements
@@ -204,11 +185,8 @@ An algorithm suite specifies:
 Any conforming algorithm suite MUST satisfy:
 
 - Determinism: Identical inputs MUST produce identical outputs across all implementations.
-
 - Collision Resistance: The hash function MUST provide at least 128 bits of collision resistance.
-
 - Preimage Resistance: The hash function MUST provide at least 128 bits of preimage resistance.
-
 - Keyed Mode: The hash function MUST support keyed operation for domain separation.
 
 ## Suite Negotiation
@@ -297,13 +275,9 @@ function chunk_file(data):
 The following rules govern chunk boundary placement:
 
 1. Boundaries MUST NOT be placed before `MIN_CHUNK_SIZE` bytes have been processed in the current chunk.
-
 2. Boundaries MUST be forced when `MAX_CHUNK_SIZE` bytes have been processed, regardless of hash value.
-
 3. Between minimum and maximum sizes, boundaries are placed when `(h & MASK) == 0`.
-
 4. The final chunk MAY be smaller than `MIN_CHUNK_SIZE` if it represents the end of the file.
-
 5. Files smaller than `MIN_CHUNK_SIZE` produce a single chunk.
 
 ## Determinism Requirements
@@ -461,6 +435,7 @@ cfc5d07f6f03c29bbf424132963fe08d19a37d5757aaf520bf08119f05cd56d6 : 100
 ~~~
 
 Each line contains:
+
 - The hash as a fixed-length 64-character lowercase hexadecimal string
 - A space, colon, space (` : `)
 - The size as a decimal integer
@@ -807,15 +782,10 @@ Each term specifies:
 ## Reconstruction Rules
 
 1. Terms MUST be processed in order.
-
 2. For each term, extract chunks at indices `[start, end)` from the specified xorb.
-
 3. Decompress chunks according to their compression headers.
-
 4. Concatenate decompressed chunk data in order.
-
 5. For range queries, apply `offset_into_first_range` to skip initial bytes.
-
 6. Validate that the total reconstructed size matches expectations.
 
 ## Range Queries
@@ -823,9 +793,7 @@ Each term specifies:
 When downloading a byte range rather than the complete file:
 
 1. The reconstruction API returns only terms overlapping the requested range.
-
 2. The `offset_into_first_range` field indicates bytes to skip in the first term.
-
 3. The client MUST truncate output to match the requested range length.
 
 # Shard Format {#shard-format}
@@ -1179,11 +1147,8 @@ A chunk is eligible if:
 ### Query Process
 
 1. For eligible chunks, query the global deduplication API (see {{global-dedup-api}}).
-
 2. On a match, the API returns a shard containing CAS info for xorbs containing the chunk.
-
 3. Chunk hashes in the response are protected with a keyed hash; match by computing keyed hashes of local chunk hashes.
-
 4. Record matched xorb references for use in file reconstruction terms.
 
 ### Keyed Hash Security
@@ -1191,9 +1156,7 @@ A chunk is eligible if:
 The keyed hash protection ensures that clients can only identify chunks they already possess:
 
 1. The server never reveals raw chunk hashes to clients.
-
 2. Clients must compute `keyed_hash(key, local_hash)` to find matches.
-
 3. A match confirms the client has the data, enabling reference to the existing xorb.
 
 ## Fragmentation Prevention
