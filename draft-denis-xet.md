@@ -73,9 +73,11 @@ XET uses content-defined chunking to split files into variable-sized chunks, agg
 
 # Introduction
 
-Large-scale data storage and transfer systems face fundamental challenges in efficiency: storing multiple versions of similar files wastes storage space, and transferring unchanged data wastes bandwidth. Traditional approaches such as file-level deduplication miss opportunities to share common content between different files, while fixed-size chunking fails to handle insertions and deletions gracefully.
+Large-scale data storage and transfer systems face fundamental challenges in efficiency: storing multiple versions of similar files wastes storage space, and transferring unchanged data wastes bandwidth.
+Traditional approaches such as file-level deduplication miss opportunities to share common content between different files, while fixed-size chunking fails to handle insertions and deletions gracefully.
 
-XET addresses these challenges through a content-addressable storage protocol that operates at the chunk level. By using content-defined chunking with a rolling hash algorithm, XET creates stable chunk boundaries that remain consistent even when files are modified.
+XET addresses these challenges through a content-addressable storage protocol that operates at the chunk level.
+By using content-defined chunking with a rolling hash algorithm, XET creates stable chunk boundaries that remain consistent even when files are modified.
 
 This enables efficient deduplication not only within a single file across versions, but also across entirely different files that happen to share common content.
 
@@ -91,7 +93,8 @@ The protocol is designed around several key principles:
 
 - Provider Agnostic: While originally developed for machine learning model and dataset storage, XET is a generic protocol applicable to any large file storage scenario.
 
-This specification provides complete details necessary for implementing interoperable XET clients and servers. It defines the `XET-GEARHASH-BLAKE3` algorithm suite as the default, using `Gearhash` for content-defined chunking and `BLAKE3` for cryptographic hashing.
+This specification provides complete details necessary for implementing interoperable XET clients and servers.
+It defines the `XET-GEARHASH-BLAKE3` algorithm suite as the default, using `Gearhash` for content-defined chunking and `BLAKE3` for cryptographic hashing.
 
 ## Use Cases
 
@@ -151,7 +154,9 @@ Global Deduplication:
 
 All multi-byte integers in binary formats (xorb headers, shard structures) use little-endian byte order unless otherwise specified.
 
-Hash values are 32-byte (256-bit) values. When serialized, they are stored as raw bytes. When displayed as strings, they use a specific byte-swapped hexadecimal format (see {{hash-string-format}}).
+Hash values are 32-byte (256-bit) values.
+When serialized, they are stored as raw bytes.
+When displayed as strings, they use a specific byte-swapped hexadecimal format (see {{hash-string-format}}).
 
 Range specifications use different conventions depending on context:
 
@@ -164,7 +169,9 @@ Range specifications use different conventions depending on context:
 
 # Protocol Overview
 
-XET operates as a client-server protocol. Clients perform content-defined chunking locally, query for deduplication opportunities, form xorbs from new chunks, and upload both xorbs and shards to the server. The CAS server provides APIs for reconstruction queries, global deduplication, and persistent storage.
+XET operates as a client-server protocol.
+Clients perform content-defined chunking locally, query for deduplication opportunities, form xorbs from new chunks, and upload both xorbs and shards to the server.
+The CAS server provides APIs for reconstruction queries, global deduplication, and persistent storage.
 
 ## Upload Flow
 
@@ -198,7 +205,8 @@ The download process reconstructs files from stored chunks:
 
 # Algorithm Suites {#algorithm-suites}
 
-XET is designed as a generic framework where the specific chunking algorithm and cryptographic hash function are parameters defined by an algorithm suite. This enables future algorithm agility while maintaining full backward compatibility within a deployment.
+XET is designed as a generic framework where the specific chunking algorithm and cryptographic hash function are parameters defined by an algorithm suite.
+This enables future algorithm agility while maintaining full backward compatibility within a deployment.
 
 ## Suite Definition
 
@@ -226,7 +234,9 @@ Any conforming algorithm suite MUST satisfy:
 
 ## Suite Negotiation
 
-The algorithm suite used by an XET deployment is determined out-of-band, typically by the CAS server configuration. All clients interacting with a given server MUST use the same suite. Binary formats (xorbs, shards) do not contain suite identifiers; the suite is determined implicitly by the deployment context.
+The algorithm suite used by an XET deployment is determined out-of-band, typically by the CAS server configuration.
+All clients interacting with a given server MUST use the same suite.
+Binary formats (xorbs, shards) do not contain suite identifiers; the suite is determined implicitly by the deployment context.
 
 ## Defined Suites
 
@@ -238,13 +248,16 @@ Future specifications MAY define additional suites with different algorithms.
 
 # Content-Defined Chunking {#content-defined-chunking}
 
-Content-defined chunking (CDC) splits files into variable-sized chunks based on content rather than fixed offsets. This produces deterministic chunk boundaries that remain stable across file modifications, enabling efficient deduplication.
+Content-defined chunking (CDC) splits files into variable-sized chunks based on content rather than fixed offsets.
+This produces deterministic chunk boundaries that remain stable across file modifications, enabling efficient deduplication.
 
-This section describes the chunking algorithm for the `XET-GEARHASH-BLAKE3` suite. Other algorithm suites MAY define different chunking algorithms with different parameters.
+This section describes the chunking algorithm for the `XET-GEARHASH-BLAKE3` suite.
+Other algorithm suites MAY define different chunking algorithms with different parameters.
 
 ## Gearhash Algorithm
 
-The `XET-GEARHASH-BLAKE3` suite uses a `Gearhash`-based rolling hash algorithm {{GEARHASH}}. `Gearhash` maintains a 64-bit state that is updated with each input byte using a lookup table, providing fast and deterministic boundary detection.
+The `XET-GEARHASH-BLAKE3` suite uses a `Gearhash`-based rolling hash algorithm {{GEARHASH}}.
+`Gearhash` maintains a 64-bit state that is updated with each input byte using a lookup table, providing fast and deterministic boundary detection.
 
 ## Algorithm Parameters
 
@@ -257,7 +270,8 @@ MAX_CHUNK_SIZE     = 131072     # 128 KiB (TARGET * 2)
 MASK               = 0xFFFF000000000000  # 16 one-bits
 ~~~
 
-The `Gearhash` algorithm uses a lookup table of 256 64-bit constants. Implementations of the `XET-GEARHASH-BLAKE3` suite MUST use the table defined in {{GEARHASH}} (see {{gearhash-table}} for the complete lookup table).
+The `Gearhash` algorithm uses a lookup table of 256 64-bit constants.
+Implementations of the `XET-GEARHASH-BLAKE3` suite MUST use the table defined in {{GEARHASH}} (see {{gearhash-table}} for the complete lookup table).
 
 ## Algorithm Description
 
@@ -315,7 +329,8 @@ The following rules govern chunk boundary placement:
 
 ## Determinism Requirements
 
-Implementations MUST produce identical chunk boundaries for identical input data. For the `XET-GEARHASH-BLAKE3` suite, this requires:
+Implementations MUST produce identical chunk boundaries for identical input data.
+For the `XET-GEARHASH-BLAKE3` suite, this requires:
 
 - Using the exact lookup table values from {{gearhash-table}}
 - Using 64-bit wrapping arithmetic for hash updates
@@ -332,13 +347,17 @@ This optimization does not affect output correctness because the `Gearhash` wind
 
 # Hashing Methods {#hashing-methods}
 
-XET uses cryptographic hashing for content addressing, integrity verification, and deduplication. The specific hash function is determined by the algorithm suite. All hashes are 32 bytes (256 bits) in length.
+XET uses cryptographic hashing for content addressing, integrity verification, and deduplication.
+The specific hash function is determined by the algorithm suite.
+All hashes are 32 bytes (256 bits) in length.
 
-This section describes the hashing methods for the `XET-GEARHASH-BLAKE3` suite, which uses `BLAKE3` keyed hashing {{BLAKE3}} for all cryptographic hash computations. Different key values provide domain separation between hash types.
+This section describes the hashing methods for the `XET-GEARHASH-BLAKE3` suite, which uses `BLAKE3` keyed hashing {{BLAKE3}} for all cryptographic hash computations.
+Different key values provide domain separation between hash types.
 
 ## Chunk Hashes {#chunk-hashes}
 
-Chunk hashes uniquely identify individual chunks based on their content. The algorithm suite determines how chunk hashes are computed.
+Chunk hashes uniquely identify individual chunks based on their content.
+The algorithm suite determines how chunk hashes are computed.
 
 For the `XET-GEARHASH-BLAKE3` suite, chunk hashes use `BLAKE3` keyed hash with `DATA_KEY`:
 
@@ -358,11 +377,14 @@ function compute_chunk_hash(chunk_data):
 
 ## Xorb Hashes {#xorb-hashes}
 
-Xorb hashes identify xorbs based on their constituent chunks. The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes. The Merkle tree algorithm is defined independently of the hash function.
+Xorb hashes identify xorbs based on their constituent chunks.
+The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes.
+The Merkle tree algorithm is defined independently of the hash function.
 
 ### Internal Node Hash Function
 
-Internal node hashes combine child hashes with their sizes. The hash function is determined by the algorithm suite.
+Internal node hashes combine child hashes with their sizes.
+The hash function is determined by the algorithm suite.
 
 For the `XET-GEARHASH-BLAKE3` suite, internal node hashes use `BLAKE3` keyed hash with `INTERNAL_NODE_KEY`:
 
@@ -397,7 +419,8 @@ function compute_internal_hash(children):
 
 ### Merkle Tree Construction {#merkle-tree}
 
-XET uses an aggregated hash tree construction with variable fan-out, not a traditional binary Merkle tree. This algorithm iteratively collapses a list of (hash, size) pairs until a single root hash remains.
+XET uses an aggregated hash tree construction with variable fan-out, not a traditional binary Merkle tree.
+This algorithm iteratively collapses a list of (hash, size) pairs until a single root hash remains.
 
 #### Algorithm Parameters
 
@@ -409,7 +432,8 @@ MAX_CHILDREN = 2 * MEAN_BRANCHING_FACTOR + 1  # 9
 
 #### Cut Point Determination
 
-The tree structure is determined by the hash values themselves. A cut point occurs when:
+The tree structure is determined by the hash values themselves.
+A cut point occurs when:
 
 1. The minimum number of children (2) has been accumulated AND the current hash modulo MEAN_BRANCHING_FACTOR equals zero, OR
 2. The maximum number of children (9) has been reached, OR
@@ -509,7 +533,8 @@ function compute_xorb_hash(chunk_hashes, chunk_sizes):
 
 ## File Hashes {#file-hashes}
 
-File hashes identify files based on their complete chunk composition. The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.
+File hashes identify files based on their complete chunk composition.
+The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.
 
 For the `XET-GEARHASH-BLAKE3` suite, file hashes use an all-zero key (`ZERO_KEY`) for the final hash:
 
@@ -530,11 +555,13 @@ function compute_file_hash(chunk_hashes, chunk_sizes):
     return blake3_keyed_hash(ZERO_KEY, merkle_root)
 ~~~
 
-For empty files (zero bytes), there are no chunks, so `compute_merkle_root([])` returns 32 zero bytes. The file hash is therefore `blake3_keyed_hash(ZERO_KEY, zero_hash())`, where `zero_hash()` is 32 zero bytes.
+For empty files (zero bytes), there are no chunks, so `compute_merkle_root([])` returns 32 zero bytes.
+The file hash is therefore `blake3_keyed_hash(ZERO_KEY, zero_hash())`, where `zero_hash()` is 32 zero bytes.
 
 ## Term Verification Hashes {#verification-hashes}
 
-Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata. The hash function is determined by the algorithm suite.
+Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata.
+The hash function is determined by the algorithm suite.
 
 For the `XET-GEARHASH-BLAKE3` suite, verification hashes use `BLAKE3` keyed hash with `VERIFICATION_KEY`:
 
@@ -605,7 +632,8 @@ String representation:
 
 # Xorb Format {#xorb-format}
 
-A xorb is a container that aggregates multiple compressed chunks for efficient storage and transfer. Xorbs are identified by their xorb hash (see {{xorb-hashes}}).
+A xorb is a container that aggregates multiple compressed chunks for efficient storage and transfer.
+Xorbs are identified by their xorb hash (see {{xorb-hashes}}).
 
 ## Size Constraints
 
@@ -614,7 +642,8 @@ MAX_XORB_SIZE   = 67108864  # 64 MiB maximum serialized size
 MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
 ~~~
 
-Implementations MUST NOT exceed either limit. When collecting chunks:
+Implementations MUST NOT exceed either limit.
+When collecting chunks:
 
 1. Stop if adding the next chunk would exceed `MAX_XORB_SIZE`
 2. Stop if the chunk count would exceed `MAX_XORB_CHUNKS`
@@ -652,11 +681,13 @@ Each chunk header is 8 bytes with the following layout:
 
 ### Version Field
 
-The version field MUST be `0` for this specification. Implementations MUST reject chunks with unknown version values.
+The version field MUST be `0` for this specification.
+Implementations MUST reject chunks with unknown version values.
 
 ### Size Fields
 
-Both size fields use 3-byte little-endian encoding, supporting values up to 16,777,215 bytes. Given the maximum chunk size of 128 KiB, this provides ample range.
+Both size fields use 3-byte little-endian encoding, supporting values up to 16,777,215 bytes.
+Given the maximum chunk size of 128 KiB, this provides ample range.
 
 ### Compression Type
 
@@ -670,11 +701,14 @@ Both size fields use 3-byte little-endian encoding, supporting values up to 16,7
 
 ### `None` (Type 0)
 
-Data is stored without modification. Used when compression would increase size or for already-compressed data.
+Data is stored without modification.
+Used when compression would increase size or for already-compressed data.
 
 ### `LZ4` (Type 1)
 
-`LZ4` Frame format compression {{LZ4}} (not `LZ4` block format). Each compressed chunk is a complete `LZ4` frame. This is the default compression scheme for most data.
+`LZ4` Frame format compression {{LZ4}} (not `LZ4` block format).
+Each compressed chunk is a complete `LZ4` frame.
+This is the default compression scheme for most data.
 
 ### `ByteGrouping4LZ4` (Type 2)
 
@@ -725,17 +759,20 @@ function byte_ungroup_4(grouped_data, original_length):
     return data
 ~~~
 
-When the data length is not a multiple of 4, the remainder bytes are distributed to the first groups. For example, with 10 bytes the group sizes are 3, 3, 2, 2 (first two groups get the extra bytes).
+When the data length is not a multiple of 4, the remainder bytes are distributed to the first groups.
+For example, with 10 bytes the group sizes are 3, 3, 2, 2 (first two groups get the extra bytes).
 
 ### Compression Selection
 
-Implementations MAY use any strategy to select compression schemes. If compression increases size, implementations SHOULD use compression type `0` (`None`).
+Implementations MAY use any strategy to select compression schemes.
+If compression increases size, implementations SHOULD use compression type `0` (`None`).
 
 `ByteGrouping4LZ4` (Type 2) is typically beneficial for structured numerical data such as `float32` or `float16` tensors, where bytes at the same position within 4-byte groups tend to be similar.
 
 ## `CasObjectInfo` Footer
 
-The metadata footer sits immediately before the 4-byte length trailer. Implementations MUST serialize fields in this exact order and reject unknown idents or versions.
+The metadata footer sits immediately before the 4-byte length trailer.
+Implementations MUST serialize fields in this exact order and reject unknown idents or versions.
 
 ### Main Header
 
@@ -755,8 +792,11 @@ The metadata footer sits immediately before the 4-byte length trailer. Implement
 - Ident: `"XBLBBND"` (7 bytes)
 - Boundaries version: 8-bit unsigned, MUST be `1`
 - `num_chunks`: 32-bit unsigned
-- Chunk boundary offsets: Array of `num_chunks` 32-bit unsigned values. Each value is the end offset (in bytes) of the corresponding chunk in the serialized chunk data region, **including headers**. Chunk 0 starts at offset 0; chunk `i` starts at `chunk_boundary_offsets[i-1]`.
-- Unpacked chunk offsets: Array of `num_chunks` 32-bit unsigned values. Each value is the end offset of the corresponding chunk in the concatenated uncompressed stream.
+- Chunk boundary offsets: Array of `num_chunks` 32-bit unsigned values.
+  Each value is the end offset (in bytes) of the corresponding chunk in the serialized chunk data region, **including headers**.
+  Chunk 0 starts at offset 0; chunk `i` starts at `chunk_boundary_offsets[i-1]`.
+- Unpacked chunk offsets: Array of `num_chunks` 32-bit unsigned values.
+  Each value is the end offset of the corresponding chunk in the concatenated uncompressed stream.
 
 ### Trailer
 
@@ -765,7 +805,8 @@ The metadata footer sits immediately before the 4-byte length trailer. Implement
 - Boundary section offset from end: 32-bit unsigned distance from the end of the footer to the start of the boundary section
 - Reserved: 16 bytes, zero
 
-The 4-byte length trailer that follows the footer stores `info_length` (little-endian 32-bit unsigned) for the `CasObjectInfo` block only. This length field is not counted inside the footer itself.
+The 4-byte length trailer that follows the footer stores `info_length` (little-endian 32-bit unsigned) for the `CasObjectInfo` block only.
+This length field is not counted inside the footer itself.
 
 # File Reconstruction {#file-reconstruction}
 
@@ -805,7 +846,8 @@ When downloading a byte range rather than the complete file:
 
 # Shard Format {#shard-format}
 
-A shard is a binary metadata structure that describes file reconstructions and xorb contents. Shards serve two purposes:
+A shard is a binary metadata structure that describes file reconstructions and xorb contents.
+Shards serve two purposes:
 
 1. Upload Registration: Describing newly uploaded files and xorbs to the CAS server
 2. Deduplication Response: Providing information about existing chunks for deduplication
@@ -829,7 +871,9 @@ A shard is a binary metadata structure that describes file reconstructions and x
 
 ## Data Types
 
-All multi-byte integers are little-endian. Field sizes are stated explicitly (e.g., “8-bit unsigned”, “32-bit unsigned”, “64-bit unsigned”). Hash denotes a 32-byte (256-bit) value.
+All multi-byte integers are little-endian.
+Field sizes are stated explicitly (e.g., "8-bit unsigned", "32-bit unsigned", "64-bit unsigned").
+Hash denotes a 32-byte (256-bit) value.
 
 ## Header {#shard-header}
 
@@ -866,7 +910,8 @@ SHARD_MAGIC_SEQUENCE = {
 }
 ~~~
 
-The application identifier (bytes 0-13) is deployment-specific and identifies the XET application context. For Hugging Face deployments, the identifier MUST be `"HFRepoMetaData"` (ASCII):
+The application identifier (bytes 0-13) is deployment-specific and identifies the XET application context.
+For Hugging Face deployments, the identifier MUST be `"HFRepoMetaData"` (ASCII):
 
 ~~~
 HF_APPLICATION_ID = {
@@ -875,13 +920,16 @@ HF_APPLICATION_ID = {
 }
 ~~~
 
-Other deployments MAY define their own application identifiers. If the identifier is shorter than 14 bytes, it MUST be null-padded on the right.
+Other deployments MAY define their own application identifiers.
+If the identifier is shorter than 14 bytes, it MUST be null-padded on the right.
 
-Implementations MUST verify that bytes 14-31 match the expected magic sequence before processing. Implementations MAY additionally verify the application identifier to ensure compatibility with the expected deployment.
+Implementations MUST verify that bytes 14-31 match the expected magic sequence before processing.
+Implementations MAY additionally verify the application identifier to ensure compatibility with the expected deployment.
 
 ## File Info Section {#file-info-section}
 
-The file info section contains zero or more file blocks, each describing a file reconstruction. The section ends with a bookend entry.
+The file info section contains zero or more file blocks, each describing a file reconstruction.
+The section ends with a bookend entry.
 
 ### File Block Structure
 
@@ -959,7 +1007,8 @@ The file info section ends with a 48-byte bookend:
 
 ## CAS Info Section {#cas-info-section}
 
-The CAS info section contains zero or more CAS blocks, each describing a xorb and its chunks. The section ends with a bookend entry.
+The CAS info section contains zero or more CAS blocks, each describing a xorb and its chunks.
+The section ends with a bookend entry.
 
 ### CAS Block Structure
 
@@ -994,7 +1043,8 @@ Offset  Size  Field
 
 #### Chunk Byte Range Start Calculation
 
-The `chunk_byte_range_start` field is the cumulative byte offset of this chunk within the uncompressed xorb data. It is calculated as the sum of `unpacked_segment_bytes` for all preceding chunks in the xorb:
+The `chunk_byte_range_start` field is the cumulative byte offset of this chunk within the uncompressed xorb data.
+It is calculated as the sum of `unpacked_segment_bytes` for all preceding chunks in the xorb:
 
 ~~~
 function calculate_byte_range_starts(chunks):
@@ -1032,7 +1082,8 @@ The CAS info section ends with a 48-byte bookend (same format as file info booke
 
 ## Footer {#shard-footer}
 
-The footer is 200 bytes at the end of the shard. It is REQUIRED for stored shards but MUST be omitted when uploading shards via the upload API.
+The footer is 200 bytes at the end of the shard.
+It is REQUIRED for stored shards but MUST be omitted when uploading shards via the upload API.
 
 ~~~
 Offset  Size  Field
@@ -1064,7 +1115,8 @@ Between the CAS info section and the footer, stored shards include lookup tables
 
 #### File Lookup Table
 
-Located at `file_lookup_offset`, contains `file_lookup_num_entries` entries. Each entry is 12 bytes:
+Located at `file_lookup_offset`, contains `file_lookup_num_entries` entries.
+Each entry is 12 bytes:
 
 ~~~
 Offset  Size  Field
@@ -1077,7 +1129,8 @@ Entries are sorted by truncated hash for binary search.
 
 #### CAS Lookup Table
 
-Located at `cas_lookup_offset`, contains `cas_lookup_num_entries` entries. Each entry is 12 bytes:
+Located at `cas_lookup_offset`, contains `cas_lookup_num_entries` entries.
+Each entry is 12 bytes:
 
 ~~~
 Offset  Size  Field
@@ -1090,7 +1143,8 @@ Entries are sorted by truncated hash for binary search.
 
 #### Chunk Lookup Table
 
-Located at `chunk_lookup_offset`, contains `chunk_lookup_num_entries` entries. Each entry is 16 bytes:
+Located at `chunk_lookup_offset`, contains `chunk_lookup_num_entries` entries.
+Each entry is 16 bytes:
 
 ~~~
 Offset  Size  Field
@@ -1100,11 +1154,13 @@ Offset  Size  Field
 12      4     Chunk Index within CAS (32-bit unsigned)
 ~~~
 
-Entries are sorted by truncated hash for binary search. When keyed hash protection is enabled, the truncated hash is computed from the keyed chunk hash, not the original.
+Entries are sorted by truncated hash for binary search.
+When keyed hash protection is enabled, the truncated hash is computed from the keyed chunk hash, not the original.
 
 ### Chunk Hash Key Usage
 
-In global deduplication responses, chunk hashes in the CAS info section are protected with a keyed hash. Clients MUST:
+In global deduplication responses, chunk hashes in the CAS info section are protected with a keyed hash.
+Clients MUST:
 
 1. Compute `keyed_hash(footer.chunk_hash_key, their_chunk_hash)` for each local chunk
 2. Search for matches in the shard's CAS info section using the keyed hashes
@@ -1130,7 +1186,8 @@ The global deduplication API enables discovering existing chunks across the enti
 
 ### Eligibility Criteria
 
-Not all chunks are eligible for global deduplication queries. A chunk is eligible if:
+Not all chunks are eligible for global deduplication queries.
+A chunk is eligible if:
 
 1. It is the first chunk of a file, OR
 2. The last 8 bytes of its hash, interpreted as a little-endian 64-bit unsigned integer, satisfy: `value % 1024 == 0`
@@ -1157,7 +1214,8 @@ The keyed hash protection ensures that clients can only identify chunks they alr
 
 ## Fragmentation Prevention
 
-Aggressive deduplication can fragment files across many xorbs, harming read performance. Implementations SHOULD:
+Aggressive deduplication can fragment files across many xorbs, harming read performance.
+Implementations SHOULD:
 
 - Prefer longer contiguous chunk ranges over maximum deduplication
 - Target minimum run lengths (e.g., 8 chunks or 1 MiB) before accepting deduplicated references
@@ -1168,7 +1226,7 @@ The CAS (Content Addressable Storage) API provides HTTP endpoints for upload and
 
 ## Authentication
 
-All API requests require authentication via Bearer token in the Authorization header:
+All API requests require authentication via Bearer token in the `Authorization` header:
 
 ~~~
 Authorization: Bearer <access_token>
@@ -1252,7 +1310,8 @@ Fetch Info Fields:
 
 - `range`: Chunk index range this entry covers
 - `url`: Pre-signed URL for downloading xorb data
-- `url_range`: Byte range within the xorb for HTTP `Range` header (end inclusive). The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.
+- `url_range`: Byte range within the xorb for HTTP `Range` header (end inclusive).
+  The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.
 
 Error Responses:
 
@@ -1466,7 +1525,8 @@ For each downloaded xorb range:
 
 ## Caching Recommendations
 
-See {{caching-considerations}} for comprehensive caching guidance. Key recommendations:
+See {{caching-considerations}} for comprehensive caching guidance.
+Key recommendations:
 
 - Cache decompressed chunks by hash for reuse across files and sessions
 - Avoid caching reconstruction API responses (pre-signed URLs expire quickly)
@@ -1482,11 +1542,14 @@ Implementations SHOULD implement:
 
 # Caching Considerations {#caching-considerations}
 
-XET's content-addressable design enables effective caching at multiple levels. This section provides guidance for implementers on caching strategies and considerations.
+XET's content-addressable design enables effective caching at multiple levels.
+This section provides guidance for implementers on caching strategies and considerations.
 
 ## Content Immutability
 
-Objects in XET are identified by cryptographic hashes of their content. This content-addressable design provides a fundamental property: content at a given hash never changes. A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.
+Objects in XET are identified by cryptographic hashes of their content.
+This content-addressable design provides a fundamental property: content at a given hash never changes.
+A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.
 
 This immutability enables aggressive caching:
 
@@ -1498,11 +1561,13 @@ The only time-sensitive elements are authentication tokens and pre-signed URLs, 
 
 ## Client-Side Chunk Caching
 
-Implementations SHOULD cache decompressed chunk data to avoid redundant decompression and network requests. The chunk hash provides a natural cache key.
+Implementations SHOULD cache decompressed chunk data to avoid redundant decompression and network requests.
+The chunk hash provides a natural cache key.
 
 ### Cache Key Design
 
-Chunk caches SHOULD use the chunk hash (32 bytes or its string representation) as the cache key. Since hashes uniquely identify content, there is no risk of cache collisions or stale data.
+Chunk caches SHOULD use the chunk hash (32 bytes or its string representation) as the cache key.
+Since hashes uniquely identify content, there is no risk of cache collisions or stale data.
 
 ### Cache Granularity
 
@@ -1530,7 +1595,9 @@ Raw xorb data (compressed chunks with headers) MAY be cached by clients or inter
 
 ### Client-Side Xorb Cache
 
-Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use. This trades storage for bandwidth. Implementations SHOULD prefer caching decompressed chunks unless bandwidth is severely constrained.
+Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use.
+This trades storage for bandwidth.
+Implementations SHOULD prefer caching decompressed chunks unless bandwidth is severely constrained.
 
 ### Byte Range Considerations
 
@@ -1542,7 +1609,8 @@ When caching partial xorb downloads (byte ranges), implementations SHOULD:
 
 ## Shard Metadata Caching
 
-Shard metadata enables deduplication without network queries. Implementations SHOULD cache shards from recent uploads for local deduplication.
+Shard metadata enables deduplication without network queries.
+Implementations SHOULD cache shards from recent uploads for local deduplication.
 
 ### Cache Lifetime
 
@@ -1556,11 +1624,13 @@ Implementations SHOULD evict cached deduplication shards when their keys expire.
 
 ### Cache Size
 
-Shard metadata is relatively compact (typically under 1 MiB per upload session). Implementations MAY cache several hundred recent shards without significant storage impact.
+Shard metadata is relatively compact (typically under 1 MiB per upload session).
+Implementations MAY cache several hundred recent shards without significant storage impact.
 
 ## Pre-Signed URL Handling
 
-The reconstruction API returns pre-signed URLs for downloading xorb data. These URLs have short expiration times (typically minutes to hours) and MUST NOT be cached beyond their validity period.
+The reconstruction API returns pre-signed URLs for downloading xorb data.
+These URLs have short expiration times (typically minutes to hours) and MUST NOT be cached beyond their validity period.
 
 Implementations MUST:
 
@@ -1604,11 +1674,13 @@ Deduplication responses are user-specific and may be cached briefly by the clien
 
 ### Client Recommendations
 
-Clients SHOULD respect `Cache-Control` headers from servers. When downloading xorb data, clients MAY cache responses locally even if no caching headers are present, since content-addressed data is inherently immutable.
+Clients SHOULD respect `Cache-Control` headers from servers.
+When downloading xorb data, clients MAY cache responses locally even if no caching headers are present, since content-addressed data is inherently immutable.
 
 ## CDN Integration
 
-XET deployments typically serve xorb data through CDNs. The content-addressable design is well-suited for CDN caching:
+XET deployments typically serve xorb data through CDNs.
+The content-addressable design is well-suited for CDN caching:
 
 - Hash-based URLs enable cache key stability
 - Immutable content eliminates cache invalidation complexity
@@ -1628,15 +1700,18 @@ CDN cache keys SHOULD NOT include:
 
 ### Range Request Caching
 
-CDNs SHOULD cache partial responses (`206 Partial Content`) by byte range. When a subsequent request covers a cached range, the CDN can serve from cache without contacting the origin.
+CDNs SHOULD cache partial responses (`206 Partial Content`) by byte range.
+When a subsequent request covers a cached range, the CDN can serve from cache without contacting the origin.
 
-Some CDNs support range coalescing, where multiple partial caches are combined to serve larger requests. This is particularly effective for XET where different users may request different chunk ranges from the same xorb.
+Some CDNs support range coalescing, where multiple partial caches are combined to serve larger requests.
+This is particularly effective for XET where different users may request different chunk ranges from the same xorb.
 
 ## Proxy and Intermediary Considerations
 
 Corporate proxies and other intermediaries MAY cache XET traffic.
 
-Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses. However, reconstruction API requests include Bearer tokens in the `Authorization` header and SHOULD NOT be cached by intermediaries (the `private` directive prevents this).
+Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses.
+However, reconstruction API requests include Bearer tokens in the `Authorization` header and SHOULD NOT be cached by intermediaries (the `private` directive prevents this).
 
 # Security Considerations {#security-considerations}
 
@@ -1652,7 +1727,8 @@ Implementations SHOULD verify hashes when possible, particularly for downloaded 
 
 ## Authentication and Authorization
 
-Token-based authentication controls access to storage operations. Implementations MUST:
+Token-based authentication controls access to storage operations.
+Implementations MUST:
 
 - Transmit tokens only over TLS-protected connections
 - Avoid logging tokens
@@ -1669,7 +1745,8 @@ The keyed hash protection in global deduplication prevents enumeration attacks:
 
 ## Denial of Service Considerations
 
-Large file uploads could exhaust server resources. Servers SHOULD implement:
+Large file uploads could exhaust server resources.
+Servers SHOULD implement:
 
 - Rate limiting on API endpoints
 - Maximum shard size limits (64 MiB)
@@ -1684,7 +1761,8 @@ This document does not require any IANA actions.
 
 # Gearhash Lookup Table {#gearhash-table}
 
-The `XET-GEARHASH-BLAKE3` content-defined chunking algorithm requires a lookup table of 256 64-bit constants. Implementations of this suite MUST use the exact values below for determinism.
+The `XET-GEARHASH-BLAKE3` content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
+Implementations of this suite MUST use the exact values below for determinism.
 
 ~~~
 TABLE = [
@@ -1848,4 +1926,5 @@ https://huggingface.co/datasets/xet-team/xet-spec-reference-files
 # Acknowledgments
 {:numbered="false"}
 
-The XET protocol was invented by Hailey Johnson and Yucheng Low at Hugging Face. This specification is based on the reference implementation and documentation developed by the Hugging Face team.
+The XET protocol was invented by Hailey Johnson and Yucheng Low at Hugging Face.
+This specification is based on the reference implementation and documentation developed by the Hugging Face team.
