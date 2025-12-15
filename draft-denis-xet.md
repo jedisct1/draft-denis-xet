@@ -93,7 +93,7 @@ The protocol is designed around several key principles:
 
 - Provider Agnostic: While originally developed for machine learning model and dataset storage, XET is a generic protocol applicable to any large file storage scenario.
 
-This specification provides complete details necessary for implementing interoperable XET clients and servers.
+This specification provides the complete details necessary for implementing interoperable XET clients and servers.
 It defines the `XET-GEARHASH-BLAKE3` algorithm suite as the default, using `Gearhash` for content-defined chunking and `BLAKE3` for cryptographic hashing.
 
 ## Use Cases
@@ -154,7 +154,7 @@ Global Deduplication:
 
 All multi-byte integers in binary formats (xorb headers, shard structures) use little-endian byte order unless otherwise specified.
 
-Hash values are 32-byte (256-bit) values.
+Hash values are 32 bytes (256 bits).
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see {{hash-string-format}}).
 
@@ -379,7 +379,7 @@ function compute_chunk_hash(chunk_data):
 
 Xorb hashes identify xorbs based on their constituent chunks.
 The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes.
-The Merkle tree algorithm is defined independently of the hash function.
+The Merkle tree construction is defined separately from the hash function.
 
 ### Internal Node Hash Function
 
@@ -801,8 +801,8 @@ Implementations MUST serialize fields in this exact order and reject unknown ide
 ### Trailer
 
 - `num_chunks`: 32-bit unsigned (repeated for convenience)
-- Hashes section offset from end: 32-bit unsigned distance from the end of the footer to the start of the hash section
-- Boundary section offset from end: 32-bit unsigned distance from the end of the footer to the start of the boundary section
+- Hashes section offset from end: 32-bit unsigned byte offset from the end of the footer to the start of the hash section
+- Boundary section offset from end: 32-bit unsigned byte offset from the end of the footer to the start of the boundary section
 - Reserved: 16 bytes, zero
 
 The 4-byte length trailer that follows the footer stores `info_length` (little-endian 32-bit unsigned) for the `CasObjectInfo` block only.
@@ -1196,7 +1196,7 @@ A chunk is eligible if:
 
 1. For eligible chunks, query the global deduplication API (see {{global-dedup-api}}).
 
-2. On a match, the API returns a shard containing CAS info for xorbs that include the chunk.
+2. On a match, the API returns a shard containing CAS info for xorbs containing the chunk.
 
 3. Chunk hashes in the response are protected with a keyed hash; match by computing keyed hashes of local chunk hashes.
 
@@ -1596,7 +1596,7 @@ Raw xorb data (compressed chunks with headers) MAY be cached by clients or inter
 ### Client-Side Xorb Cache
 
 Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use.
-This trades storage for bandwidth.
+This uses local storage to reduce bandwidth consumption.
 Implementations SHOULD prefer caching decompressed chunks unless bandwidth is severely constrained.
 
 ### Byte Range Considerations
