@@ -312,7 +312,7 @@ Different key values provide domain separation between hash types.
 Chunk hashes uniquely identify individual chunks based on their content.
 The algorithm suite determines how chunk hashes are computed.
 
-For the `XET-GEARHASH-BLAKE3` suite, chunk hashes use `BLAKE3` keyed hash with `DATA_KEY`:
+For the `XET-GEARHASH-BLAKE3` suite, chunk hashes use `BLAKE3` keyed hash with `DATA_KEY` as the key:
 
 ~~~
 DATA_KEY = {
@@ -339,7 +339,7 @@ The Merkle tree construction is defined separately from the hash function.
 Internal node hashes combine child hashes with their sizes.
 The hash function is determined by the algorithm suite.
 
-For the `XET-GEARHASH-BLAKE3` suite, internal node hashes use `BLAKE3` keyed hash with `INTERNAL_NODE_KEY`:
+For the `XET-GEARHASH-BLAKE3` suite, internal node hashes use `BLAKE3` keyed hash with `INTERNAL_NODE_KEY` as the key:
 
 ~~~
 INTERNAL_NODE_KEY = {
@@ -517,7 +517,7 @@ The file hash is therefore `blake3_keyed_hash(ZERO_KEY, zero_hash())`, where `ze
 Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata.
 The hash function is determined by the algorithm suite.
 
-For the `XET-GEARHASH-BLAKE3` suite, verification hashes use `BLAKE3` keyed hash with `VERIFICATION_KEY`:
+For the `XET-GEARHASH-BLAKE3` suite, verification hashes use `BLAKE3` keyed hash with `VERIFICATION_KEY` as the key:
 
 ~~~
 VERIFICATION_KEY = {
