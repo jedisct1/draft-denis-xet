@@ -20,6 +20,13 @@ Abstract
    containers called xorbs, and enables deduplication across files and
    repositories through cryptographic hashing.
 
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/jedisct1/draft-denis-xet.
+
 Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
