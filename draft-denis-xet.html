@@ -4568,10 +4568,10 @@ Implementations <span class="bcp14">MUST</span> still enforce repository-level a
 <p id="section-15.4.4-1">Deployments with access-controlled content <span class="bcp14">SHOULD</span> consider:<a href="#section-15.4.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.4.4-2.1">
-              <p id="section-15.4.4-2.1.1">Global deduplication responses reveal that a chunk exists somewhere in the system, though not where<a href="#section-15.4.4-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-15.4.4-2.1.1">Global deduplication queries reveal chunk existence (via 200/404 responses), though not which repositories contain the chunk<a href="#section-15.4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.4.4-2.2">
-              <p id="section-15.4.4-2.2.1">The keyed hash rotation and shard expiry limit the window for existence probing<a href="#section-15.4.4-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-15.4.4-2.2.1">Keyed hash protection in responses ensures clients can only identify chunks they already possess; key rotation limits temporal correlation<a href="#section-15.4.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-15.4.4-2.3">
               <p id="section-15.4.4-2.3.1">For highly sensitive content, deployments <span class="bcp14">MAY</span> exclude chunks from the global deduplication index entirely<a href="#section-15.4.4-2.3.1" class="pilcrow">¶</a></p>
