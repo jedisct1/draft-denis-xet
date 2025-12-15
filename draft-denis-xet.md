@@ -1697,15 +1697,31 @@ The content-addressable design is well-suited for CDN caching:
 
 ### CDN Cache Keys
 
-CDN cache keys SHOULD include:
+Effective cache key design determines whether multiple users can share cached xorb data.
+Since xorb content is immutable and identified by hash, the ideal cache key includes only the xorb hash and byte range—maximizing cache reuse.
+However, access control requirements constrain this choice.
 
-- The xorb hash (from the URL path)
-- The byte range (if Range header is present)
+Two URL authorization strategies are applicable to XET deployments:
 
-CDN cache keys SHOULD NOT include:
+Edge-Authenticated URLs:
 
-- Authorization headers (these vary per user but content is identical)
-- Query string parameters for pre-signed URLs (these vary but content is identical)
+: The URL path contains the xorb hash with no signature parameters.
+  Authorization is enforced at the CDN edge via signed cookies or tokens validated on every request.
+  The cache key is derived from the xorb hash and byte range only, excluding any authorization tokens.
+  This allows all authorized users to share the same cache entries.
+  This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth MUST NOT be used.
+
+Query-Signed URLs:
+
+: The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
+  Cache keys MUST include all signature-bearing query parameters.
+  Each unique signature produces a separate cache entry, resulting in lower hit rates.
+  This approach works with any CDN but sacrifices cache efficiency for simplicity.
+
+For both strategies:
+
+- Cache keys SHOULD include the byte range when `Range` headers are present
+- Cache keys SHOULD NOT include `Authorization` headers, since different users have different tokens but request identical content
 
 ### Range Request Caching
 
