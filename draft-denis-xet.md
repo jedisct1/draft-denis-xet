@@ -1654,7 +1654,7 @@ The content-addressable design is well-suited for CDN caching:
 ### CDN Cache Keys
 
 Effective cache key design determines whether multiple users can share cached xorb data.
-Since xorb content is immutable and identified by hash, the ideal cache key includes only the xorb hash and byte range—maximizing cache reuse.
+Since xorb content is immutable and identified by hash, the ideal cache key includes only the xorb hash and byte range, maximizing cache reuse.
 However, access control requirements constrain this choice.
 
 Two URL authorization strategies are applicable to XET deployments:
