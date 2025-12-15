@@ -721,9 +721,16 @@ function merged_hash_of_sequence(hash_pairs):
 
   cfc5d07f6f03c29bbf424132963fe08d19a37d5757aaf520bf08119f05cd56d6 : 100
 
-   Each line contains: - The hash as a fixed-length 64-character
-   lowercase hexadecimal string - A space, colon, space (:) - The size
-   as a decimal integer - A newline character (\n)
+   Each line contains:
+
+   *  The hash as a fixed-length 64-character lowercase hexadecimal
+      string
+
+   *  A space, colon, space (:)
+
+   *  The size as a decimal integer
+
+   *  A newline character (\n)
 
 6.2.2.4.  Root Computation
 
