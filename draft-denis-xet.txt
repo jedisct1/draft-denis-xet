@@ -2342,18 +2342,6 @@ B.5.  Reference Files
    are available at: https://huggingface.co/datasets/xet-team/xet-spec-
    reference-files
 
-   Key crates:
-
-   *  cas_types: Common type definitions
-
-   *  cas_client: CAS API client implementation
-
-   *  mdb_shard: Shard format serialization
-
-   *  deduplication: Chunking and deduplication logic
-
-   *  merklehash: Hash computation functions
-
 Acknowledgments
 
    The XET protocol was invented by Hailey Johnson and Yucheng Low at
