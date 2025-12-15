@@ -1628,8 +1628,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Large-scale data storage and transfer systems face fundamental challenges in efficiency: storing multiple versions of similar files wastes storage space, and transferring unchanged data wastes bandwidth. Traditional approaches such as file-level deduplication miss opportunities to share common content between different files, while fixed-size chunking fails to handle insertions and deletions gracefully.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">XET addresses these challenges through a content-addressable storage protocol that operates at the chunk level. By using content-defined chunking with a rolling hash algorithm, XET creates stable chunk boundaries that remain consistent even when files are modified.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-1">Large-scale data storage and transfer systems face fundamental challenges in efficiency: storing multiple versions of similar files wastes storage space, and transferring unchanged data wastes bandwidth.
+Traditional approaches such as file-level deduplication miss opportunities to share common content between different files, while fixed-size chunking fails to handle insertions and deletions gracefully.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">XET addresses these challenges through a content-addressable storage protocol that operates at the chunk level.
+By using content-defined chunking with a rolling hash algorithm, XET creates stable chunk boundaries that remain consistent even when files are modified.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">This enables efficient deduplication not only within a single file across versions, but also across entirely different files that happen to share common content.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">The protocol is designed around several key principles:<a href="#section-1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1649,7 +1651,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <p id="section-1-5.5.1">Provider Agnostic: While originally developed for machine learning model and dataset storage, XET is a generic protocol applicable to any large file storage scenario.<a href="#section-1-5.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-6">This specification provides complete details necessary for implementing interoperable XET clients and servers. It defines the <code>XET-GEARHASH-BLAKE3</code> algorithm suite as the default, using <code>Gearhash</code> for content-defined chunking and <code>BLAKE3</code> for cryptographic hashing.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-6">This specification provides complete details necessary for implementing interoperable XET clients and servers.
+It defines the <code>XET-GEARHASH-BLAKE3</code> algorithm suite as the default, using <code>Gearhash</code> for content-defined chunking and <code>BLAKE3</code> for cryptographic hashing.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="use-cases">
 <section id="section-1.1">
         <h3 id="name-use-cases">
@@ -1752,7 +1755,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-notational-conventions" class="section-name selfRef">Notational Conventions</a>
         </h3>
 <p id="section-2.1-1">All multi-byte integers in binary formats (xorb headers, shard structures) use little-endian byte order unless otherwise specified.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">Hash values are 32-byte (256-bit) values. When serialized, they are stored as raw bytes. When displayed as strings, they use a specific byte-swapped hexadecimal format (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">Hash values are 32-byte (256-bit) values.
+When serialized, they are stored as raw bytes.
+When displayed as strings, they use a specific byte-swapped hexadecimal format (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <p id="section-2.1-3">Range specifications use different conventions depending on context:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
@@ -1801,7 +1806,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-protocol-overview">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-protocol-overview" class="section-name selfRef">Protocol Overview</a>
       </h2>
-<p id="section-3-1">XET operates as a client-server protocol. Clients perform content-defined chunking locally, query for deduplication opportunities, form xorbs from new chunks, and upload both xorbs and shards to the server. The CAS server provides APIs for reconstruction queries, global deduplication, and persistent storage.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">XET operates as a client-server protocol.
+Clients perform content-defined chunking locally, query for deduplication opportunities, form xorbs from new chunks, and upload both xorbs and shards to the server.
+The CAS server provides APIs for reconstruction queries, global deduplication, and persistent storage.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="upload-flow">
 <section id="section-3.1">
         <h3 id="name-upload-flow">
@@ -1862,7 +1869,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-algorithm-suites">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-algorithm-suites" class="section-name selfRef">Algorithm Suites</a>
       </h2>
-<p id="section-4-1">XET is designed as a generic framework where the specific chunking algorithm and cryptographic hash function are parameters defined by an algorithm suite. This enables future algorithm agility while maintaining full backward compatibility within a deployment.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">XET is designed as a generic framework where the specific chunking algorithm and cryptographic hash function are parameters defined by an algorithm suite.
+This enables future algorithm agility while maintaining full backward compatibility within a deployment.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <div id="suite-definition">
 <section id="section-4.1">
         <h3 id="name-suite-definition">
@@ -1912,7 +1920,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-suite-negotiation">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-suite-negotiation" class="section-name selfRef">Suite Negotiation</a>
         </h3>
-<p id="section-4.3-1">The algorithm suite used by an XET deployment is determined out-of-band, typically by the CAS server configuration. All clients interacting with a given server <span class="bcp14">MUST</span> use the same suite. Binary formats (xorbs, shards) do not contain suite identifiers; the suite is determined implicitly by the deployment context.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">The algorithm suite used by an XET deployment is determined out-of-band, typically by the CAS server configuration.
+All clients interacting with a given server <span class="bcp14">MUST</span> use the same suite.
+Binary formats (xorbs, shards) do not contain suite identifiers; the suite is determined implicitly by the deployment context.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="defined-suites">
@@ -1936,14 +1946,17 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-content-defined-chunking">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-content-defined-chunking" class="section-name selfRef">Content-Defined Chunking</a>
       </h2>
-<p id="section-5-1">Content-defined chunking (CDC) splits files into variable-sized chunks based on content rather than fixed offsets. This produces deterministic chunk boundaries that remain stable across file modifications, enabling efficient deduplication.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">This section describes the chunking algorithm for the <code>XET-GEARHASH-BLAKE3</code> suite. Other algorithm suites <span class="bcp14">MAY</span> define different chunking algorithms with different parameters.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-1">Content-defined chunking (CDC) splits files into variable-sized chunks based on content rather than fixed offsets.
+This produces deterministic chunk boundaries that remain stable across file modifications, enabling efficient deduplication.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">This section describes the chunking algorithm for the <code>XET-GEARHASH-BLAKE3</code> suite.
+Other algorithm suites <span class="bcp14">MAY</span> define different chunking algorithms with different parameters.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <div id="gearhash-algorithm">
 <section id="section-5.1">
         <h3 id="name-gearhash-algorithm">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-gearhash-algorithm" class="section-name selfRef">Gearhash Algorithm</a>
         </h3>
-<p id="section-5.1-1">The <code>XET-GEARHASH-BLAKE3</code> suite uses a <code>Gearhash</code>-based rolling hash algorithm <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span>. <code>Gearhash</code> maintains a 64-bit state that is updated with each input byte using a lookup table, providing fast and deterministic boundary detection.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">The <code>XET-GEARHASH-BLAKE3</code> suite uses a <code>Gearhash</code>-based rolling hash algorithm <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span>.
+<code>Gearhash</code> maintains a 64-bit state that is updated with each input byte using a lookup table, providing fast and deterministic boundary detection.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="algorithm-parameters">
@@ -1960,7 +1973,8 @@ MAX_CHUNK_SIZE     = 131072     # 128 KiB (TARGET * 2)
 MASK               = 0xFFFF000000000000  # 16 one-bits
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-3">The <code>Gearhash</code> algorithm uses a lookup table of 256 64-bit constants. Implementations of the <code>XET-GEARHASH-BLAKE3</code> suite <span class="bcp14">MUST</span> use the table defined in <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span> (see <a href="#gearhash-table" class="auto internal xref">Appendix A</a> for the complete lookup table).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">The <code>Gearhash</code> algorithm uses a lookup table of 256 64-bit constants.
+Implementations of the <code>XET-GEARHASH-BLAKE3</code> suite <span class="bcp14">MUST</span> use the table defined in <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span> (see <a href="#gearhash-table" class="auto internal xref">Appendix A</a> for the complete lookup table).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="algorithm-description">
@@ -2038,7 +2052,8 @@ function chunk_file(data):
         <h3 id="name-determinism-requirements">
 <a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-determinism-requirements" class="section-name selfRef">Determinism Requirements</a>
         </h3>
-<p id="section-5.5-1">Implementations <span class="bcp14">MUST</span> produce identical chunk boundaries for identical input data. For the <code>XET-GEARHASH-BLAKE3</code> suite, this requires:<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-1">Implementations <span class="bcp14">MUST</span> produce identical chunk boundaries for identical input data.
+For the <code>XET-GEARHASH-BLAKE3</code> suite, this requires:<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.5-2.1">
             <p id="section-5.5-2.1.1">Using the exact lookup table values from <a href="#gearhash-table" class="auto internal xref">Appendix A</a><a href="#section-5.5-2.1.1" class="pilcrow">¶</a></p>
@@ -2072,14 +2087,18 @@ function chunk_file(data):
       <h2 id="name-hashing-methods">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-hashing-methods" class="section-name selfRef">Hashing Methods</a>
       </h2>
-<p id="section-6-1">XET uses cryptographic hashing for content addressing, integrity verification, and deduplication. The specific hash function is determined by the algorithm suite. All hashes are 32 bytes (256 bits) in length.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">This section describes the hashing methods for the <code>XET-GEARHASH-BLAKE3</code> suite, which uses <code>BLAKE3</code> keyed hashing <span>[<a href="#BLAKE3" class="cite xref">BLAKE3</a>]</span> for all cryptographic hash computations. Different key values provide domain separation between hash types.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-1">XET uses cryptographic hashing for content addressing, integrity verification, and deduplication.
+The specific hash function is determined by the algorithm suite.
+All hashes are 32 bytes (256 bits) in length.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">This section describes the hashing methods for the <code>XET-GEARHASH-BLAKE3</code> suite, which uses <code>BLAKE3</code> keyed hashing <span>[<a href="#BLAKE3" class="cite xref">BLAKE3</a>]</span> for all cryptographic hash computations.
+Different key values provide domain separation between hash types.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <div id="chunk-hashes">
 <section id="section-6.1">
         <h3 id="name-chunk-hashes">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-chunk-hashes" class="section-name selfRef">Chunk Hashes</a>
         </h3>
-<p id="section-6.1-1">Chunk hashes uniquely identify individual chunks based on their content. The algorithm suite determines how chunk hashes are computed.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">Chunk hashes uniquely identify individual chunks based on their content.
+The algorithm suite determines how chunk hashes are computed.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, chunk hashes use <code>BLAKE3</code> keyed hash with <code>DATA_KEY</code>:<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-3">
 <pre>
@@ -2104,13 +2123,16 @@ function compute_chunk_hash(chunk_data):
         <h3 id="name-xorb-hashes">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-xorb-hashes" class="section-name selfRef">Xorb Hashes</a>
         </h3>
-<p id="section-6.2-1">Xorb hashes identify xorbs based on their constituent chunks. The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes. The Merkle tree algorithm is defined independently of the hash function.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">Xorb hashes identify xorbs based on their constituent chunks.
+The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes.
+The Merkle tree algorithm is defined independently of the hash function.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <div id="internal-node-hash-function">
 <section id="section-6.2.1">
           <h4 id="name-internal-node-hash-function">
 <a href="#section-6.2.1" class="section-number selfRef">6.2.1. </a><a href="#name-internal-node-hash-function" class="section-name selfRef">Internal Node Hash Function</a>
           </h4>
-<p id="section-6.2.1-1">Internal node hashes combine child hashes with their sizes. The hash function is determined by the algorithm suite.<a href="#section-6.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.2.1-1">Internal node hashes combine child hashes with their sizes.
+The hash function is determined by the algorithm suite.<a href="#section-6.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.2.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, internal node hashes use <code>BLAKE3</code> keyed hash with <code>INTERNAL_NODE_KEY</code>:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2.1-3">
 <pre>
@@ -2156,7 +2178,8 @@ function compute_internal_hash(children):
           <h4 id="name-merkle-tree-construction">
 <a href="#section-6.2.2" class="section-number selfRef">6.2.2. </a><a href="#name-merkle-tree-construction" class="section-name selfRef">Merkle Tree Construction</a>
           </h4>
-<p id="section-6.2.2-1">XET uses an aggregated hash tree construction with variable fan-out, not a traditional binary Merkle tree. This algorithm iteratively collapses a list of (hash, size) pairs until a single root hash remains.<a href="#section-6.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2.2-1">XET uses an aggregated hash tree construction with variable fan-out, not a traditional binary Merkle tree.
+This algorithm iteratively collapses a list of (hash, size) pairs until a single root hash remains.<a href="#section-6.2.2-1" class="pilcrow">¶</a></p>
 <div id="algorithm-parameters-1">
 <section id="section-6.2.2.1">
             <h5 id="name-algorithm-parameters-2">
@@ -2176,7 +2199,8 @@ MAX_CHILDREN = 2 * MEAN_BRANCHING_FACTOR + 1  # 9
             <h5 id="name-cut-point-determination">
 <a href="#section-6.2.2.2" class="section-number selfRef">6.2.2.2. </a><a href="#name-cut-point-determination" class="section-name selfRef">Cut Point Determination</a>
             </h5>
-<p id="section-6.2.2.2-1">The tree structure is determined by the hash values themselves. A cut point occurs when:<a href="#section-6.2.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2.2.2-1">The tree structure is determined by the hash values themselves.
+A cut point occurs when:<a href="#section-6.2.2.2-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-6.2.2.2-2">
 <li id="section-6.2.2.2-2.1">
                 <p id="section-6.2.2.2-2.1.1">The minimum number of children (2) has been accumulated AND the current hash modulo MEAN_BRANCHING_FACTOR equals zero, OR<a href="#section-6.2.2.2-2.1.1" class="pilcrow">¶</a></p>
@@ -2308,7 +2332,8 @@ function compute_xorb_hash(chunk_hashes, chunk_sizes):
         <h3 id="name-file-hashes">
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-file-hashes" class="section-name selfRef">File Hashes</a>
         </h3>
-<p id="section-6.3-1">File hashes identify files based on their complete chunk composition. The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-1">File hashes identify files based on their complete chunk composition.
+The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <p id="section-6.3-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, file hashes use an all-zero key (<code>ZERO_KEY</code>) for the final hash:<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.3-3">
 <pre>
@@ -2329,7 +2354,8 @@ function compute_file_hash(chunk_hashes, chunk_sizes):
     return blake3_keyed_hash(ZERO_KEY, merkle_root)
 </pre><a href="#section-6.3-4" class="pilcrow">¶</a>
 </div>
-<p id="section-6.3-5">For empty files (zero bytes), there are no chunks, so <code>compute_merkle_root([])</code> returns 32 zero bytes. The file hash is therefore <code>blake3_keyed_hash(ZERO_KEY, zero_hash())</code>, where <code>zero_hash()</code> is 32 zero bytes.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
+<p id="section-6.3-5">For empty files (zero bytes), there are no chunks, so <code>compute_merkle_root([])</code> returns 32 zero bytes.
+The file hash is therefore <code>blake3_keyed_hash(ZERO_KEY, zero_hash())</code>, where <code>zero_hash()</code> is 32 zero bytes.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="verification-hashes">
@@ -2337,7 +2363,8 @@ function compute_file_hash(chunk_hashes, chunk_sizes):
         <h3 id="name-term-verification-hashes">
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-term-verification-hashes" class="section-name selfRef">Term Verification Hashes</a>
         </h3>
-<p id="section-6.4-1">Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata. The hash function is determined by the algorithm suite.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-1">Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata.
+The hash function is determined by the algorithm suite.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <p id="section-6.4-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, verification hashes use <code>BLAKE3</code> keyed hash with <code>VERIFICATION_KEY</code>:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.4-3">
 <pre>
@@ -2438,7 +2465,8 @@ String representation:
       <h2 id="name-xorb-format">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-xorb-format" class="section-name selfRef">Xorb Format</a>
       </h2>
-<p id="section-7-1">A xorb is a container that aggregates multiple compressed chunks for efficient storage and transfer. Xorbs are identified by their xorb hash (see <a href="#xorb-hashes" class="auto internal xref">Section 6.2</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">A xorb is a container that aggregates multiple compressed chunks for efficient storage and transfer.
+Xorbs are identified by their xorb hash (see <a href="#xorb-hashes" class="auto internal xref">Section 6.2</a>).<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="size-constraints">
 <section id="section-7.1">
         <h3 id="name-size-constraints">
@@ -2450,7 +2478,8 @@ MAX_XORB_SIZE   = 67108864  # 64 MiB maximum serialized size
 MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
 </pre><a href="#section-7.1-1" class="pilcrow">¶</a>
 </div>
-<p id="section-7.1-2">Implementations <span class="bcp14">MUST NOT</span> exceed either limit. When collecting chunks:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">Implementations <span class="bcp14">MUST NOT</span> exceed either limit.
+When collecting chunks:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-7.1-3">
 <li id="section-7.1-3.1">
             <p id="section-7.1-3.1.1">Stop if adding the next chunk would exceed <code>MAX_XORB_SIZE</code><a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
@@ -2529,7 +2558,8 @@ MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
           <h4 id="name-version-field">
 <a href="#section-7.3.1" class="section-number selfRef">7.3.1. </a><a href="#name-version-field" class="section-name selfRef">Version Field</a>
           </h4>
-<p id="section-7.3.1-1">The version field <span class="bcp14">MUST</span> be <code>0</code> for this specification. Implementations <span class="bcp14">MUST</span> reject chunks with unknown version values.<a href="#section-7.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.3.1-1">The version field <span class="bcp14">MUST</span> be <code>0</code> for this specification.
+Implementations <span class="bcp14">MUST</span> reject chunks with unknown version values.<a href="#section-7.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="size-fields">
@@ -2537,7 +2567,8 @@ MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
           <h4 id="name-size-fields">
 <a href="#section-7.3.2" class="section-number selfRef">7.3.2. </a><a href="#name-size-fields" class="section-name selfRef">Size Fields</a>
           </h4>
-<p id="section-7.3.2-1">Both size fields use 3-byte little-endian encoding, supporting values up to 16,777,215 bytes. Given the maximum chunk size of 128 KiB, this provides ample range.<a href="#section-7.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.3.2-1">Both size fields use 3-byte little-endian encoding, supporting values up to 16,777,215 bytes.
+Given the maximum chunk size of 128 KiB, this provides ample range.<a href="#section-7.3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="compression-type">
@@ -2594,7 +2625,8 @@ MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
           <h4 id="name-none-type-0">
 <a href="#section-7.4.1" class="section-number selfRef">7.4.1. </a><a href="#name-none-type-0" class="section-name selfRef"><code>None</code> (Type 0)</a>
           </h4>
-<p id="section-7.4.1-1">Data is stored without modification. Used when compression would increase size or for already-compressed data.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-1">Data is stored without modification.
+Used when compression would increase size or for already-compressed data.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="lz4-type-1">
@@ -2602,7 +2634,9 @@ MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
           <h4 id="name-lz4-type-1">
 <a href="#section-7.4.2" class="section-number selfRef">7.4.2. </a><a href="#name-lz4-type-1" class="section-name selfRef"><code>LZ4</code> (Type 1)</a>
           </h4>
-<p id="section-7.4.2-1"><code>LZ4</code> Frame format compression <span>[<a href="#LZ4" class="cite xref">LZ4</a>]</span> (not <code>LZ4</code> block format). Each compressed chunk is a complete <code>LZ4</code> frame. This is the default compression scheme for most data.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.2-1"><code>LZ4</code> Frame format compression <span>[<a href="#LZ4" class="cite xref">LZ4</a>]</span> (not <code>LZ4</code> block format).
+Each compressed chunk is a complete <code>LZ4</code> frame.
+This is the default compression scheme for most data.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="bytegrouping4lz4-type-2">
@@ -2662,7 +2696,8 @@ function byte_ungroup_4(grouped_data, original_length):
     return data
 </pre><a href="#section-7.4.3-5" class="pilcrow">¶</a>
 </div>
-<p id="section-7.4.3-6">When the data length is not a multiple of 4, the remainder bytes are distributed to the first groups. For example, with 10 bytes the group sizes are 3, 3, 2, 2 (first two groups get the extra bytes).<a href="#section-7.4.3-6" class="pilcrow">¶</a></p>
+<p id="section-7.4.3-6">When the data length is not a multiple of 4, the remainder bytes are distributed to the first groups.
+For example, with 10 bytes the group sizes are 3, 3, 2, 2 (first two groups get the extra bytes).<a href="#section-7.4.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="compression-selection">
@@ -2670,7 +2705,8 @@ function byte_ungroup_4(grouped_data, original_length):
           <h4 id="name-compression-selection">
 <a href="#section-7.4.4" class="section-number selfRef">7.4.4. </a><a href="#name-compression-selection" class="section-name selfRef">Compression Selection</a>
           </h4>
-<p id="section-7.4.4-1">Implementations <span class="bcp14">MAY</span> use any strategy to select compression schemes. If compression increases size, implementations <span class="bcp14">SHOULD</span> use compression type <code>0</code> (<code>None</code>).<a href="#section-7.4.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.4-1">Implementations <span class="bcp14">MAY</span> use any strategy to select compression schemes.
+If compression increases size, implementations <span class="bcp14">SHOULD</span> use compression type <code>0</code> (<code>None</code>).<a href="#section-7.4.4-1" class="pilcrow">¶</a></p>
 <p id="section-7.4.4-2"><code>ByteGrouping4LZ4</code> (Type 2) is typically beneficial for structured numerical data such as <code>float32</code> or <code>float16</code> tensors, where bytes at the same position within 4-byte groups tend to be similar.<a href="#section-7.4.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2681,7 +2717,8 @@ function byte_ungroup_4(grouped_data, original_length):
         <h3 id="name-casobjectinfo-footer">
 <a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-casobjectinfo-footer" class="section-name selfRef"><code>CasObjectInfo</code> Footer</a>
         </h3>
-<p id="section-7.5-1">The metadata footer sits immediately before the 4-byte length trailer. Implementations <span class="bcp14">MUST</span> serialize fields in this exact order and reject unknown idents or versions.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-1">The metadata footer sits immediately before the 4-byte length trailer.
+Implementations <span class="bcp14">MUST</span> serialize fields in this exact order and reject unknown idents or versions.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 <div id="main-header">
 <section id="section-7.5.1">
           <h4 id="name-main-header">
@@ -2737,10 +2774,13 @@ function byte_ungroup_4(grouped_data, original_length):
               <p id="section-7.5.3-1.3.1"><code>num_chunks</code>: 32-bit unsigned<a href="#section-7.5.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.5.3-1.4">
-              <p id="section-7.5.3-1.4.1">Chunk boundary offsets: Array of <code>num_chunks</code> 32-bit unsigned values. Each value is the end offset (in bytes) of the corresponding chunk in the serialized chunk data region, <strong>including headers</strong>. Chunk 0 starts at offset 0; chunk <code>i</code> starts at <code>chunk_boundary_offsets[i-1]</code>.<a href="#section-7.5.3-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.5.3-1.4.1">Chunk boundary offsets: Array of <code>num_chunks</code> 32-bit unsigned values.
+Each value is the end offset (in bytes) of the corresponding chunk in the serialized chunk data region, <strong>including headers</strong>.
+Chunk 0 starts at offset 0; chunk <code>i</code> starts at <code>chunk_boundary_offsets[i-1]</code>.<a href="#section-7.5.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.5.3-1.5">
-              <p id="section-7.5.3-1.5.1">Unpacked chunk offsets: Array of <code>num_chunks</code> 32-bit unsigned values. Each value is the end offset of the corresponding chunk in the concatenated uncompressed stream.<a href="#section-7.5.3-1.5.1" class="pilcrow">¶</a></p>
+              <p id="section-7.5.3-1.5.1">Unpacked chunk offsets: Array of <code>num_chunks</code> 32-bit unsigned values.
+Each value is the end offset of the corresponding chunk in the concatenated uncompressed stream.<a href="#section-7.5.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2764,7 +2804,8 @@ function byte_ungroup_4(grouped_data, original_length):
               <p id="section-7.5.4-1.4.1">Reserved: 16 bytes, zero<a href="#section-7.5.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-7.5.4-2">The 4-byte length trailer that follows the footer stores <code>info_length</code> (little-endian 32-bit unsigned) for the <code>CasObjectInfo</code> block only. This length field is not counted inside the footer itself.<a href="#section-7.5.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.5.4-2">The 4-byte length trailer that follows the footer stores <code>info_length</code> (little-endian 32-bit unsigned) for the <code>CasObjectInfo</code> block only.
+This length field is not counted inside the footer itself.<a href="#section-7.5.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2849,7 +2890,8 @@ function byte_ungroup_4(grouped_data, original_length):
       <h2 id="name-shard-format">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-shard-format" class="section-name selfRef">Shard Format</a>
       </h2>
-<p id="section-9-1">A shard is a binary metadata structure that describes file reconstructions and xorb contents. Shards serve two purposes:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">A shard is a binary metadata structure that describes file reconstructions and xorb contents.
+Shards serve two purposes:<a href="#section-9-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-9-2">
 <li id="section-9-2.1">
           <p id="section-9-2.1.1">Upload Registration: Describing newly uploaded files and xorbs to the CAS server<a href="#section-9-2.1.1" class="pilcrow">¶</a></p>
@@ -2886,7 +2928,9 @@ function byte_ungroup_4(grouped_data, original_length):
         <h3 id="name-data-types">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-data-types" class="section-name selfRef">Data Types</a>
         </h3>
-<p id="section-9.2-1">All multi-byte integers are little-endian. Field sizes are stated explicitly (e.g., “8-bit unsigned”, “32-bit unsigned”, “64-bit unsigned”). Hash denotes a 32-byte (256-bit) value.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">All multi-byte integers are little-endian.
+Field sizes are stated explicitly (e.g., “8-bit unsigned”, “32-bit unsigned”, “64-bit unsigned”).
+Hash denotes a 32-byte (256-bit) value.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="shard-header">
@@ -2929,7 +2973,8 @@ SHARD_MAGIC_SEQUENCE = {
 }
 </pre><a href="#section-9.3.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-9.3.1-5">The application identifier (bytes 0-13) is deployment-specific and identifies the XET application context. For Hugging Face deployments, the identifier <span class="bcp14">MUST</span> be <code>"HFRepoMetaData"</code> (ASCII):<a href="#section-9.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-5">The application identifier (bytes 0-13) is deployment-specific and identifies the XET application context.
+For Hugging Face deployments, the identifier <span class="bcp14">MUST</span> be <code>"HFRepoMetaData"</code> (ASCII):<a href="#section-9.3.1-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.3.1-6">
 <pre>
 HF_APPLICATION_ID = {
@@ -2938,8 +2983,10 @@ HF_APPLICATION_ID = {
 }
 </pre><a href="#section-9.3.1-6" class="pilcrow">¶</a>
 </div>
-<p id="section-9.3.1-7">Other deployments <span class="bcp14">MAY</span> define their own application identifiers. If the identifier is shorter than 14 bytes, it <span class="bcp14">MUST</span> be null-padded on the right.<a href="#section-9.3.1-7" class="pilcrow">¶</a></p>
-<p id="section-9.3.1-8">Implementations <span class="bcp14">MUST</span> verify that bytes 14-31 match the expected magic sequence before processing. Implementations <span class="bcp14">MAY</span> additionally verify the application identifier to ensure compatibility with the expected deployment.<a href="#section-9.3.1-8" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-7">Other deployments <span class="bcp14">MAY</span> define their own application identifiers.
+If the identifier is shorter than 14 bytes, it <span class="bcp14">MUST</span> be null-padded on the right.<a href="#section-9.3.1-7" class="pilcrow">¶</a></p>
+<p id="section-9.3.1-8">Implementations <span class="bcp14">MUST</span> verify that bytes 14-31 match the expected magic sequence before processing.
+Implementations <span class="bcp14">MAY</span> additionally verify the application identifier to ensure compatibility with the expected deployment.<a href="#section-9.3.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2949,7 +2996,8 @@ HF_APPLICATION_ID = {
         <h3 id="name-file-info-section">
 <a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-file-info-section" class="section-name selfRef">File Info Section</a>
         </h3>
-<p id="section-9.4-1">The file info section contains zero or more file blocks, each describing a file reconstruction. The section ends with a bookend entry.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.4-1">The file info section contains zero or more file blocks, each describing a file reconstruction.
+The section ends with a bookend entry.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
 <div id="file-block-structure">
 <section id="section-9.4.1">
           <h4 id="name-file-block-structure">
@@ -3094,7 +3142,8 @@ Offset  Size  Field
         <h3 id="name-cas-info-section">
 <a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-cas-info-section" class="section-name selfRef">CAS Info Section</a>
         </h3>
-<p id="section-9.5-1">The CAS info section contains zero or more CAS blocks, each describing a xorb and its chunks. The section ends with a bookend entry.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
+<p id="section-9.5-1">The CAS info section contains zero or more CAS blocks, each describing a xorb and its chunks.
+The section ends with a bookend entry.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
 <div id="cas-block-structure">
 <section id="section-9.5.1">
           <h4 id="name-cas-block-structure">
@@ -3150,7 +3199,8 @@ Offset  Size  Field
             <h5 id="name-chunk-byte-range-start-calc">
 <a href="#section-9.5.3.1" class="section-number selfRef">9.5.3.1. </a><a href="#name-chunk-byte-range-start-calc" class="section-name selfRef">Chunk Byte Range Start Calculation</a>
             </h5>
-<p id="section-9.5.3.1-1">The <code>chunk_byte_range_start</code> field is the cumulative byte offset of this chunk within the uncompressed xorb data. It is calculated as the sum of <code>unpacked_segment_bytes</code> for all preceding chunks in the xorb:<a href="#section-9.5.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.5.3.1-1">The <code>chunk_byte_range_start</code> field is the cumulative byte offset of this chunk within the uncompressed xorb data.
+It is calculated as the sum of <code>unpacked_segment_bytes</code> for all preceding chunks in the xorb:<a href="#section-9.5.3.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.5.3.1-2">
 <pre>
 function calculate_byte_range_starts(chunks):
@@ -3225,7 +3275,8 @@ Chunk 2: unpacked_segment_bytes = 500
         <h3 id="name-footer">
 <a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-footer" class="section-name selfRef">Footer</a>
         </h3>
-<p id="section-9.6-1">The footer is 200 bytes at the end of the shard. It is <span class="bcp14">REQUIRED</span> for stored shards but <span class="bcp14">MUST</span> be omitted when uploading shards via the upload API.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">The footer is 200 bytes at the end of the shard.
+It is <span class="bcp14">REQUIRED</span> for stored shards but <span class="bcp14">MUST</span> be omitted when uploading shards via the upload API.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.6-2">
 <pre>
 Offset  Size  Field
@@ -3261,7 +3312,8 @@ Offset  Size  Field
             <h5 id="name-file-lookup-table">
 <a href="#section-9.6.1.1" class="section-number selfRef">9.6.1.1. </a><a href="#name-file-lookup-table" class="section-name selfRef">File Lookup Table</a>
             </h5>
-<p id="section-9.6.1.1-1">Located at <code>file_lookup_offset</code>, contains <code>file_lookup_num_entries</code> entries. Each entry is 12 bytes:<a href="#section-9.6.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.6.1.1-1">Located at <code>file_lookup_offset</code>, contains <code>file_lookup_num_entries</code> entries.
+Each entry is 12 bytes:<a href="#section-9.6.1.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.6.1.1-2">
 <pre>
 Offset  Size  Field
@@ -3278,7 +3330,8 @@ Offset  Size  Field
             <h5 id="name-cas-lookup-table">
 <a href="#section-9.6.1.2" class="section-number selfRef">9.6.1.2. </a><a href="#name-cas-lookup-table" class="section-name selfRef">CAS Lookup Table</a>
             </h5>
-<p id="section-9.6.1.2-1">Located at <code>cas_lookup_offset</code>, contains <code>cas_lookup_num_entries</code> entries. Each entry is 12 bytes:<a href="#section-9.6.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.6.1.2-1">Located at <code>cas_lookup_offset</code>, contains <code>cas_lookup_num_entries</code> entries.
+Each entry is 12 bytes:<a href="#section-9.6.1.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.6.1.2-2">
 <pre>
 Offset  Size  Field
@@ -3295,7 +3348,8 @@ Offset  Size  Field
             <h5 id="name-chunk-lookup-table">
 <a href="#section-9.6.1.3" class="section-number selfRef">9.6.1.3. </a><a href="#name-chunk-lookup-table" class="section-name selfRef">Chunk Lookup Table</a>
             </h5>
-<p id="section-9.6.1.3-1">Located at <code>chunk_lookup_offset</code>, contains <code>chunk_lookup_num_entries</code> entries. Each entry is 16 bytes:<a href="#section-9.6.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.6.1.3-1">Located at <code>chunk_lookup_offset</code>, contains <code>chunk_lookup_num_entries</code> entries.
+Each entry is 16 bytes:<a href="#section-9.6.1.3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.6.1.3-2">
 <pre>
 Offset  Size  Field
@@ -3305,7 +3359,8 @@ Offset  Size  Field
 12      4     Chunk Index within CAS (32-bit unsigned)
 </pre><a href="#section-9.6.1.3-2" class="pilcrow">¶</a>
 </div>
-<p id="section-9.6.1.3-3">Entries are sorted by truncated hash for binary search. When keyed hash protection is enabled, the truncated hash is computed from the keyed chunk hash, not the original.<a href="#section-9.6.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-9.6.1.3-3">Entries are sorted by truncated hash for binary search.
+When keyed hash protection is enabled, the truncated hash is computed from the keyed chunk hash, not the original.<a href="#section-9.6.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3315,7 +3370,8 @@ Offset  Size  Field
           <h4 id="name-chunk-hash-key-usage">
 <a href="#section-9.6.2" class="section-number selfRef">9.6.2. </a><a href="#name-chunk-hash-key-usage" class="section-name selfRef">Chunk Hash Key Usage</a>
           </h4>
-<p id="section-9.6.2-1">In global deduplication responses, chunk hashes in the CAS info section are protected with a keyed hash. Clients <span class="bcp14">MUST</span>:<a href="#section-9.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.6.2-1">In global deduplication responses, chunk hashes in the CAS info section are protected with a keyed hash.
+Clients <span class="bcp14">MUST</span>:<a href="#section-9.6.2-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-9.6.2-2">
 <li id="section-9.6.2-2.1">
               <p id="section-9.6.2-2.1.1">Compute <code>keyed_hash(footer.chunk_hash_key, their_chunk_hash)</code> for each local chunk<a href="#section-9.6.2-2.1.1" class="pilcrow">¶</a></p>
@@ -3367,7 +3423,8 @@ Offset  Size  Field
           <h4 id="name-eligibility-criteria">
 <a href="#section-10.3.1" class="section-number selfRef">10.3.1. </a><a href="#name-eligibility-criteria" class="section-name selfRef">Eligibility Criteria</a>
           </h4>
-<p id="section-10.3.1-1">Not all chunks are eligible for global deduplication queries. A chunk is eligible if:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-10.3.1-1">Not all chunks are eligible for global deduplication queries.
+A chunk is eligible if:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-10.3.1-2">
 <li id="section-10.3.1-2.1">
               <p id="section-10.3.1-2.1.1">It is the first chunk of a file, OR<a href="#section-10.3.1-2.1.1" class="pilcrow">¶</a></p>
@@ -3425,7 +3482,8 @@ Offset  Size  Field
         <h3 id="name-fragmentation-prevention">
 <a href="#section-10.4" class="section-number selfRef">10.4. </a><a href="#name-fragmentation-prevention" class="section-name selfRef">Fragmentation Prevention</a>
         </h3>
-<p id="section-10.4-1">Aggressive deduplication can fragment files across many xorbs, harming read performance. Implementations <span class="bcp14">SHOULD</span>:<a href="#section-10.4-1" class="pilcrow">¶</a></p>
+<p id="section-10.4-1">Aggressive deduplication can fragment files across many xorbs, harming read performance.
+Implementations <span class="bcp14">SHOULD</span>:<a href="#section-10.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-10.4-2.1">
             <p id="section-10.4-2.1.1">Prefer longer contiguous chunk ranges over maximum deduplication<a href="#section-10.4-2.1.1" class="pilcrow">¶</a></p>
@@ -3449,7 +3507,7 @@ Offset  Size  Field
         <h3 id="name-authentication">
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-authentication" class="section-name selfRef">Authentication</a>
         </h3>
-<p id="section-11.1-1">All API requests require authentication via Bearer token in the Authorization header:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<p id="section-11.1-1">All API requests require authentication via Bearer token in the <code>Authorization</code> header:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-11.1-2">
 <pre>
 Authorization: Bearer &lt;access_token&gt;
@@ -3569,7 +3627,8 @@ GET /v1/reconstructions/{file_id}
             <p id="section-11.3-12.2.1"><code>url</code>: Pre-signed URL for downloading xorb data<a href="#section-11.3-12.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-12.3">
-            <p id="section-11.3-12.3.1"><code>url_range</code>: Byte range within the xorb for HTTP <code>Range</code> header (end inclusive). The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.<a href="#section-11.3-12.3.1" class="pilcrow">¶</a></p>
+            <p id="section-11.3-12.3.1"><code>url_range</code>: Byte range within the xorb for HTTP <code>Range</code> header (end inclusive).
+The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.<a href="#section-11.3-12.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-11.3-13">Error Responses:<a href="#section-11.3-13" class="pilcrow">¶</a></p>
@@ -3978,7 +4037,8 @@ Range: bytes=0-1048575
         <h3 id="name-caching-recommendations">
 <a href="#section-13.6" class="section-number selfRef">13.6. </a><a href="#name-caching-recommendations" class="section-name selfRef">Caching Recommendations</a>
         </h3>
-<p id="section-13.6-1">See <a href="#caching-considerations" class="auto internal xref">Section 14</a> for comprehensive caching guidance. Key recommendations:<a href="#section-13.6-1" class="pilcrow">¶</a></p>
+<p id="section-13.6-1">See <a href="#caching-considerations" class="auto internal xref">Section 14</a> for comprehensive caching guidance.
+Key recommendations:<a href="#section-13.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.6-2.1">
             <p id="section-13.6-2.1.1">Cache decompressed chunks by hash for reuse across files and sessions<a href="#section-13.6-2.1.1" class="pilcrow">¶</a></p>
@@ -4018,13 +4078,16 @@ Range: bytes=0-1048575
       <h2 id="name-caching-considerations">
 <a href="#section-14" class="section-number selfRef">14. </a><a href="#name-caching-considerations" class="section-name selfRef">Caching Considerations</a>
       </h2>
-<p id="section-14-1">XET’s content-addressable design enables effective caching at multiple levels. This section provides guidance for implementers on caching strategies and considerations.<a href="#section-14-1" class="pilcrow">¶</a></p>
+<p id="section-14-1">XET’s content-addressable design enables effective caching at multiple levels.
+This section provides guidance for implementers on caching strategies and considerations.<a href="#section-14-1" class="pilcrow">¶</a></p>
 <div id="content-immutability">
 <section id="section-14.1">
         <h3 id="name-content-immutability">
 <a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-content-immutability" class="section-name selfRef">Content Immutability</a>
         </h3>
-<p id="section-14.1-1">Objects in XET are identified by cryptographic hashes of their content. This content-addressable design provides a fundamental property: content at a given hash never changes. A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.1-1">Objects in XET are identified by cryptographic hashes of their content.
+This content-addressable design provides a fundamental property: content at a given hash never changes.
+A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
 <p id="section-14.1-2">This immutability enables aggressive caching:<a href="#section-14.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.1-3.1">
@@ -4045,13 +4108,15 @@ Range: bytes=0-1048575
         <h3 id="name-client-side-chunk-caching">
 <a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-client-side-chunk-caching" class="section-name selfRef">Client-Side Chunk Caching</a>
         </h3>
-<p id="section-14.2-1">Implementations <span class="bcp14">SHOULD</span> cache decompressed chunk data to avoid redundant decompression and network requests. The chunk hash provides a natural cache key.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.2-1">Implementations <span class="bcp14">SHOULD</span> cache decompressed chunk data to avoid redundant decompression and network requests.
+The chunk hash provides a natural cache key.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
 <div id="cache-key-design">
 <section id="section-14.2.1">
           <h4 id="name-cache-key-design">
 <a href="#section-14.2.1" class="section-number selfRef">14.2.1. </a><a href="#name-cache-key-design" class="section-name selfRef">Cache Key Design</a>
           </h4>
-<p id="section-14.2.1-1">Chunk caches <span class="bcp14">SHOULD</span> use the chunk hash (32 bytes or its string representation) as the cache key. Since hashes uniquely identify content, there is no risk of cache collisions or stale data.<a href="#section-14.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.2.1-1">Chunk caches <span class="bcp14">SHOULD</span> use the chunk hash (32 bytes or its string representation) as the cache key.
+Since hashes uniquely identify content, there is no risk of cache collisions or stale data.<a href="#section-14.2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cache-granularity">
@@ -4107,7 +4172,9 @@ Range: bytes=0-1048575
           <h4 id="name-client-side-xorb-cache">
 <a href="#section-14.3.1" class="section-number selfRef">14.3.1. </a><a href="#name-client-side-xorb-cache" class="section-name selfRef">Client-Side Xorb Cache</a>
           </h4>
-<p id="section-14.3.1-1">Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use. This trades storage for bandwidth. Implementations <span class="bcp14">SHOULD</span> prefer caching decompressed chunks unless bandwidth is severely constrained.<a href="#section-14.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.3.1-1">Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use.
+This trades storage for bandwidth.
+Implementations <span class="bcp14">SHOULD</span> prefer caching decompressed chunks unless bandwidth is severely constrained.<a href="#section-14.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="byte-range-considerations">
@@ -4136,7 +4203,8 @@ Range: bytes=0-1048575
         <h3 id="name-shard-metadata-caching">
 <a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-shard-metadata-caching" class="section-name selfRef">Shard Metadata Caching</a>
         </h3>
-<p id="section-14.4-1">Shard metadata enables deduplication without network queries. Implementations <span class="bcp14">SHOULD</span> cache shards from recent uploads for local deduplication.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
+<p id="section-14.4-1">Shard metadata enables deduplication without network queries.
+Implementations <span class="bcp14">SHOULD</span> cache shards from recent uploads for local deduplication.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
 <div id="cache-lifetime">
 <section id="section-14.4.1">
           <h4 id="name-cache-lifetime">
@@ -4162,7 +4230,8 @@ Range: bytes=0-1048575
           <h4 id="name-cache-size">
 <a href="#section-14.4.2" class="section-number selfRef">14.4.2. </a><a href="#name-cache-size" class="section-name selfRef">Cache Size</a>
           </h4>
-<p id="section-14.4.2-1">Shard metadata is relatively compact (typically under 1 MiB per upload session). Implementations <span class="bcp14">MAY</span> cache several hundred recent shards without significant storage impact.<a href="#section-14.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.4.2-1">Shard metadata is relatively compact (typically under 1 MiB per upload session).
+Implementations <span class="bcp14">MAY</span> cache several hundred recent shards without significant storage impact.<a href="#section-14.4.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4172,7 +4241,8 @@ Range: bytes=0-1048575
         <h3 id="name-pre-signed-url-handling">
 <a href="#section-14.5" class="section-number selfRef">14.5. </a><a href="#name-pre-signed-url-handling" class="section-name selfRef">Pre-Signed URL Handling</a>
         </h3>
-<p id="section-14.5-1">The reconstruction API returns pre-signed URLs for downloading xorb data. These URLs have short expiration times (typically minutes to hours) and <span class="bcp14">MUST NOT</span> be cached beyond their validity period.<a href="#section-14.5-1" class="pilcrow">¶</a></p>
+<p id="section-14.5-1">The reconstruction API returns pre-signed URLs for downloading xorb data.
+These URLs have short expiration times (typically minutes to hours) and <span class="bcp14">MUST NOT</span> be cached beyond their validity period.<a href="#section-14.5-1" class="pilcrow">¶</a></p>
 <p id="section-14.5-2">Implementations <span class="bcp14">MUST</span>:<a href="#section-14.5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.5-3.1">
@@ -4229,7 +4299,8 @@ Vary: Authorization
           <h4 id="name-client-recommendations">
 <a href="#section-14.6.2" class="section-number selfRef">14.6.2. </a><a href="#name-client-recommendations" class="section-name selfRef">Client Recommendations</a>
           </h4>
-<p id="section-14.6.2-1">Clients <span class="bcp14">SHOULD</span> respect <code>Cache-Control</code> headers from servers. When downloading xorb data, clients <span class="bcp14">MAY</span> cache responses locally even if no caching headers are present, since content-addressed data is inherently immutable.<a href="#section-14.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.6.2-1">Clients <span class="bcp14">SHOULD</span> respect <code>Cache-Control</code> headers from servers.
+When downloading xorb data, clients <span class="bcp14">MAY</span> cache responses locally even if no caching headers are present, since content-addressed data is inherently immutable.<a href="#section-14.6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4239,7 +4310,8 @@ Vary: Authorization
         <h3 id="name-cdn-integration">
 <a href="#section-14.7" class="section-number selfRef">14.7. </a><a href="#name-cdn-integration" class="section-name selfRef">CDN Integration</a>
         </h3>
-<p id="section-14.7-1">XET deployments typically serve xorb data through CDNs. The content-addressable design is well-suited for CDN caching:<a href="#section-14.7-1" class="pilcrow">¶</a></p>
+<p id="section-14.7-1">XET deployments typically serve xorb data through CDNs.
+The content-addressable design is well-suited for CDN caching:<a href="#section-14.7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.7-2.1">
             <p id="section-14.7-2.1.1">Hash-based URLs enable cache key stability<a href="#section-14.7-2.1.1" class="pilcrow">¶</a></p>
@@ -4281,8 +4353,10 @@ Vary: Authorization
           <h4 id="name-range-request-caching">
 <a href="#section-14.7.2" class="section-number selfRef">14.7.2. </a><a href="#name-range-request-caching" class="section-name selfRef">Range Request Caching</a>
           </h4>
-<p id="section-14.7.2-1">CDNs <span class="bcp14">SHOULD</span> cache partial responses (<code>206 Partial Content</code>) by byte range. When a subsequent request covers a cached range, the CDN can serve from cache without contacting the origin.<a href="#section-14.7.2-1" class="pilcrow">¶</a></p>
-<p id="section-14.7.2-2">Some CDNs support range coalescing, where multiple partial caches are combined to serve larger requests. This is particularly effective for XET where different users may request different chunk ranges from the same xorb.<a href="#section-14.7.2-2" class="pilcrow">¶</a></p>
+<p id="section-14.7.2-1">CDNs <span class="bcp14">SHOULD</span> cache partial responses (<code>206 Partial Content</code>) by byte range.
+When a subsequent request covers a cached range, the CDN can serve from cache without contacting the origin.<a href="#section-14.7.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.7.2-2">Some CDNs support range coalescing, where multiple partial caches are combined to serve larger requests.
+This is particularly effective for XET where different users may request different chunk ranges from the same xorb.<a href="#section-14.7.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4293,7 +4367,8 @@ Vary: Authorization
 <a href="#section-14.8" class="section-number selfRef">14.8. </a><a href="#name-proxy-and-intermediary-cons" class="section-name selfRef">Proxy and Intermediary Considerations</a>
         </h3>
 <p id="section-14.8-1">Corporate proxies and other intermediaries <span class="bcp14">MAY</span> cache XET traffic.<a href="#section-14.8-1" class="pilcrow">¶</a></p>
-<p id="section-14.8-2">Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses. However, reconstruction API requests include Bearer tokens in the <code>Authorization</code> header and <span class="bcp14">SHOULD NOT</span> be cached by intermediaries (the <code>private</code> directive prevents this).<a href="#section-14.8-2" class="pilcrow">¶</a></p>
+<p id="section-14.8-2">Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses.
+However, reconstruction API requests include Bearer tokens in the <code>Authorization</code> header and <span class="bcp14">SHOULD NOT</span> be cached by intermediaries (the <code>private</code> directive prevents this).<a href="#section-14.8-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4328,7 +4403,8 @@ Vary: Authorization
         <h3 id="name-authentication-and-authoriz">
 <a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-authentication-and-authoriz" class="section-name selfRef">Authentication and Authorization</a>
         </h3>
-<p id="section-15.2-1">Token-based authentication controls access to storage operations. Implementations <span class="bcp14">MUST</span>:<a href="#section-15.2-1" class="pilcrow">¶</a></p>
+<p id="section-15.2-1">Token-based authentication controls access to storage operations.
+Implementations <span class="bcp14">MUST</span>:<a href="#section-15.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.2-2.1">
             <p id="section-15.2-2.1.1">Transmit tokens only over TLS-protected connections<a href="#section-15.2-2.1.1" class="pilcrow">¶</a></p>
@@ -4369,7 +4445,8 @@ Vary: Authorization
         <h3 id="name-denial-of-service-considera">
 <a href="#section-15.4" class="section-number selfRef">15.4. </a><a href="#name-denial-of-service-considera" class="section-name selfRef">Denial of Service Considerations</a>
         </h3>
-<p id="section-15.4-1">Large file uploads could exhaust server resources. Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.4-1" class="pilcrow">¶</a></p>
+<p id="section-15.4-1">Large file uploads could exhaust server resources.
+Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.4-2.1">
             <p id="section-15.4-2.1.1">Rate limiting on API endpoints<a href="#section-15.4-2.1.1" class="pilcrow">¶</a></p>
@@ -4451,7 +4528,8 @@ Vary: Authorization
       <h2 id="name-gearhash-lookup-table">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-gearhash-lookup-table" class="section-name selfRef">Gearhash Lookup Table</a>
       </h2>
-<p id="appendix-A-1">The <code>XET-GEARHASH-BLAKE3</code> content-defined chunking algorithm requires a lookup table of 256 64-bit constants. Implementations of this suite <span class="bcp14">MUST</span> use the exact values below for determinism.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">The <code>XET-GEARHASH-BLAKE3</code> content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
+Implementations of this suite <span class="bcp14">MUST</span> use the exact values below for determinism.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A-2">
 <pre>
 TABLE = [
@@ -4648,7 +4726,8 @@ https://huggingface.co/datasets/xet-team/xet-spec-reference-files<a href="#appen
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-C-1">The XET protocol was invented by Hailey Johnson and Yucheng Low at Hugging Face. This specification is based on the reference implementation and documentation developed by the Hugging Face team.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<p id="appendix-C-1">The XET protocol was invented by Hailey Johnson and Yucheng Low at Hugging Face.
+This specification is based on the reference implementation and documentation developed by the Hugging Face team.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
