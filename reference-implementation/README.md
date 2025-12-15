@@ -10,9 +10,10 @@ This code prioritizes clarity and correctness over performance. It is intended f
 
 ## For Production Use
 
-For production deployments, use the official implementation from Hugging Face:
+For production deployments, use the official implementations from Hugging Face:
 
 - [xet-core](https://github.com/huggingface/xet-core) - The official Rust implementation
+- [huggingface_hub](https://github.com/huggingface/huggingface_hub) - Python library with XET support
 
 ## Running Tests
 
