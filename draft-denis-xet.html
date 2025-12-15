@@ -1147,7 +1147,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-notational-conventions" class="internal xref">Notational Conventions</a></p>
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-notational-conventions" class="internal xref">Notational Conventions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-pseudo-code-conventions" class="internal xref">Pseudo-Code Conventions</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1782,6 +1787,34 @@ When displayed as strings, they use a specific byte-swapped hexadecimal format (
 </li>
         </ul>
 <p id="section-2.1-5">The <code>url_range</code> field uses inclusive semantics so it can be used directly in HTTP <code>Range</code> headers without modification.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+<div id="pseudo-code-conventions">
+<section id="section-2.1.1">
+          <h4 id="name-pseudo-code-conventions">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-pseudo-code-conventions" class="section-name selfRef">Pseudo-Code Conventions</a>
+          </h4>
+<p id="section-2.1.1-1">Pseudo-code in this document uses the following conventions:<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1.1-2.1">
+              <p id="section-2.1.1-2.1.1"><code>for i = a to b:</code> iterates with <code>i</code> taking values <code>a, a+1, ..., b</code> (inclusive)<a href="#section-2.1.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.1.1-2.2">
+              <p id="section-2.1.1-2.2.1"><code>for each x in list:</code> iterates over each element in <code>list</code><a href="#section-2.1.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.1.1-2.3">
+              <p id="section-2.1.1-2.3.1"><code>//</code> denotes integer division (truncating toward zero)<a href="#section-2.1.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.1.1-2.4">
+              <p id="section-2.1.1-2.4.1"><code>%</code> denotes the modulo operator<a href="#section-2.1.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.1.1-2.5">
+              <p id="section-2.1.1-2.5.1"><code>array[start:end]</code> slices from index <code>start</code> (inclusive) to <code>end</code> (exclusive)<a href="#section-2.1.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-2.1.1-2.6">
+              <p id="section-2.1.1-2.6.1"><code>+</code> on arrays denotes concatenation<a href="#section-2.1.1-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
 </section>
 </div>
 </section>

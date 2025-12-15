@@ -63,6 +63,7 @@ Table of Contents
      1.1.  Use Cases
    2.  Terminology
      2.1.  Notational Conventions
+       2.1.1.  Pseudo-Code Conventions
    3.  Protocol Overview
      3.1.  Upload Flow
      3.2.  Download Flow
@@ -359,6 +360,24 @@ Table of Contents
 
    The url_range field uses inclusive semantics so it can be used
    directly in HTTP Range headers without modification.
+
+2.1.1.  Pseudo-Code Conventions
+
+   Pseudo-code in this document uses the following conventions:
+
+   *  for i = a to b: iterates with i taking values a, a+1, ..., b
+      (inclusive)
+
+   *  for each x in list: iterates over each element in list
+
+   *  // denotes integer division (truncating toward zero)
+
+   *  % denotes the modulo operator
+
+   *  array[start:end] slices from index start (inclusive) to end
+      (exclusive)
+
+   *  + on arrays denotes concatenation
 
 3.  Protocol Overview
 
