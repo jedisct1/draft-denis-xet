@@ -114,41 +114,20 @@ XET is particularly well-suited for scenarios involving:
 
 Throughout this document, the following terms apply:
 
-Algorithm Suite:
-: A specification of the cryptographic hash function and content-defined chunking algorithm used by an XET deployment. All participants in an XET system MUST use the same algorithm suite for interoperability.
-
-Chunk:
-: A variable-sized unit of data derived from a file using content-defined chunking. Chunks are the fundamental unit of deduplication in XET.
-
-Chunk Hash:
-: A 32-byte cryptographic hash that uniquely identifies a chunk based on its content.
-
-Xorb:
-: A container object that aggregates multiple compressed chunks for efficient storage and transfer. The name derives from "XET orb."
-
-Xorb Hash:
-: A 32-byte cryptographic hash computed from the chunk hashes within a xorb using a Merkle tree construction.
-
-File Hash:
-: A 32-byte cryptographic hash that uniquely identifies a file based on its chunk composition.
-
-Shard:
-: A binary metadata structure that describes file reconstructions and xorb contents, used for registering uploads and enabling deduplication.
-
-Term:
-: A reference to a contiguous range of chunks within a specific xorb, used to describe how to reconstruct a file.
-
-File Reconstruction:
-: An ordered list of terms that describes how to reassemble a file from chunks stored in xorbs.
-
-Content-Defined Chunking (CDC):
-: An algorithm that determines chunk boundaries based on file content rather than fixed offsets, enabling stable boundaries across file modifications.
-
-Content-Addressable Storage (CAS):
-: A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name.
-
-Global Deduplication:
-: The process of identifying chunks that already exist in the storage system to avoid redundant uploads.
+| Term | Definition |
+| ---- | ---------- |
+| Algorithm Suite | A specification of the cryptographic hash function and content-defined chunking algorithm used by an XET deployment. All participants in an XET system MUST use the same algorithm suite for interoperability. |
+| Chunk | A variable-sized unit of data derived from a file using content-defined chunking. Chunks are the fundamental unit of deduplication in XET. |
+| Chunk Hash | A 32-byte cryptographic hash that uniquely identifies a chunk based on its content. |
+| Xorb | A container object that aggregates multiple compressed chunks for efficient storage and transfer. The name derives from "XET orb." |
+| Xorb Hash | A 32-byte cryptographic hash computed from the chunk hashes within a xorb using a Merkle tree construction. |
+| File Hash | A 32-byte cryptographic hash that uniquely identifies a file based on its chunk composition. |
+| Shard | A binary metadata structure that describes file reconstructions and xorb contents, used for registering uploads and enabling deduplication. |
+| Term | A reference to a contiguous range of chunks within a specific xorb, used to describe how to reconstruct a file. |
+| File Reconstruction | An ordered list of terms that describes how to reassemble a file from chunks stored in xorbs. |
+| Content-Defined Chunking (CDC) | An algorithm that determines chunk boundaries based on file content rather than fixed offsets, enabling stable boundaries across file modifications. |
+| Content-Addressable Storage (CAS) | A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name. |
+| Global Deduplication | The process of identifying chunks that already exist in the storage system to avoid redundant uploads. |
 
 ## Notational Conventions
 
@@ -1703,20 +1682,18 @@ However, access control requirements constrain this choice.
 
 Two URL authorization strategies are applicable to XET deployments:
 
-Edge-Authenticated URLs:
+**Edge-Authenticated URLs.**
+The URL path contains the xorb hash with no signature parameters.
+Authorization is enforced at the CDN edge via signed cookies or tokens validated on every request.
+The cache key is derived from the xorb hash and byte range only, excluding any authorization tokens.
+This allows all authorized users to share the same cache entries.
+This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth MUST NOT be used.
 
-: The URL path contains the xorb hash with no signature parameters.
-  Authorization is enforced at the CDN edge via signed cookies or tokens validated on every request.
-  The cache key is derived from the xorb hash and byte range only, excluding any authorization tokens.
-  This allows all authorized users to share the same cache entries.
-  This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth MUST NOT be used.
-
-Query-Signed URLs:
-
-: The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
-  Cache keys MUST include all signature-bearing query parameters.
-  Each unique signature produces a separate cache entry, resulting in lower hit rates.
-  This approach works with any CDN but sacrifices cache efficiency for simplicity.
+**Query-Signed URLs.**
+The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
+Cache keys MUST include all signature-bearing query parameters.
+Each unique signature produces a separate cache entry, resulting in lower hit rates.
+This approach works with any CDN but sacrifices cache efficiency for simplicity.
 
 For both strategies:
 
@@ -1785,15 +1762,15 @@ Unauthorized requests MUST return `401 Unauthorized` or `403 Forbidden`.
 
 Since the same xorb may be referenced by both public and access-controlled files, CDN caching requires careful design:
 
-Edge-Authenticated Deployments:
-: When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
-  Xorbs referenced only by access-controlled files remain protected even when cached.
-  This is the recommended approach for deployments with gated content.
+**Edge-Authenticated Deployments.**
+When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
+Xorbs referenced only by access-controlled files remain protected even when cached.
+This is the recommended approach for deployments with gated content.
 
-Query-Signed URL Deployments:
-: When using query-signed URLs, each authorized user receives unique signatures.
-  Cache efficiency is reduced, but access control is enforced by signature validity.
-  Deployments MAY choose to exclude xorbs from access-controlled repositories from CDN caching entirely.
+**Query-Signed URL Deployments.**
+When using query-signed URLs, each authorized user receives unique signatures.
+Cache efficiency is reduced, but access control is enforced by signature validity.
+Deployments MAY choose to exclude xorbs from access-controlled repositories from CDN caching entirely.
 
 ### Cross-Repository Deduplication
 
