@@ -928,7 +928,7 @@ HF_APPLICATION_ID = {
 Other deployments MAY define their own application identifiers.
 If the identifier is shorter than 14 bytes, it MUST be null-padded on the right.
 
-Implementations MUST verify that bytes 14-31 match the expected magic sequence before processing.
+Implementations MUST verify that bytes 15-31 match the expected magic sequence before processing.
 Implementations MAY additionally verify the application identifier to ensure compatibility with the expected deployment.
 
 ## File Info Section {#file-info-section}
