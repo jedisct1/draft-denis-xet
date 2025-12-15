@@ -1765,8 +1765,8 @@ Implementations MUST still enforce repository-level access control for all downl
 
 Deployments with access-controlled content SHOULD consider:
 
-- Global deduplication responses reveal that a chunk exists somewhere in the system, though not where
-- The keyed hash rotation and shard expiry limit the window for existence probing
+- Global deduplication queries reveal chunk existence (via 200/404 responses), though not which repositories contain the chunk
+- Keyed hash protection in responses ensures clients can only identify chunks they already possess; key rotation limits temporal correlation
 - For highly sensitive content, deployments MAY exclude chunks from the global deduplication index entirely
 
 ## Denial of Service Considerations
