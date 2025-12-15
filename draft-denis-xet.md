@@ -130,14 +130,12 @@ Hash values are 32 bytes (256 bits).
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see {{hash-string-format}}).
 
-Range specifications use different conventions depending on context:
+Range specifications use two conventions:
 
-| Context                     | End Semantics | Example                                              |
-| --------------------------- | ------------- | ---------------------------------------------------- |
-| HTTP `Range` header         | Inclusive     | `bytes=0-999` means bytes 0 through 999              |
-| `url_range` in `fetch_info` | Inclusive     | `{"start": 0, "end": 999}` means bytes 0 through 999 |
-| Chunk index ranges          | Exclusive     | `{"start": 0, "end": 4}` means chunks 0, 1, 2, 3     |
-| Shard chunk ranges          | Exclusive     | `chunk_index_end` is exclusive                       |
+- Index ranges (chunk indices): exclusive end, `[start, end)`. Example: `{"start": 0, "end": 4}` means indices 0, 1, 2, 3.
+- Byte ranges (`url_range`, HTTP `Range` header): inclusive end, `[start, end]`. Example: `{"start": 0, "end": 999}` means bytes 0 through 999.
+
+The `url_range` field uses inclusive semantics so it can be used directly in HTTP `Range` headers without modification.
 
 # Protocol Overview
 
@@ -1261,7 +1259,7 @@ Fetch Info Fields:
 
 - `range`: Chunk index range this entry covers
 - `url`: Pre-signed URL for downloading xorb data
-- `url_range`: Byte range within the xorb for HTTP `Range` header (end inclusive).
+- `url_range`: Byte range within the xorb (end inclusive), directly usable as HTTP `Range` header values.
   The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.
 
 Error Responses:
