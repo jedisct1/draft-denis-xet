@@ -2217,7 +2217,7 @@ MAX_CHILDREN = 2 * MEAN_BRANCHING_FACTOR + 1  # 9
 A cut point occurs when:<a href="#section-6.2.2.2-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-6.2.2.2-2">
 <li id="section-6.2.2.2-2.1">
-                <p id="section-6.2.2.2-2.1.1">The minimum number of children (2) has been accumulated AND the current hash modulo MEAN_BRANCHING_FACTOR equals zero, OR<a href="#section-6.2.2.2-2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-6.2.2.2-2.1.1">At least 3 children have been accumulated AND the current hash modulo MEAN_BRANCHING_FACTOR equals zero, OR<a href="#section-6.2.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li id="section-6.2.2.2-2.2">
                 <p id="section-6.2.2.2-2.2.1">The maximum number of children (9) has been reached, OR<a href="#section-6.2.2.2-2.2.1" class="pilcrow">¶</a></p>
@@ -2226,7 +2226,9 @@ A cut point occurs when:<a href="#section-6.2.2.2-1" class="pilcrow">¶</a></p>
                 <p id="section-6.2.2.2-2.3.1">The end of the input list is reached<a href="#section-6.2.2.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ol>
-<div class="alignLeft art-text artwork" id="section-6.2.2.2-3">
+<p id="section-6.2.2.2-3">Note: When the input has 2 or fewer hashes, all are merged together.
+This ensures each internal node has at least 2 children.<a href="#section-6.2.2.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.2.2.2-4">
 <pre>
 function next_merge_cut(hashes):
     # hashes is a list of (hash, size) pairs
@@ -2236,8 +2238,9 @@ function next_merge_cut(hashes):
 
     end = min(MAX_CHILDREN, length(hashes))
 
-    # Check indices [MIN_CHILDREN-1, end) using 0-based indexing
-    for i from (MIN_CHILDREN - 1) to end:
+    # Check indices [2, end) using 0-based indexing
+    # Minimum merge is 3 children when input has more than 2 hashes
+    for i from 2 to end:
         h = hashes[i].hash
         # Interpret last 8 bytes of hash as little-endian 64-bit unsigned int
         hash_value = bytes_to_u64_le(h[24:32])
@@ -2245,7 +2248,7 @@ function next_merge_cut(hashes):
             return i + 1  # Cut after element i (include i+1 elements)
 
     return end
-</pre><a href="#section-6.2.2.2-3" class="pilcrow">¶</a>
+</pre><a href="#section-6.2.2.2-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
