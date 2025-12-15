@@ -241,7 +241,7 @@ Table of Contents
       model and dataset storage, XET is a generic protocol applicable to
       any large file storage scenario.
 
-   This specification provides complete details necessary for
+   This specification provides the complete details necessary for
    implementing interoperable XET clients and servers.  It defines the
    XET-GEARHASH-BLAKE3 algorithm suite as the default, using Gearhash
    for content-defined chunking and BLAKE3 for cryptographic hashing.
@@ -323,7 +323,7 @@ Table of Contents
    All multi-byte integers in binary formats (xorb headers, shard
    structures) use little-endian byte order unless otherwise specified.
 
-   Hash values are 32-byte (256-bit) values.  When serialized, they are
+   Hash values are 32 bytes (256 bits).  When serialized, they are
    stored as raw bytes.  When displayed as strings, they use a specific
    byte-swapped hexadecimal format (see Section 6.5).
 
@@ -601,8 +601,8 @@ Table of Contents
 
    Xorb hashes identify xorbs based on their constituent chunks.  The
    hash is computed using a Merkle tree construction where leaf nodes
-   are chunk hashes.  The Merkle tree algorithm is defined independently
-   of the hash function.
+   are chunk hashes.  The Merkle tree construction is defined separately
+   from the hash function.
 
 6.2.1.  Internal Node Hash Function
 
@@ -1050,10 +1050,10 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
 
    *  num_chunks: 32-bit unsigned (repeated for convenience)
 
-   *  Hashes section offset from end: 32-bit unsigned distance from the
-      end of the footer to the start of the hash section
+   *  Hashes section offset from end: 32-bit unsigned byte offset from
+      the end of the footer to the start of the hash section
 
-   *  Boundary section offset from end: 32-bit unsigned distance from
+   *  Boundary section offset from end: 32-bit unsigned byte offset from
       the end of the footer to the start of the boundary section
 
    *  Reserved: 16 bytes, zero
@@ -1478,7 +1478,7 @@ Offset  Size  Field
        Section 11.4).
 
    2.  On a match, the API returns a shard containing CAS info for xorbs
-       that include the chunk.
+       containing the chunk.
 
    3.  Chunk hashes in the response are protected with a keyed hash;
        match by computing keyed hashes of local chunk hashes.
@@ -1945,9 +1945,9 @@ Offset  Size  Field
 14.3.1.  Client-Side Xorb Cache
 
    Caching raw xorb byte ranges avoids repeated downloads but requires
-   decompression on each use.  This trades storage for bandwidth.
-   Implementations SHOULD prefer caching decompressed chunks unless
-   bandwidth is severely constrained.
+   decompression on each use.  This uses local storage to reduce
+   bandwidth consumption.  Implementations SHOULD prefer caching
+   decompressed chunks unless bandwidth is severely constrained.
 
 14.3.2.  Byte Range Considerations
 

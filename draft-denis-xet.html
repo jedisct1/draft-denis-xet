@@ -1651,7 +1651,7 @@ By using content-defined chunking with a rolling hash algorithm, XET creates sta
           <p id="section-1-5.5.1">Provider Agnostic: While originally developed for machine learning model and dataset storage, XET is a generic protocol applicable to any large file storage scenario.<a href="#section-1-5.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-6">This specification provides complete details necessary for implementing interoperable XET clients and servers.
+<p id="section-1-6">This specification provides the complete details necessary for implementing interoperable XET clients and servers.
 It defines the <code>XET-GEARHASH-BLAKE3</code> algorithm suite as the default, using <code>Gearhash</code> for content-defined chunking and <code>BLAKE3</code> for cryptographic hashing.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="use-cases">
 <section id="section-1.1">
@@ -1755,7 +1755,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-notational-conventions" class="section-name selfRef">Notational Conventions</a>
         </h3>
 <p id="section-2.1-1">All multi-byte integers in binary formats (xorb headers, shard structures) use little-endian byte order unless otherwise specified.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">Hash values are 32-byte (256-bit) values.
+<p id="section-2.1-2">Hash values are 32 bytes (256 bits).
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <p id="section-2.1-3">Range specifications use different conventions depending on context:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
@@ -2125,7 +2125,7 @@ function compute_chunk_hash(chunk_data):
         </h3>
 <p id="section-6.2-1">Xorb hashes identify xorbs based on their constituent chunks.
 The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes.
-The Merkle tree algorithm is defined independently of the hash function.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+The Merkle tree construction is defined separately from the hash function.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <div id="internal-node-hash-function">
 <section id="section-6.2.1">
           <h4 id="name-internal-node-hash-function">
@@ -2795,10 +2795,10 @@ Each value is the end offset of the corresponding chunk in the concatenated unco
               <p id="section-7.5.4-1.1.1"><code>num_chunks</code>: 32-bit unsigned (repeated for convenience)<a href="#section-7.5.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.5.4-1.2">
-              <p id="section-7.5.4-1.2.1">Hashes section offset from end: 32-bit unsigned distance from the end of the footer to the start of the hash section<a href="#section-7.5.4-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.5.4-1.2.1">Hashes section offset from end: 32-bit unsigned byte offset from the end of the footer to the start of the hash section<a href="#section-7.5.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.5.4-1.3">
-              <p id="section-7.5.4-1.3.1">Boundary section offset from end: 32-bit unsigned distance from the end of the footer to the start of the boundary section<a href="#section-7.5.4-1.3.1" class="pilcrow">¶</a></p>
+              <p id="section-7.5.4-1.3.1">Boundary section offset from end: 32-bit unsigned byte offset from the end of the footer to the start of the boundary section<a href="#section-7.5.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.5.4-1.4">
               <p id="section-7.5.4-1.4.1">Reserved: 16 bytes, zero<a href="#section-7.5.4-1.4.1" class="pilcrow">¶</a></p>
@@ -3445,7 +3445,7 @@ A chunk is eligible if:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
               <p id="section-10.3.2-1.1.1">For eligible chunks, query the global deduplication API (see <a href="#global-dedup-api" class="auto internal xref">Section 11.4</a>).<a href="#section-10.3.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-10.3.2-1.2">
-              <p id="section-10.3.2-1.2.1">On a match, the API returns a shard containing CAS info for xorbs that include the chunk.<a href="#section-10.3.2-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-10.3.2-1.2.1">On a match, the API returns a shard containing CAS info for xorbs containing the chunk.<a href="#section-10.3.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-10.3.2-1.3">
               <p id="section-10.3.2-1.3.1">Chunk hashes in the response are protected with a keyed hash; match by computing keyed hashes of local chunk hashes.<a href="#section-10.3.2-1.3.1" class="pilcrow">¶</a></p>
@@ -4173,7 +4173,7 @@ Since hashes uniquely identify content, there is no risk of cache collisions or 
 <a href="#section-14.3.1" class="section-number selfRef">14.3.1. </a><a href="#name-client-side-xorb-cache" class="section-name selfRef">Client-Side Xorb Cache</a>
           </h4>
 <p id="section-14.3.1-1">Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use.
-This trades storage for bandwidth.
+This uses local storage to reduce bandwidth consumption.
 Implementations <span class="bcp14">SHOULD</span> prefer caching decompressed chunks unless bandwidth is severely constrained.<a href="#section-14.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
