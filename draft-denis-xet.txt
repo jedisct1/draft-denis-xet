@@ -4,8 +4,8 @@
 
 Network Working Group                                           F. Denis
 Internet-Draft                                   Independent Contributor
-Intended status: Informational                          15 December 2025
-Expires: 18 June 2026
+Intended status: Informational                          17 December 2025
+Expires: 20 June 2026
 
 
  XET: Content-Addressable Storage Protocol for Efficient Data Transfer
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 June 2026.
+   This Internet-Draft will expire on 20 June 2026.
 
 Copyright Notice
 
@@ -263,6 +263,11 @@ Table of Contents
    *  Dataset Management: Large datasets with incremental updates
       benefit from chunk-level deduplication, where only changed
       portions need to be transferred.
+
+   *  Container Images: OCI container images share common base layers
+      across different applications and versions.  Content-defined
+      chunking enables deduplication not only across image layers but
+      also across similar content in unrelated images.
 
    *  Version Control: Similar to Git LFS but with content-aware
       chunking that enables sharing across different files, not just
