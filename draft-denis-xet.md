@@ -98,6 +98,7 @@ XET is particularly well-suited for scenarios involving:
 
 - Machine Learning: Model checkpoints often share common layers and parameters across versions, enabling significant storage savings through deduplication.
 - Dataset Management: Large datasets with incremental updates benefit from chunk-level deduplication, where only changed portions need to be transferred.
+- Container Images: OCI container images share common base layers across different applications and versions. Content-defined chunking enables deduplication not only across image layers but also across similar content in unrelated images.
 - Version Control: Similar to Git LFS but with content-aware chunking that enables sharing across different files, not just versions of the same file.
 - Content Distribution: The reconstruction-based model enables efficient range queries and partial downloads of large files.
 
