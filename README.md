@@ -14,7 +14,8 @@ This is the working area for the individual Internet-Draft, "XET: Content-Addres
 | [This document's reference implementation](https://github.com/jedisct1/draft-denis-xet/tree/main/reference-implementation) | Python   |
 | [Official Huggingface Hub Python client](https://github.com/huggingface/huggingface_hub)                                   | Python   |
 | [xet-core](https://github.com/huggingface/xet-core)                                                                        | Rust     |
-| [zig-xet](https://github.com/jedisct1/draft-denis-xet)                                                                     | Zig      |
+| [huggingface.js](https://github.com/huggingface/huggingface.js)                                                            | JS/Wasm  |
+| [zig-xet](https://github.com/jedisct1/zig-xet)                                                                             | Zig      |
 
 ## Contributing
 
