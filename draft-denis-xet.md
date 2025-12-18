@@ -131,12 +131,8 @@ Hash values are 32 bytes (256 bits).
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see {{hash-string-format}}).
 
-Range specifications use two conventions:
-
-- Index ranges (chunk indices): exclusive end, `[start, end)`. Example: `{"start": 0, "end": 4}` means indices 0, 1, 2, 3.
-- Byte ranges (`url_range`, HTTP `Range` header): inclusive end, `[start, end]`. Example: `{"start": 0, "end": 999}` means bytes 0 through 999.
-
-The `url_range` field uses inclusive semantics so it can be used directly in HTTP `Range` headers without modification.
+Range specifications in this document use exclusive end: `[start, end)`.
+Example: `{"start": 0, "end": 4}` means indices 0, 1, 2, 3.
 
 ### Pseudo-Code Conventions
 
@@ -236,6 +232,7 @@ TARGET_CHUNK_SIZE  = 65536      # 64 KiB (2^16 bytes)
 MIN_CHUNK_SIZE     = 8192       # 8 KiB (TARGET / 8)
 MAX_CHUNK_SIZE     = 131072     # 128 KiB (TARGET * 2)
 MASK               = 0xFFFF000000000000  # 16 one-bits
+GEARHASH_WINDOW    = 64         # Rolling hash window size in bytes
 ~~~
 
 The `Gearhash` algorithm uses a lookup table of 256 64-bit constants.
@@ -302,9 +299,9 @@ Other algorithm suites MUST specify their own determinism requirements.
 
 ## Performance Optimization
 
-Implementations MAY skip hash computation for the first `MIN_CHUNK_SIZE - 64 - 1` bytes of each chunk, as boundary tests are not performed in this region.
+Implementations MAY skip hash computation for the first `MIN_CHUNK_SIZE - GEARHASH_WINDOW` bytes of each chunk, as boundary tests are not performed in this region.
 
-This optimization does not affect output correctness because the `Gearhash` window is 64 bytes, ensuring the hash state is fully populated by the time boundary tests begin.
+This optimization does not affect output correctness because the `Gearhash` window is `GEARHASH_WINDOW` bytes, ensuring the hash state is fully populated by the time boundary tests begin.
 
 # Hashing Methods {#hashing-methods}
 
@@ -1592,8 +1589,8 @@ Large file uploads could exhaust server resources.
 Servers SHOULD implement:
 
 - Rate limiting on API endpoints
-- Maximum shard size limits (64 MiB)
-- Maximum xorb size limits (64 MiB)
+- Maximum shard size limits
+- Maximum xorb size limits (`MAX_XORB_SIZE`, 64 MiB)
 
 # IANA Considerations
 {:numbered="false"}
@@ -1731,7 +1728,7 @@ Result (XET string):
 
 ## Verification Range Hash Test Vector
 
-Input: Two chunk hashes from test vector B.3, concatenated as raw bytes (not XET string format).
+Input: Two chunk hashes from the Internal Node Hash Test Vector above, concatenated as raw bytes (not XET string format).
 
 ~~~
 Chunk hash 1 (raw hex):
