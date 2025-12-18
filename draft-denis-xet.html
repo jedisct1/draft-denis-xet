@@ -2089,8 +2089,8 @@ For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, this requires:<a href="#sect
         <h3 id="name-performance-optimization">
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-performance-optimization" class="section-name selfRef">Performance Optimization</a>
         </h3>
-<p id="section-5.6-1">Implementations <span class="bcp14">MAY</span> skip boundary checks until <code>chunk_size</code> reaches <code>MIN_CHUNK_SIZE</code>, since boundaries are forbidden before that point.
-They <span class="bcp14">MUST</span> still update the rolling hash for every byte; skipping hash updates would change <code>h</code> and therefore alter boundary placement, violating determinism.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.6-1">Implementations <span class="bcp14">MAY</span> skip boundary checks until <code>chunk_size</code> reaches <code>MIN_CHUNK_SIZE</code>, since boundaries are forbidden before that point.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.6-2">They <span class="bcp14">MUST</span> still update the rolling hash for every byte; skipping hash updates would change <code>h</code> and therefore alter boundary placement, violating determinism.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
