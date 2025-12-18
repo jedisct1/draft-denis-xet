@@ -1757,16 +1757,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-2.1-2">Hash values are 32 bytes (256 bits).
 When serialized, they are stored as raw bytes.
 When displayed as strings, they use a specific byte-swapped hexadecimal format (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.1-3">Range specifications use two conventions:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-2.1-4.1">
-            <p id="section-2.1-4.1.1">Index ranges (chunk indices): exclusive end, <code>[start, end)</code>. Example: <code>{"start": 0, "end": 4}</code> means indices 0, 1, 2, 3.<a href="#section-2.1-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-2.1-4.2">
-            <p id="section-2.1-4.2.1">Byte ranges (<code>url_range</code>, HTTP <code>Range</code> header): inclusive end, <code>[start, end]</code>. Example: <code>{"start": 0, "end": 999}</code> means bytes 0 through 999.<a href="#section-2.1-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-2.1-5">The <code>url_range</code> field uses inclusive semantics so it can be used directly in HTTP <code>Range</code> headers without modification.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.1-3">Range specifications in this document use exclusive end: <code>[start, end)</code>.
+Example: <code>{"start": 0, "end": 4}</code> means indices 0, 1, 2, 3.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <div id="pseudo-code-conventions">
 <section id="section-2.1.1">
           <h4 id="name-pseudo-code-conventions">
@@ -1972,6 +1964,7 @@ TARGET_CHUNK_SIZE  = 65536      # 64 KiB (2^16 bytes)
 MIN_CHUNK_SIZE     = 8192       # 8 KiB (TARGET / 8)
 MAX_CHUNK_SIZE     = 131072     # 128 KiB (TARGET * 2)
 MASK               = 0xFFFF000000000000  # 16 one-bits
+GEARHASH_WINDOW    = 64         # Rolling hash window size in bytes
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">The <code>Gearhash</code> algorithm uses a lookup table of 256 64-bit constants.
@@ -2074,8 +2067,8 @@ For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, this requires:<a href="#sect
         <h3 id="name-performance-optimization">
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-performance-optimization" class="section-name selfRef">Performance Optimization</a>
         </h3>
-<p id="section-5.6-1">Implementations <span class="bcp14">MAY</span> skip hash computation for the first <code>MIN_CHUNK_SIZE - 64 - 1</code> bytes of each chunk, as boundary tests are not performed in this region.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.6-2">This optimization does not affect output correctness because the <code>Gearhash</code> window is 64 bytes, ensuring the hash state is fully populated by the time boundary tests begin.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.6-1">Implementations <span class="bcp14">MAY</span> skip hash computation for the first <code>MIN_CHUNK_SIZE - GEARHASH_WINDOW</code> bytes of each chunk, as boundary tests are not performed in this region.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.6-2">This optimization does not affect output correctness because the <code>Gearhash</code> window is <code>GEARHASH_WINDOW</code> bytes, ensuring the hash state is fully populated by the time boundary tests begin.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4303,10 +4296,10 @@ Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-14.5-1" cl
             <p id="section-14.5-2.1.1">Rate limiting on API endpoints<a href="#section-14.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.5-2.2">
-            <p id="section-14.5-2.2.1">Maximum shard size limits (64 MiB)<a href="#section-14.5-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-14.5-2.2.1">Maximum shard size limits<a href="#section-14.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.5-2.3">
-            <p id="section-14.5-2.3.1">Maximum xorb size limits (64 MiB)<a href="#section-14.5-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-14.5-2.3.1">Maximum xorb size limits (<code>MAX_XORB_SIZE</code>, 64 MiB)<a href="#section-14.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4528,7 +4521,7 @@ Result (XET string):
         <h3 id="name-verification-range-hash-tes">
 <a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-verification-range-hash-tes" class="section-name selfRef">Verification Range Hash Test Vector</a>
         </h3>
-<p id="appendix-B.4-1">Input: Two chunk hashes from test vector B.3, concatenated as raw bytes (not XET string format).<a href="#appendix-B.4-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.4-1">Input: Two chunk hashes from the Internal Node Hash Test Vector above, concatenated as raw bytes (not XET string format).<a href="#appendix-B.4-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-B.4-2">
 <pre>
 Chunk hash 1 (raw hex):
