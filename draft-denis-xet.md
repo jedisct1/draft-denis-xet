@@ -90,7 +90,7 @@ The protocol is designed around several key principles:
 - Provider Agnostic: While originally developed for machine learning model and dataset storage, XET is a generic protocol applicable to any large file storage scenario.
 
 This specification provides the complete details necessary for implementing interoperable XET clients and servers.
-It defines the `XET-GEARHASH-BLAKE3` algorithm suite as the default, using `Gearhash` for content-defined chunking and `BLAKE3` for cryptographic hashing.
+It defines the `XET-BLAKE3-GEARHASH-LZ4` algorithm suite as the default, using `BLAKE3` for cryptographic hashing, `Gearhash` for content-defined chunking, and `LZ4` for compression.
 
 ## Use Cases
 
@@ -185,10 +185,11 @@ This enables future algorithm agility while maintaining full backward compatibil
 
 An algorithm suite specifies:
 
-1. Content-Defined Chunking Algorithm: The rolling hash function and boundary detection logic used to split files into chunks.
-2. Cryptographic Hash Function: The hash algorithm used for all content addressing (chunk hashes, xorb hashes, file hashes, verification hashes).
-3. Keying Material: Domain separation keys for the hash function.
-4. Algorithm Parameters: Chunk size bounds, mask values, lookup tables, and other constants.
+1. Cryptographic Hash Function: The hash algorithm used for all content addressing (chunk hashes, xorb hashes, file hashes, verification hashes).
+2. Content-Defined Chunking Algorithm: The rolling hash function and boundary detection logic used to split files into chunks.
+3. Compression Format: The compression algorithm used for chunk data within xorbs.
+4. Keying Material: Domain separation keys for the hash function.
+5. Algorithm Parameters: Chunk size bounds, mask values, lookup tables, and other constants.
 
 ## Suite Requirements
 
@@ -209,7 +210,7 @@ Binary formats (xorbs, shards) do not contain suite identifiers; the suite is de
 
 This specification defines one algorithm suite:
 
-- `XET-GEARHASH-BLAKE3`: Uses `Gearhash` for content-defined chunking and `BLAKE3` for all cryptographic hashing. This is the default and currently only defined suite.
+- `XET-BLAKE3-GEARHASH-LZ4`: Uses `BLAKE3` for all cryptographic hashing, `Gearhash` for content-defined chunking, and `LZ4` for compression. This is the default and currently only defined suite.
 
 Future specifications MAY define additional suites with different algorithms.
 
@@ -218,17 +219,17 @@ Future specifications MAY define additional suites with different algorithms.
 Content-defined chunking (CDC) splits files into variable-sized chunks based on content rather than fixed offsets.
 This produces deterministic chunk boundaries that remain stable across file modifications, enabling efficient deduplication.
 
-This section describes the chunking algorithm for the `XET-GEARHASH-BLAKE3` suite.
+This section describes the chunking algorithm for the `XET-BLAKE3-GEARHASH-LZ4` suite.
 Other algorithm suites MAY define different chunking algorithms with different parameters.
 
 ## Gearhash Algorithm
 
-The `XET-GEARHASH-BLAKE3` suite uses a `Gearhash`-based rolling hash algorithm {{GEARHASH}}.
+The `XET-BLAKE3-GEARHASH-LZ4` suite uses a `Gearhash`-based rolling hash algorithm {{GEARHASH}}.
 `Gearhash` maintains a 64-bit state that is updated with each input byte using a lookup table, providing fast and deterministic boundary detection.
 
 ## Algorithm Parameters
 
-The following constants define the chunking behavior for the `XET-GEARHASH-BLAKE3` suite:
+The following constants define the chunking behavior for the `XET-BLAKE3-GEARHASH-LZ4` suite:
 
 ~~~
 TARGET_CHUNK_SIZE  = 65536      # 64 KiB (2^16 bytes)
@@ -238,7 +239,7 @@ MASK               = 0xFFFF000000000000  # 16 one-bits
 ~~~
 
 The `Gearhash` algorithm uses a lookup table of 256 64-bit constants.
-Implementations of the `XET-GEARHASH-BLAKE3` suite MUST use the table defined in {{GEARHASH}} (see {{gearhash-table}} for the complete lookup table).
+Implementations of the `XET-BLAKE3-GEARHASH-LZ4` suite MUST use the table defined in {{GEARHASH}} (see {{gearhash-table}} for the complete lookup table).
 
 ## Algorithm Description
 
@@ -290,7 +291,7 @@ The following rules govern chunk boundary placement:
 ## Determinism Requirements
 
 Implementations MUST produce identical chunk boundaries for identical input data.
-For the `XET-GEARHASH-BLAKE3` suite, this requires:
+For the `XET-BLAKE3-GEARHASH-LZ4` suite, this requires:
 
 - Using the exact lookup table values from {{gearhash-table}}
 - Using 64-bit wrapping arithmetic for hash updates
@@ -311,7 +312,7 @@ XET uses cryptographic hashing for content addressing, integrity verification, a
 The specific hash function is determined by the algorithm suite.
 All hashes are 32 bytes (256 bits) in length.
 
-This section describes the hashing methods for the `XET-GEARHASH-BLAKE3` suite, which uses `BLAKE3` keyed hashing {{BLAKE3}} for all cryptographic hash computations.
+This section describes the hashing methods for the `XET-BLAKE3-GEARHASH-LZ4` suite, which uses `BLAKE3` keyed hashing {{BLAKE3}} for all cryptographic hash computations.
 Different key values provide domain separation between hash types.
 
 ## Chunk Hashes {#chunk-hashes}
@@ -319,7 +320,7 @@ Different key values provide domain separation between hash types.
 Chunk hashes uniquely identify individual chunks based on their content.
 The algorithm suite determines how chunk hashes are computed.
 
-For the `XET-GEARHASH-BLAKE3` suite, chunk hashes use `BLAKE3` keyed hash with `DATA_KEY` as the key:
+For the `XET-BLAKE3-GEARHASH-LZ4` suite, chunk hashes use `BLAKE3` keyed hash with `DATA_KEY` as the key:
 
 ~~~
 DATA_KEY = {
@@ -346,7 +347,7 @@ The Merkle tree construction is defined separately from the hash function.
 Internal node hashes combine child hashes with their sizes.
 The hash function is determined by the algorithm suite.
 
-For the `XET-GEARHASH-BLAKE3` suite, internal node hashes use `BLAKE3` keyed hash with `INTERNAL_NODE_KEY` as the key:
+For the `XET-BLAKE3-GEARHASH-LZ4` suite, internal node hashes use `BLAKE3` keyed hash with `INTERNAL_NODE_KEY` as the key:
 
 ~~~
 INTERNAL_NODE_KEY = {
@@ -490,7 +491,7 @@ function compute_xorb_hash(chunk_hashes, chunk_sizes):
 File hashes identify files based on their complete chunk composition.
 The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.
 
-For the `XET-GEARHASH-BLAKE3` suite, file hashes use an all-zero key (`ZERO_KEY`) for the final hash:
+For the `XET-BLAKE3-GEARHASH-LZ4` suite, file hashes use an all-zero key (`ZERO_KEY`) for the final hash:
 
 ~~~
 ZERO_KEY = {
@@ -519,7 +520,7 @@ The file hash is therefore `blake3_keyed_hash(ZERO_KEY, ZERO_HASH)`.
 Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata.
 The hash function is determined by the algorithm suite.
 
-For the `XET-GEARHASH-BLAKE3` suite, verification hashes use `BLAKE3` keyed hash with `VERIFICATION_KEY` as the key:
+For the `XET-BLAKE3-GEARHASH-LZ4` suite, verification hashes use `BLAKE3` keyed hash with `VERIFICATION_KEY` as the key:
 
 ~~~
 VERIFICATION_KEY = {
@@ -1603,7 +1604,7 @@ This document does not require any IANA actions.
 
 # Gearhash Lookup Table {#gearhash-table}
 
-The `XET-GEARHASH-BLAKE3` content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
+The `XET-BLAKE3-GEARHASH-LZ4` content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
 Implementations of this suite MUST use the exact values below for determinism.
 
 ~~~
@@ -1679,7 +1680,7 @@ This table is from the `rust-gearhash` crate {{GEARHASH}}.
 
 # Test Vectors {#test-vectors}
 
-The following test vectors are for the `XET-GEARHASH-BLAKE3` algorithm suite.
+The following test vectors are for the `XET-BLAKE3-GEARHASH-LZ4` algorithm suite.
 
 ## Chunk Hash Test Vector
 
