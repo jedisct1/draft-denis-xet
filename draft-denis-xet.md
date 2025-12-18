@@ -1599,6 +1599,188 @@ This document does not require any IANA actions.
 
 --- back
 
+# Recommended HTTP API {#recommended-api}
+
+This appendix defines a recommended HTTP API for CAS servers implementing the XET protocol.
+This is informative guidance; deployments MAY use different URL structures, authentication mechanisms, or transport protocols entirely.
+
+## Authentication
+
+API requests requiring authorization use a Bearer token in the `Authorization` header:
+
+~~~
+Authorization: Bearer <access_token>
+~~~
+
+Tokens have associated scopes:
+
+- `read`: Required for reconstruction queries and global deduplication
+- `write`: Required for xorb and shard uploads (typically includes `read` permissions)
+
+Token acquisition and refresh mechanisms are deployment-specific.
+
+## Common Headers
+
+Request headers:
+
+- `Authorization`: Bearer token (when authentication is required)
+- `Content-Type`: `application/octet-stream` for binary uploads
+- `Range`: Byte range for partial downloads (optional)
+
+Response headers:
+
+- `Content-Type`: `application/json` or `application/octet-stream`
+
+## Get File Reconstruction
+
+Retrieves reconstruction information for downloading a file.
+
+~~~
+GET /api/v1/reconstructions/{file_hash}
+~~~
+
+Path parameters:
+
+- `file_hash`: File hash as hex string (see {{hash-string-format}})
+
+Optional request headers:
+
+- `Range: bytes={start}-{end}`: Request reconstruction for a specific byte range
+
+Response (`200 OK`):
+
+~~~json
+{
+  "offset_into_first_range": 0,
+  "terms": [
+    {
+      "hash": "<xorb_hash_hex>",
+      "unpacked_length": 263873,
+      "range": {
+        "start": 0,
+        "end": 4
+      }
+    }
+  ],
+  "fetch_info": {
+    "<xorb_hash_hex>": [
+      {
+        "range": {
+          "start": 0,
+          "end": 4
+        },
+        "url": "https://...",
+        "url_range": {
+          "start": 0,
+          "end": 131071
+        }
+      }
+    ]
+  }
+}
+~~~
+
+Response fields:
+
+- `offset_into_first_range`: Bytes to skip in first term (for range queries)
+- `terms`: Ordered list of reconstruction terms
+- `fetch_info`: Map from xorb hash to fetch information
+
+Fetch info fields:
+
+- `range`: Chunk index range this entry covers
+- `url`: Pre-signed URL for downloading xorb data
+- `url_range`: Byte range within the xorb (end inclusive), directly usable as HTTP `Range` header values
+
+Error responses:
+
+- `400 Bad Request`: Invalid file hash format
+- `401 Unauthorized`: Missing or invalid token
+- `404 Not Found`: File does not exist
+- `416 Range Not Satisfiable`: Invalid byte range
+
+## Query Chunk Deduplication
+
+Checks if a chunk exists in the global deduplication index.
+
+~~~
+GET /api/v1/chunks/{namespace}/{chunk_hash}
+~~~
+
+Path parameters:
+
+- `namespace`: Deduplication namespace (e.g., `default-merkledb`)
+- `chunk_hash`: Chunk hash as hex string (see {{hash-string-format}})
+
+Response (`200 OK`): Shard format binary (see {{shard-format}})
+
+The returned shard contains CAS info for xorbs that include the queried chunk.
+Chunk hashes in the response are protected with a keyed hash (see {{global-deduplication}}).
+
+Response (`404 Not Found`): Chunk is not tracked by global deduplication.
+
+## Upload Xorb
+
+Uploads a serialized xorb to storage.
+
+~~~
+POST /api/v1/xorbs/{namespace}/{xorb_hash}
+Content-Type: application/octet-stream
+~~~
+
+Path parameters:
+
+- `namespace`: Storage namespace (e.g., `default`)
+- `xorb_hash`: Xorb hash as hex string (see {{hash-string-format}})
+
+Request body: Serialized xorb binary (see {{xorb-format}})
+
+Response (`200 OK`):
+
+~~~json
+{
+  "was_inserted": true
+}
+~~~
+
+The `was_inserted` field is `false` if the xorb already existed; this is not an error.
+
+Error responses:
+
+- `400 Bad Request`: Hash mismatch or invalid xorb format
+- `401 Unauthorized`: Missing or invalid token
+- `403 Forbidden`: Insufficient token scope
+
+## Upload Shard
+
+Uploads a shard to register files in the system.
+
+~~~
+POST /api/v1/shards
+Content-Type: application/octet-stream
+~~~
+
+Request body: Serialized shard without footer (see {{shard-format}})
+
+Response (`200 OK`):
+
+~~~json
+{
+  "result": 0
+}
+~~~
+
+Result values:
+
+- `0`: Shard already exists
+- `1`: Shard was registered
+
+Error responses:
+
+- `400 Bad Request`: Invalid shard format or referenced xorb missing
+- `401 Unauthorized`: Missing or invalid token
+- `403 Forbidden`: Insufficient token scope
+
 # Gearhash Lookup Table {#gearhash-table}
 
 The `XET-BLAKE3-GEARHASH-LZ4` content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
