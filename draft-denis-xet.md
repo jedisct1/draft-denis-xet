@@ -543,7 +543,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
 
 ## Hash String Representation {#hash-string-format}
 
-When representing hashes as strings (e.g., in API paths), a specific byte reordering is applied before hexadecimal encoding.
+When representing hashes as strings, a specific byte reordering is applied before hexadecimal encoding.
 
 ### Conversion Procedure
 
@@ -1161,7 +1161,7 @@ A chunk is eligible if:
 
 ### Query Process
 
-1. For eligible chunks, query the global deduplication API (see {{global-dedup-api}}).
+1. For eligible chunks, query the global deduplication API.
 2. On a match, the API returns a shard containing CAS info for xorbs containing the chunk.
 3. Chunk hashes in the response are protected with a keyed hash; match by computing keyed hashes of local chunk hashes.
 4. Record matched xorb references for use in file reconstruction terms.
@@ -1181,181 +1181,6 @@ Implementations SHOULD:
 
 - Prefer longer contiguous chunk ranges over maximum deduplication
 - Target minimum run lengths (e.g., 8 chunks or 1 MiB) before accepting deduplicated references
-
-# CAS API {#cas-api}
-
-The CAS (Content Addressable Storage) API provides HTTP endpoints for upload and download operations.
-
-## Authentication
-
-All API requests require authentication via Bearer token in the `Authorization` header:
-
-~~~
-Authorization: Bearer <access_token>
-~~~
-
-Tokens have associated scopes:
-
-- `read`: Required for reconstruction and global deduplication queries
-- `write`: Required for xorb and shard uploads (includes `read` permissions)
-
-Token acquisition is provider-specific and outside the scope of this specification.
-
-## Common Headers
-
-Request headers:
-
-- `Authorization`: Bearer token (required)
-- `Content-Type`: `application/octet-stream` for binary uploads
-- `Range`: Byte range for partial requests (optional)
-
-Response headers:
-
-- `Content-Type`: `application/json` or `application/octet-stream`
-
-## Get File Reconstruction {#reconstruction-api}
-
-Retrieves reconstruction information for downloading a file.
-
-~~~
-GET /v1/reconstructions/{file_id}
-~~~
-
-Path Parameters:
-
-- `file_id`: File hash as hex string (see {{hash-string-format}})
-
-Optional Headers:
-
-- `Range: bytes={start}-{end}`: Request specific byte range (end inclusive)
-
-Response (`200 OK`):
-
-~~~json
-{
-  "offset_into_first_range": 0,
-  "terms": [
-    {
-      "hash": "<xorb_hash_hex>",
-      "unpacked_length": 263873,
-      "range": {
-        "start": 0,
-        "end": 4
-      }
-    }
-  ],
-  "fetch_info": {
-    "<xorb_hash_hex>": [
-      {
-        "range": {
-          "start": 0,
-          "end": 4
-        },
-        "url": "https://...",
-        "url_range": {
-          "start": 0,
-          "end": 131071
-        }
-      }
-    ]
-  }
-}
-~~~
-
-Response Fields:
-
-- `offset_into_first_range`: Bytes to skip in first term (for range queries)
-- `terms`: Ordered list of reconstruction terms
-- `fetch_info`: Map from xorb hash to fetch information
-
-Fetch Info Fields:
-
-- `range`: Chunk index range this entry covers
-- `url`: Pre-signed URL for downloading xorb data
-- `url_range`: Byte range within the xorb (end inclusive), directly usable as HTTP `Range` header values.
-  The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.
-
-Error Responses:
-
-- `400 Bad Request`: Invalid `file_id` format
-- `401 Unauthorized`: Invalid or expired token
-- `404 Not Found`: File does not exist
-- `416 Range Not Satisfiable`: Invalid byte range
-
-## Query Chunk Deduplication {#global-dedup-api}
-
-Checks if a chunk exists in the system for deduplication.
-
-~~~
-GET /v1/chunks/default-merkledb/{chunk_hash}
-~~~
-
-Path Parameters:
-
-- `chunk_hash`: Chunk hash as hex string (see {{hash-string-format}})
-
-Response (`200 OK`): Shard format binary (see {{shard-format}})
-
-Response (`404 Not Found`): Chunk not tracked by global deduplication
-
-## Upload Xorb
-
-Uploads a serialized xorb to storage.
-
-~~~
-POST /v1/xorbs/default/{xorb_hash}
-~~~
-
-Path Parameters:
-
-- `xorb_hash`: Xorb hash as hex string (see {{hash-string-format}})
-
-Request Body: Serialized xorb (binary, see {{xorb-format}})
-
-Response (`200 OK`):
-
-~~~json
-{
-  "was_inserted": true
-}
-~~~
-
-The `was_inserted` field is `false` if the xorb already existed; this is not an error.
-
-Error Responses:
-
-- `400 Bad Request`: Hash mismatch or invalid xorb format
-- `401 Unauthorized`: Invalid or expired token
-- `403 Forbidden`: Insufficient token scope
-
-## Upload Shard
-
-Uploads a shard to register files in the system.
-
-~~~
-POST /v1/shards
-~~~
-
-Request Body: Serialized shard without footer (binary, see {{shard-format}})
-
-Response (`200 OK`):
-
-~~~json
-{
-  "result": 0
-}
-~~~
-
-Result values:
-
-- `0`: Shard already exists
-- `1`: Shard was registered
-
-Error Responses:
-
-- `400 Bad Request`: Invalid shard format or referenced xorb missing
-- `401 Unauthorized`: Invalid or expired token
-- `403 Forbidden`: Insufficient token scope
 
 # Upload Protocol {#upload-protocol}
 
@@ -1397,7 +1222,7 @@ Group new (non-deduplicated) chunks into xorbs:
 For each new xorb:
 
 1. Serialize using the format in {{xorb-format}}
-2. Upload via `POST` to `/v1/xorbs/default/{xorb_hash}`
+2. Upload to the CAS server
 3. Verify successful response
 
 All xorbs MUST be uploaded before proceeding to shard upload.
@@ -1415,7 +1240,7 @@ Build the shard structure:
 ## Step 6: Shard Upload
 
 1. Serialize the shard without footer
-2. Upload via `POST` to `/v1/shards`
+2. Upload to the CAS server
 3. Verify successful response
 
 ## Ordering and Concurrency
@@ -1438,37 +1263,26 @@ This section describes the complete procedure for downloading files.
 
 ## Step 1: Query Reconstruction
 
-Request reconstruction information:
-
-~~~
-GET /v1/reconstructions/{file_id}
-Authorization: Bearer <token>
-~~~
-
-For range queries, include the `Range` header:
-
-~~~
-Range: bytes=0-1048575
-~~~
+Request file reconstruction information from the CAS server by providing the file hash.
+For partial downloads (range queries), specify the desired byte range.
 
 ## Step 2: Parse Response
 
-Extract from the response:
+The reconstruction response provides:
 
-- `offset_into_first_range`: Bytes to skip in first term
-- `terms`: Ordered list of terms to process
-- `fetch_info`: URLs and ranges for downloading data
+- Bytes to skip in the first term (for range queries)
+- An ordered list of terms to process
+- URLs and byte ranges for downloading xorb data
 
 ## Step 3: Download Xorb Data
 
 For each term:
 
-1. Look up `fetch_info` by xorb hash
-2. Find `fetch_info` entry covering the term's chunk range
-3. Make HTTP `GET` request to the URL with `Range` header
-4. Download the xorb byte range
+1. Identify the xorb and byte range needed for the term's chunk range
+2. Download the xorb data from the provided URL
+3. Use HTTP range requests when only a portion of the xorb is needed
 
-Multiple terms may share `fetch_info` entries; implementations SHOULD avoid redundant downloads.
+Multiple terms may reference the same xorb; implementations SHOULD avoid redundant downloads.
 
 ## Step 4: Extract Chunks
 
