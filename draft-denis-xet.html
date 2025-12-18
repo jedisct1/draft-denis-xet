@@ -1651,7 +1651,7 @@ By using content-defined chunking with a rolling hash algorithm, XET creates sta
 </li>
       </ul>
 <p id="section-1-6">This specification provides the complete details necessary for implementing interoperable XET clients and servers.
-It defines the <code>XET-GEARHASH-BLAKE3</code> algorithm suite as the default, using <code>Gearhash</code> for content-defined chunking and <code>BLAKE3</code> for cryptographic hashing.<a href="#section-1-6" class="pilcrow">¶</a></p>
+It defines the <code>XET-BLAKE3-GEARHASH-LZ4</code> algorithm suite as the default, using <code>BLAKE3</code> for cryptographic hashing, <code>Gearhash</code> for content-defined chunking, and <code>LZ4</code> for compression.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="use-cases">
 <section id="section-1.1">
         <h3 id="name-use-cases">
@@ -1877,16 +1877,19 @@ This enables future algorithm agility while maintaining full backward compatibil
 <p id="section-4.1-1">An algorithm suite specifies:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-4.1-2">
 <li id="section-4.1-2.1">
-            <p id="section-4.1-2.1.1">Content-Defined Chunking Algorithm: The rolling hash function and boundary detection logic used to split files into chunks.<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.1.1">Cryptographic Hash Function: The hash algorithm used for all content addressing (chunk hashes, xorb hashes, file hashes, verification hashes).<a href="#section-4.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.1-2.2">
-            <p id="section-4.1-2.2.1">Cryptographic Hash Function: The hash algorithm used for all content addressing (chunk hashes, xorb hashes, file hashes, verification hashes).<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.2.1">Content-Defined Chunking Algorithm: The rolling hash function and boundary detection logic used to split files into chunks.<a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.1-2.3">
-            <p id="section-4.1-2.3.1">Keying Material: Domain separation keys for the hash function.<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.3.1">Compression Format: The compression algorithm used for chunk data within xorbs.<a href="#section-4.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.1-2.4">
-            <p id="section-4.1-2.4.1">Algorithm Parameters: Chunk size bounds, mask values, lookup tables, and other constants.<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.1-2.4.1">Keying Material: Domain separation keys for the hash function.<a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.1-2.5">
+            <p id="section-4.1-2.5.1">Algorithm Parameters: Chunk size bounds, mask values, lookup tables, and other constants.<a href="#section-4.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -1931,7 +1934,7 @@ Binary formats (xorbs, shards) do not contain suite identifiers; the suite is de
 <p id="section-4.4-1">This specification defines one algorithm suite:<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.4-2.1">
-            <p id="section-4.4-2.1.1"><code>XET-GEARHASH-BLAKE3</code>: Uses <code>Gearhash</code> for content-defined chunking and <code>BLAKE3</code> for all cryptographic hashing. This is the default and currently only defined suite.<a href="#section-4.4-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-4.4-2.1.1"><code>XET-BLAKE3-GEARHASH-LZ4</code>: Uses <code>BLAKE3</code> for all cryptographic hashing, <code>Gearhash</code> for content-defined chunking, and <code>LZ4</code> for compression. This is the default and currently only defined suite.<a href="#section-4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-4.4-3">Future specifications <span class="bcp14">MAY</span> define additional suites with different algorithms.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
@@ -1946,14 +1949,14 @@ Binary formats (xorbs, shards) do not contain suite identifiers; the suite is de
       </h2>
 <p id="section-5-1">Content-defined chunking (CDC) splits files into variable-sized chunks based on content rather than fixed offsets.
 This produces deterministic chunk boundaries that remain stable across file modifications, enabling efficient deduplication.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">This section describes the chunking algorithm for the <code>XET-GEARHASH-BLAKE3</code> suite.
+<p id="section-5-2">This section describes the chunking algorithm for the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite.
 Other algorithm suites <span class="bcp14">MAY</span> define different chunking algorithms with different parameters.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <div id="gearhash-algorithm">
 <section id="section-5.1">
         <h3 id="name-gearhash-algorithm">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-gearhash-algorithm" class="section-name selfRef">Gearhash Algorithm</a>
         </h3>
-<p id="section-5.1-1">The <code>XET-GEARHASH-BLAKE3</code> suite uses a <code>Gearhash</code>-based rolling hash algorithm <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span>.
+<p id="section-5.1-1">The <code>XET-BLAKE3-GEARHASH-LZ4</code> suite uses a <code>Gearhash</code>-based rolling hash algorithm <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span>.
 <code>Gearhash</code> maintains a 64-bit state that is updated with each input byte using a lookup table, providing fast and deterministic boundary detection.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1962,7 +1965,7 @@ Other algorithm suites <span class="bcp14">MAY</span> define different chunking 
         <h3 id="name-algorithm-parameters">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-algorithm-parameters" class="section-name selfRef">Algorithm Parameters</a>
         </h3>
-<p id="section-5.2-1">The following constants define the chunking behavior for the <code>XET-GEARHASH-BLAKE3</code> suite:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">The following constants define the chunking behavior for the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2-2">
 <pre>
 TARGET_CHUNK_SIZE  = 65536      # 64 KiB (2^16 bytes)
@@ -1972,7 +1975,7 @@ MASK               = 0xFFFF000000000000  # 16 one-bits
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">The <code>Gearhash</code> algorithm uses a lookup table of 256 64-bit constants.
-Implementations of the <code>XET-GEARHASH-BLAKE3</code> suite <span class="bcp14">MUST</span> use the table defined in <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span> (see <a href="#gearhash-table" class="auto internal xref">Appendix A</a> for the complete lookup table).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+Implementations of the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite <span class="bcp14">MUST</span> use the table defined in <span>[<a href="#GEARHASH" class="cite xref">GEARHASH</a>]</span> (see <a href="#gearhash-table" class="auto internal xref">Appendix A</a> for the complete lookup table).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="algorithm-description">
@@ -2048,7 +2051,7 @@ function chunk_file(data):
 <a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-determinism-requirements" class="section-name selfRef">Determinism Requirements</a>
         </h3>
 <p id="section-5.5-1">Implementations <span class="bcp14">MUST</span> produce identical chunk boundaries for identical input data.
-For the <code>XET-GEARHASH-BLAKE3</code> suite, this requires:<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, this requires:<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.5-2.1">
             <p id="section-5.5-2.1.1">Using the exact lookup table values from <a href="#gearhash-table" class="auto internal xref">Appendix A</a><a href="#section-5.5-2.1.1" class="pilcrow">¶</a></p>
@@ -2085,7 +2088,7 @@ For the <code>XET-GEARHASH-BLAKE3</code> suite, this requires:<a href="#section-
 <p id="section-6-1">XET uses cryptographic hashing for content addressing, integrity verification, and deduplication.
 The specific hash function is determined by the algorithm suite.
 All hashes are 32 bytes (256 bits) in length.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">This section describes the hashing methods for the <code>XET-GEARHASH-BLAKE3</code> suite, which uses <code>BLAKE3</code> keyed hashing <span>[<a href="#BLAKE3" class="cite xref">BLAKE3</a>]</span> for all cryptographic hash computations.
+<p id="section-6-2">This section describes the hashing methods for the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, which uses <code>BLAKE3</code> keyed hashing <span>[<a href="#BLAKE3" class="cite xref">BLAKE3</a>]</span> for all cryptographic hash computations.
 Different key values provide domain separation between hash types.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <div id="chunk-hashes">
 <section id="section-6.1">
@@ -2094,7 +2097,7 @@ Different key values provide domain separation between hash types.<a href="#sect
         </h3>
 <p id="section-6.1-1">Chunk hashes uniquely identify individual chunks based on their content.
 The algorithm suite determines how chunk hashes are computed.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, chunk hashes use <code>BLAKE3</code> keyed hash with <code>DATA_KEY</code> as the key:<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, chunk hashes use <code>BLAKE3</code> keyed hash with <code>DATA_KEY</code> as the key:<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-3">
 <pre>
 DATA_KEY = {
@@ -2128,7 +2131,7 @@ The Merkle tree construction is defined separately from the hash function.<a hre
           </h4>
 <p id="section-6.2.1-1">Internal node hashes combine child hashes with their sizes.
 The hash function is determined by the algorithm suite.<a href="#section-6.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.2.1-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, internal node hashes use <code>BLAKE3</code> keyed hash with <code>INTERNAL_NODE_KEY</code> as the key:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.2.1-2">For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, internal node hashes use <code>BLAKE3</code> keyed hash with <code>INTERNAL_NODE_KEY</code> as the key:<a href="#section-6.2.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2.1-3">
 <pre>
 INTERNAL_NODE_KEY = {
@@ -2329,7 +2332,7 @@ function compute_xorb_hash(chunk_hashes, chunk_sizes):
         </h3>
 <p id="section-6.3-1">File hashes identify files based on their complete chunk composition.
 The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, file hashes use an all-zero key (<code>ZERO_KEY</code>) for the final hash:<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, file hashes use an all-zero key (<code>ZERO_KEY</code>) for the final hash:<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.3-3">
 <pre>
 ZERO_KEY = {
@@ -2362,7 +2365,7 @@ The file hash is therefore <code>blake3_keyed_hash(ZERO_KEY, ZERO_HASH)</code>.<
         </h3>
 <p id="section-6.4-1">Term verification hashes are used in shards to prove that the uploader possesses the actual file data, not just metadata.
 The hash function is determined by the algorithm suite.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
-<p id="section-6.4-2">For the <code>XET-GEARHASH-BLAKE3</code> suite, verification hashes use <code>BLAKE3</code> keyed hash with <code>VERIFICATION_KEY</code> as the key:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">For the <code>XET-BLAKE3-GEARHASH-LZ4</code> suite, verification hashes use <code>BLAKE3</code> keyed hash with <code>VERIFICATION_KEY</code> as the key:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.4-3">
 <pre>
 VERIFICATION_KEY = {
@@ -4376,7 +4379,7 @@ Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-14.5-1" cl
       <h2 id="name-gearhash-lookup-table">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-gearhash-lookup-table" class="section-name selfRef">Gearhash Lookup Table</a>
       </h2>
-<p id="appendix-A-1">The <code>XET-GEARHASH-BLAKE3</code> content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
+<p id="appendix-A-1">The <code>XET-BLAKE3-GEARHASH-LZ4</code> content-defined chunking algorithm requires a lookup table of 256 64-bit constants.
 Implementations of this suite <span class="bcp14">MUST</span> use the exact values below for determinism.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A-2">
 <pre>
@@ -4456,7 +4459,7 @@ TABLE = [
       <h2 id="name-test-vectors">
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
       </h2>
-<p id="appendix-B-1">The following test vectors are for the <code>XET-GEARHASH-BLAKE3</code> algorithm suite.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">The following test vectors are for the <code>XET-BLAKE3-GEARHASH-LZ4</code> algorithm suite.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="chunk-hash-test-vector">
 <section id="appendix-B.1">
         <h3 id="name-chunk-hash-test-vector">
