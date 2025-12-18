@@ -20,10 +20,10 @@
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.1
-    platformdirs 4.5.0
+    lxml 6.0.2
+    platformdirs 4.5.1
     pycountry 24.6.1
-    PyYAML 6.0.2
+    PyYAML 6.0.3
     requests 2.32.5
     wcwidth 0.2.14
 -->
@@ -1048,7 +1048,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Denis</td>
-<td class="center">Expires 20 June 2026</td>
+<td class="center">Expires 21 June 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1061,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-denis-xet-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-17" class="published">17 December 2025</time>
+<time datetime="2025-12-18" class="published">18 December 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-06-20">20 June 2026</time></dd>
+<dd class="expires"><time datetime="2026-06-21">21 June 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1109,7 +1109,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1418,228 +1418,205 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-cas-api" class="internal xref">CAS API</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-upload-protocol" class="internal xref">Upload Protocol</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
-                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-authentication" class="internal xref">Authentication</a></p>
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-step-1-chunking" class="internal xref">Step 1: Chunking</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
-                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-common-headers" class="internal xref">Common Headers</a></p>
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-step-2-deduplication" class="internal xref">Step 2: Deduplication</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
-                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-get-file-reconstruction" class="internal xref">Get File Reconstruction</a></p>
+                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-step-3-xorb-formation" class="internal xref">Step 3: Xorb Formation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4">
-                <p id="section-toc.1-1.11.2.4.1"><a href="#section-11.4" class="auto internal xref">11.4</a>.  <a href="#name-query-chunk-deduplication" class="internal xref">Query Chunk Deduplication</a></p>
+                <p id="section-toc.1-1.11.2.4.1"><a href="#section-11.4" class="auto internal xref">11.4</a>.  <a href="#name-step-4-xorb-serialization-a" class="internal xref">Step 4: Xorb Serialization and Upload</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.5">
-                <p id="section-toc.1-1.11.2.5.1"><a href="#section-11.5" class="auto internal xref">11.5</a>.  <a href="#name-upload-xorb" class="internal xref">Upload Xorb</a></p>
+                <p id="section-toc.1-1.11.2.5.1"><a href="#section-11.5" class="auto internal xref">11.5</a>.  <a href="#name-step-5-shard-formation" class="internal xref">Step 5: Shard Formation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.6">
-                <p id="section-toc.1-1.11.2.6.1"><a href="#section-11.6" class="auto internal xref">11.6</a>.  <a href="#name-upload-shard" class="internal xref">Upload Shard</a></p>
+                <p id="section-toc.1-1.11.2.6.1"><a href="#section-11.6" class="auto internal xref">11.6</a>.  <a href="#name-step-6-shard-upload" class="internal xref">Step 6: Shard Upload</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.7">
+                <p id="section-toc.1-1.11.2.7.1"><a href="#section-11.7" class="auto internal xref">11.7</a>.  <a href="#name-ordering-and-concurrency" class="internal xref">Ordering and Concurrency</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-upload-protocol" class="internal xref">Upload Protocol</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-download-protocol" class="internal xref">Download Protocol</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
-                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-step-1-chunking" class="internal xref">Step 1: Chunking</a></p>
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-step-1-query-reconstruction" class="internal xref">Step 1: Query Reconstruction</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
-                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-step-2-deduplication" class="internal xref">Step 2: Deduplication</a></p>
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-step-2-parse-response" class="internal xref">Step 2: Parse Response</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
-                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-step-3-xorb-formation" class="internal xref">Step 3: Xorb Formation</a></p>
+                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-step-3-download-xorb-data" class="internal xref">Step 3: Download Xorb Data</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.4">
-                <p id="section-toc.1-1.12.2.4.1"><a href="#section-12.4" class="auto internal xref">12.4</a>.  <a href="#name-step-4-xorb-serialization-a" class="internal xref">Step 4: Xorb Serialization and Upload</a></p>
+                <p id="section-toc.1-1.12.2.4.1"><a href="#section-12.4" class="auto internal xref">12.4</a>.  <a href="#name-step-4-extract-chunks" class="internal xref">Step 4: Extract Chunks</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.5">
-                <p id="section-toc.1-1.12.2.5.1"><a href="#section-12.5" class="auto internal xref">12.5</a>.  <a href="#name-step-5-shard-formation" class="internal xref">Step 5: Shard Formation</a></p>
+                <p id="section-toc.1-1.12.2.5.1"><a href="#section-12.5" class="auto internal xref">12.5</a>.  <a href="#name-step-5-assemble-file" class="internal xref">Step 5: Assemble File</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.6">
-                <p id="section-toc.1-1.12.2.6.1"><a href="#section-12.6" class="auto internal xref">12.6</a>.  <a href="#name-step-6-shard-upload" class="internal xref">Step 6: Shard Upload</a></p>
+                <p id="section-toc.1-1.12.2.6.1"><a href="#section-12.6" class="auto internal xref">12.6</a>.  <a href="#name-caching-recommendations" class="internal xref">Caching Recommendations</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.7">
-                <p id="section-toc.1-1.12.2.7.1"><a href="#section-12.7" class="auto internal xref">12.7</a>.  <a href="#name-ordering-and-concurrency" class="internal xref">Ordering and Concurrency</a></p>
+                <p id="section-toc.1-1.12.2.7.1"><a href="#section-12.7" class="auto internal xref">12.7</a>.  <a href="#name-error-handling" class="internal xref">Error Handling</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-download-protocol" class="internal xref">Download Protocol</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-caching-considerations" class="internal xref">Caching Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
-                <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-step-1-query-reconstruction" class="internal xref">Step 1: Query Reconstruction</a></p>
+                <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-content-immutability" class="internal xref">Content Immutability</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2">
-                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-step-2-parse-response" class="internal xref">Step 2: Parse Response</a></p>
+                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-client-side-chunk-caching" class="internal xref">Client-Side Chunk Caching</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2.2.1">
+                    <p id="section-toc.1-1.13.2.2.2.1.1"><a href="#section-13.2.1" class="auto internal xref">13.2.1</a>.  <a href="#name-cache-key-design" class="internal xref">Cache Key Design</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2.2.2">
+                    <p id="section-toc.1-1.13.2.2.2.2.1"><a href="#section-13.2.2" class="auto internal xref">13.2.2</a>.  <a href="#name-cache-granularity" class="internal xref">Cache Granularity</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2.2.3">
+                    <p id="section-toc.1-1.13.2.2.2.3.1"><a href="#section-13.2.3" class="auto internal xref">13.2.3</a>.  <a href="#name-eviction-strategies" class="internal xref">Eviction Strategies</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3">
-                <p id="section-toc.1-1.13.2.3.1"><a href="#section-13.3" class="auto internal xref">13.3</a>.  <a href="#name-step-3-download-xorb-data" class="internal xref">Step 3: Download Xorb Data</a></p>
+                <p id="section-toc.1-1.13.2.3.1"><a href="#section-13.3" class="auto internal xref">13.3</a>.  <a href="#name-xorb-data-caching" class="internal xref">Xorb Data Caching</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3.2.1">
+                    <p id="section-toc.1-1.13.2.3.2.1.1"><a href="#section-13.3.1" class="auto internal xref">13.3.1</a>.  <a href="#name-client-side-xorb-cache" class="internal xref">Client-Side Xorb Cache</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3.2.2">
+                    <p id="section-toc.1-1.13.2.3.2.2.1"><a href="#section-13.3.2" class="auto internal xref">13.3.2</a>.  <a href="#name-byte-range-considerations" class="internal xref">Byte Range Considerations</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4">
-                <p id="section-toc.1-1.13.2.4.1"><a href="#section-13.4" class="auto internal xref">13.4</a>.  <a href="#name-step-4-extract-chunks" class="internal xref">Step 4: Extract Chunks</a></p>
+                <p id="section-toc.1-1.13.2.4.1"><a href="#section-13.4" class="auto internal xref">13.4</a>.  <a href="#name-shard-metadata-caching" class="internal xref">Shard Metadata Caching</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4.2.1">
+                    <p id="section-toc.1-1.13.2.4.2.1.1"><a href="#section-13.4.1" class="auto internal xref">13.4.1</a>.  <a href="#name-cache-lifetime" class="internal xref">Cache Lifetime</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4.2.2">
+                    <p id="section-toc.1-1.13.2.4.2.2.1"><a href="#section-13.4.2" class="auto internal xref">13.4.2</a>.  <a href="#name-cache-size" class="internal xref">Cache Size</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.5">
-                <p id="section-toc.1-1.13.2.5.1"><a href="#section-13.5" class="auto internal xref">13.5</a>.  <a href="#name-step-5-assemble-file" class="internal xref">Step 5: Assemble File</a></p>
+                <p id="section-toc.1-1.13.2.5.1"><a href="#section-13.5" class="auto internal xref">13.5</a>.  <a href="#name-pre-signed-url-handling" class="internal xref">Pre-Signed URL Handling</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.6">
-                <p id="section-toc.1-1.13.2.6.1"><a href="#section-13.6" class="auto internal xref">13.6</a>.  <a href="#name-caching-recommendations" class="internal xref">Caching Recommendations</a></p>
+                <p id="section-toc.1-1.13.2.6.1"><a href="#section-13.6" class="auto internal xref">13.6</a>.  <a href="#name-http-caching-headers" class="internal xref">HTTP Caching Headers</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.6.2.1">
+                    <p id="section-toc.1-1.13.2.6.2.1.1"><a href="#section-13.6.1" class="auto internal xref">13.6.1</a>.  <a href="#name-server-recommendations" class="internal xref">Server Recommendations</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.6.2.2">
+                    <p id="section-toc.1-1.13.2.6.2.2.1"><a href="#section-13.6.2" class="auto internal xref">13.6.2</a>.  <a href="#name-client-recommendations" class="internal xref">Client Recommendations</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.7">
-                <p id="section-toc.1-1.13.2.7.1"><a href="#section-13.7" class="auto internal xref">13.7</a>.  <a href="#name-error-handling" class="internal xref">Error Handling</a></p>
+                <p id="section-toc.1-1.13.2.7.1"><a href="#section-13.7" class="auto internal xref">13.7</a>.  <a href="#name-cdn-integration" class="internal xref">CDN Integration</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.7.2.1">
+                    <p id="section-toc.1-1.13.2.7.2.1.1"><a href="#section-13.7.1" class="auto internal xref">13.7.1</a>.  <a href="#name-cdn-cache-keys" class="internal xref">CDN Cache Keys</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.7.2.2">
+                    <p id="section-toc.1-1.13.2.7.2.2.1"><a href="#section-13.7.2" class="auto internal xref">13.7.2</a>.  <a href="#name-range-request-caching" class="internal xref">Range Request Caching</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.8">
+                <p id="section-toc.1-1.13.2.8.1"><a href="#section-13.8" class="auto internal xref">13.8</a>.  <a href="#name-proxy-and-intermediary-cons" class="internal xref">Proxy and Intermediary Considerations</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#section-14" class="auto internal xref">14</a>. <a href="#name-caching-considerations" class="internal xref">Caching Considerations</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#section-14" class="auto internal xref">14</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
-                <p id="section-toc.1-1.14.2.1.1"><a href="#section-14.1" class="auto internal xref">14.1</a>.  <a href="#name-content-immutability" class="internal xref">Content Immutability</a></p>
+                <p id="section-toc.1-1.14.2.1.1"><a href="#section-14.1" class="auto internal xref">14.1</a>.  <a href="#name-content-integrity" class="internal xref">Content Integrity</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
-                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-client-side-chunk-caching" class="internal xref">Client-Side Chunk Caching</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.1">
-                    <p id="section-toc.1-1.14.2.2.2.1.1"><a href="#section-14.2.1" class="auto internal xref">14.2.1</a>.  <a href="#name-cache-key-design" class="internal xref">Cache Key Design</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.2">
-                    <p id="section-toc.1-1.14.2.2.2.2.1"><a href="#section-14.2.2" class="auto internal xref">14.2.2</a>.  <a href="#name-cache-granularity" class="internal xref">Cache Granularity</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2.2.3">
-                    <p id="section-toc.1-1.14.2.2.2.3.1"><a href="#section-14.2.3" class="auto internal xref">14.2.3</a>.  <a href="#name-eviction-strategies" class="internal xref">Eviction Strategies</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.14.2.2.1"><a href="#section-14.2" class="auto internal xref">14.2</a>.  <a href="#name-authentication-and-authoriz" class="internal xref">Authentication and Authorization</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3">
-                <p id="section-toc.1-1.14.2.3.1"><a href="#section-14.3" class="auto internal xref">14.3</a>.  <a href="#name-xorb-data-caching" class="internal xref">Xorb Data Caching</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3.2.1">
-                    <p id="section-toc.1-1.14.2.3.2.1.1"><a href="#section-14.3.1" class="auto internal xref">14.3.1</a>.  <a href="#name-client-side-xorb-cache" class="internal xref">Client-Side Xorb Cache</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3.2.2">
-                    <p id="section-toc.1-1.14.2.3.2.2.1"><a href="#section-14.3.2" class="auto internal xref">14.3.2</a>.  <a href="#name-byte-range-considerations" class="internal xref">Byte Range Considerations</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.14.2.3.1"><a href="#section-14.3" class="auto internal xref">14.3</a>.  <a href="#name-global-deduplication-privac" class="internal xref">Global Deduplication Privacy</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4">
-                <p id="section-toc.1-1.14.2.4.1"><a href="#section-14.4" class="auto internal xref">14.4</a>.  <a href="#name-shard-metadata-caching" class="internal xref">Shard Metadata Caching</a></p>
+                <p id="section-toc.1-1.14.2.4.1"><a href="#section-14.4" class="auto internal xref">14.4</a>.  <a href="#name-access-controlled-content" class="internal xref">Access-Controlled Content</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4.2.1">
-                    <p id="section-toc.1-1.14.2.4.2.1.1"><a href="#section-14.4.1" class="auto internal xref">14.4.1</a>.  <a href="#name-cache-lifetime" class="internal xref">Cache Lifetime</a></p>
+                    <p id="section-toc.1-1.14.2.4.2.1.1"><a href="#section-14.4.1" class="auto internal xref">14.4.1</a>.  <a href="#name-repository-level-access-con" class="internal xref">Repository-Level Access Control</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4.2.2">
-                    <p id="section-toc.1-1.14.2.4.2.2.1"><a href="#section-14.4.2" class="auto internal xref">14.4.2</a>.  <a href="#name-cache-size" class="internal xref">Cache Size</a></p>
+                    <p id="section-toc.1-1.14.2.4.2.2.1"><a href="#section-14.4.2" class="auto internal xref">14.4.2</a>.  <a href="#name-cdn-considerations-for-gate" class="internal xref">CDN Considerations for Gated Content</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4.2.3">
+                    <p id="section-toc.1-1.14.2.4.2.3.1"><a href="#section-14.4.3" class="auto internal xref">14.4.3</a>.  <a href="#name-cross-repository-deduplicat" class="internal xref">Cross-Repository Deduplication</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4.2.4">
+                    <p id="section-toc.1-1.14.2.4.2.4.1"><a href="#section-14.4.4" class="auto internal xref">14.4.4</a>.  <a href="#name-privacy-implications" class="internal xref">Privacy Implications</a></p>
 </li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.5">
-                <p id="section-toc.1-1.14.2.5.1"><a href="#section-14.5" class="auto internal xref">14.5</a>.  <a href="#name-pre-signed-url-handling" class="internal xref">Pre-Signed URL Handling</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.6">
-                <p id="section-toc.1-1.14.2.6.1"><a href="#section-14.6" class="auto internal xref">14.6</a>.  <a href="#name-http-caching-headers" class="internal xref">HTTP Caching Headers</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.6.2.1">
-                    <p id="section-toc.1-1.14.2.6.2.1.1"><a href="#section-14.6.1" class="auto internal xref">14.6.1</a>.  <a href="#name-server-recommendations" class="internal xref">Server Recommendations</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.6.2.2">
-                    <p id="section-toc.1-1.14.2.6.2.2.1"><a href="#section-14.6.2" class="auto internal xref">14.6.2</a>.  <a href="#name-client-recommendations" class="internal xref">Client Recommendations</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.7">
-                <p id="section-toc.1-1.14.2.7.1"><a href="#section-14.7" class="auto internal xref">14.7</a>.  <a href="#name-cdn-integration" class="internal xref">CDN Integration</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.7.2.1">
-                    <p id="section-toc.1-1.14.2.7.2.1.1"><a href="#section-14.7.1" class="auto internal xref">14.7.1</a>.  <a href="#name-cdn-cache-keys" class="internal xref">CDN Cache Keys</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.7.2.2">
-                    <p id="section-toc.1-1.14.2.7.2.2.1"><a href="#section-14.7.2" class="auto internal xref">14.7.2</a>.  <a href="#name-range-request-caching" class="internal xref">Range Request Caching</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.8">
-                <p id="section-toc.1-1.14.2.8.1"><a href="#section-14.8" class="auto internal xref">14.8</a>.  <a href="#name-proxy-and-intermediary-cons" class="internal xref">Proxy and Intermediary Considerations</a></p>
+                <p id="section-toc.1-1.14.2.5.1"><a href="#section-14.5" class="auto internal xref">14.5</a>.  <a href="#name-denial-of-service-considera" class="internal xref">Denial of Service Considerations</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
-            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1">
-                <p id="section-toc.1-1.15.2.1.1"><a href="#section-15.1" class="auto internal xref">15.1</a>.  <a href="#name-content-integrity" class="internal xref">Content Integrity</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
-                <p id="section-toc.1-1.15.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-authentication-and-authoriz" class="internal xref">Authentication and Authorization</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.3">
-                <p id="section-toc.1-1.15.2.3.1"><a href="#section-15.3" class="auto internal xref">15.3</a>.  <a href="#name-global-deduplication-privac" class="internal xref">Global Deduplication Privacy</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4">
-                <p id="section-toc.1-1.15.2.4.1"><a href="#section-15.4" class="auto internal xref">15.4</a>.  <a href="#name-access-controlled-content" class="internal xref">Access-Controlled Content</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.1">
-                    <p id="section-toc.1-1.15.2.4.2.1.1"><a href="#section-15.4.1" class="auto internal xref">15.4.1</a>.  <a href="#name-repository-level-access-con" class="internal xref">Repository-Level Access Control</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.2">
-                    <p id="section-toc.1-1.15.2.4.2.2.1"><a href="#section-15.4.2" class="auto internal xref">15.4.2</a>.  <a href="#name-cdn-considerations-for-gate" class="internal xref">CDN Considerations for Gated Content</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.3">
-                    <p id="section-toc.1-1.15.2.4.2.3.1"><a href="#section-15.4.3" class="auto internal xref">15.4.3</a>.  <a href="#name-cross-repository-deduplicat" class="internal xref">Cross-Repository Deduplication</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.4.2.4">
-                    <p id="section-toc.1-1.15.2.4.2.4.1"><a href="#section-15.4.4" class="auto internal xref">15.4.4</a>.  <a href="#name-privacy-implications" class="internal xref">Privacy Implications</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.5">
-                <p id="section-toc.1-1.15.2.5.1"><a href="#section-15.5" class="auto internal xref">15.5</a>.  <a href="#name-denial-of-service-considera" class="internal xref">Denial of Service Considerations</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref"></a><a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
-            <p id="section-toc.1-1.16.1"><a href="#section-16" class="auto internal xref"></a><a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.16.1"><a href="#section-16" class="auto internal xref"></a><a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1">
+                <p id="section-toc.1-1.16.2.1.1"><a href="#section-16.1" class="auto internal xref"></a><a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.2">
+                <p id="section-toc.1-1.16.2.2.1"><a href="#section-16.2" class="auto internal xref"></a><a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
-            <p id="section-toc.1-1.17.1"><a href="#section-17" class="auto internal xref"></a><a href="#name-references" class="internal xref">References</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17.2.1">
-                <p id="section-toc.1-1.17.2.1.1"><a href="#section-17.1" class="auto internal xref"></a><a href="#name-normative-references" class="internal xref">Normative References</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17.2.2">
-                <p id="section-toc.1-1.17.2.2.1"><a href="#section-17.2" class="auto internal xref"></a><a href="#name-informative-references" class="internal xref">Informative References</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.17.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-gearhash-lookup-table" class="internal xref">Gearhash Lookup Table</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18">
-            <p id="section-toc.1-1.18.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-gearhash-lookup-table" class="internal xref">Gearhash Lookup Table</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19">
-            <p id="section-toc.1-1.19.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-test-vectors" class="internal xref">Test Vectors</a></p>
+            <p id="section-toc.1-1.18.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-test-vectors" class="internal xref">Test Vectors</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.1">
-                <p id="section-toc.1-1.19.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-chunk-hash-test-vector" class="internal xref">Chunk Hash Test Vector</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.1">
+                <p id="section-toc.1-1.18.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-chunk-hash-test-vector" class="internal xref">Chunk Hash Test Vector</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.2">
-                <p id="section-toc.1-1.19.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-hash-string-conversion-test" class="internal xref">Hash String Conversion Test Vector</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.2">
+                <p id="section-toc.1-1.18.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-hash-string-conversion-test" class="internal xref">Hash String Conversion Test Vector</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.3">
-                <p id="section-toc.1-1.19.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-internal-node-hash-test-vec" class="internal xref">Internal Node Hash Test Vector</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.3">
+                <p id="section-toc.1-1.18.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-internal-node-hash-test-vec" class="internal xref">Internal Node Hash Test Vector</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.4">
-                <p id="section-toc.1-1.19.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-verification-range-hash-tes" class="internal xref">Verification Range Hash Test Vector</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.4">
+                <p id="section-toc.1-1.18.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-verification-range-hash-tes" class="internal xref">Verification Range Hash Test Vector</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.5">
-                <p id="section-toc.1-1.19.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-reference-files" class="internal xref">Reference Files</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.5">
+                <p id="section-toc.1-1.18.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-reference-files" class="internal xref">Reference Files</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20">
-            <p id="section-toc.1-1.20.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19">
+            <p id="section-toc.1-1.19.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21">
-            <p id="section-toc.1-1.21.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20">
+            <p id="section-toc.1-1.20.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -2414,7 +2391,7 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
         <h3 id="name-hash-string-representation">
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-hash-string-representation" class="section-name selfRef">Hash String Representation</a>
         </h3>
-<p id="section-6.5-1">When representing hashes as strings (e.g., in API paths), a specific byte reordering is applied before hexadecimal encoding.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.5-1">When representing hashes as strings, a specific byte reordering is applied before hexadecimal encoding.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 <div id="conversion-procedure">
 <section id="section-6.5.1">
           <h4 id="name-conversion-procedure">
@@ -3492,7 +3469,7 @@ A chunk is eligible if:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
           </h4>
 <ol start="1" type="1" class="normal type-1" id="section-10.3.2-1">
 <li id="section-10.3.2-1.1">
-              <p id="section-10.3.2-1.1.1">For eligible chunks, query the global deduplication API (see <a href="#global-dedup-api" class="auto internal xref">Section 11.4</a>).<a href="#section-10.3.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-10.3.2-1.1.1">For eligible chunks, query the global deduplication API.<a href="#section-10.3.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-10.3.2-1.2">
               <p id="section-10.3.2-1.2.1">On a match, the API returns a shard containing CAS info for xorbs containing the chunk.<a href="#section-10.3.2-1.2.1" class="pilcrow">¶</a></p>
@@ -3546,428 +3523,169 @@ Implementations <span class="bcp14">SHOULD</span>:<a href="#section-10.4-1" clas
 </div>
 </section>
 </div>
-<div id="cas-api">
-<section id="section-11">
-      <h2 id="name-cas-api">
-<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-cas-api" class="section-name selfRef">CAS API</a>
-      </h2>
-<p id="section-11-1">The CAS (Content Addressable Storage) API provides HTTP endpoints for upload and download operations.<a href="#section-11-1" class="pilcrow">¶</a></p>
-<div id="authentication">
-<section id="section-11.1">
-        <h3 id="name-authentication">
-<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-authentication" class="section-name selfRef">Authentication</a>
-        </h3>
-<p id="section-11.1-1">All API requests require authentication via Bearer token in the <code>Authorization</code> header:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-11.1-2">
-<pre>
-Authorization: Bearer &lt;access_token&gt;
-</pre><a href="#section-11.1-2" class="pilcrow">¶</a>
-</div>
-<p id="section-11.1-3">Tokens have associated scopes:<a href="#section-11.1-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.1-4.1">
-            <p id="section-11.1-4.1.1"><code>read</code>: Required for reconstruction and global deduplication queries<a href="#section-11.1-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.1-4.2">
-            <p id="section-11.1-4.2.1"><code>write</code>: Required for xorb and shard uploads (includes <code>read</code> permissions)<a href="#section-11.1-4.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.1-5">Token acquisition is provider-specific and outside the scope of this specification.<a href="#section-11.1-5" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="common-headers">
-<section id="section-11.2">
-        <h3 id="name-common-headers">
-<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-common-headers" class="section-name selfRef">Common Headers</a>
-        </h3>
-<p id="section-11.2-1">Request headers:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.2-2.1">
-            <p id="section-11.2-2.1.1"><code>Authorization</code>: Bearer token (required)<a href="#section-11.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.2-2.2">
-            <p id="section-11.2-2.2.1"><code>Content-Type</code>: <code>application/octet-stream</code> for binary uploads<a href="#section-11.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.2-2.3">
-            <p id="section-11.2-2.3.1"><code>Range</code>: Byte range for partial requests (optional)<a href="#section-11.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.2-3">Response headers:<a href="#section-11.2-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.2-4.1">
-            <p id="section-11.2-4.1.1"><code>Content-Type</code>: <code>application/json</code> or <code>application/octet-stream</code><a href="#section-11.2-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-<div id="reconstruction-api">
-<section id="section-11.3">
-        <h3 id="name-get-file-reconstruction">
-<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-get-file-reconstruction" class="section-name selfRef">Get File Reconstruction</a>
-        </h3>
-<p id="section-11.3-1">Retrieves reconstruction information for downloading a file.<a href="#section-11.3-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-11.3-2">
-<pre>
-GET /v1/reconstructions/{file_id}
-</pre><a href="#section-11.3-2" class="pilcrow">¶</a>
-</div>
-<p id="section-11.3-3">Path Parameters:<a href="#section-11.3-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.3-4.1">
-            <p id="section-11.3-4.1.1"><code>file_id</code>: File hash as hex string (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>)<a href="#section-11.3-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.3-5">Optional Headers:<a href="#section-11.3-5" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.3-6.1">
-            <p id="section-11.3-6.1.1"><code>Range: bytes={start}-{end}</code>: Request specific byte range (end inclusive)<a href="#section-11.3-6.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.3-7">Response (<code>200 OK</code>):<a href="#section-11.3-7" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-11.3-8">
-<pre>
-{
-  "offset_into_first_range": 0,
-  "terms": [
-    {
-      "hash": "&lt;xorb_hash_hex&gt;",
-      "unpacked_length": 263873,
-      "range": {
-        "start": 0,
-        "end": 4
-      }
-    }
-  ],
-  "fetch_info": {
-    "&lt;xorb_hash_hex&gt;": [
-      {
-        "range": {
-          "start": 0,
-          "end": 4
-        },
-        "url": "https://...",
-        "url_range": {
-          "start": 0,
-          "end": 131071
-        }
-      }
-    ]
-  }
-}
-</pre><a href="#section-11.3-8" class="pilcrow">¶</a>
-</div>
-<p id="section-11.3-9">Response Fields:<a href="#section-11.3-9" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.3-10.1">
-            <p id="section-11.3-10.1.1"><code>offset_into_first_range</code>: Bytes to skip in first term (for range queries)<a href="#section-11.3-10.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-10.2">
-            <p id="section-11.3-10.2.1"><code>terms</code>: Ordered list of reconstruction terms<a href="#section-11.3-10.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-10.3">
-            <p id="section-11.3-10.3.1"><code>fetch_info</code>: Map from xorb hash to fetch information<a href="#section-11.3-10.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.3-11">Fetch Info Fields:<a href="#section-11.3-11" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.3-12.1">
-            <p id="section-11.3-12.1.1"><code>range</code>: Chunk index range this entry covers<a href="#section-11.3-12.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-12.2">
-            <p id="section-11.3-12.2.1"><code>url</code>: Pre-signed URL for downloading xorb data<a href="#section-11.3-12.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-12.3">
-            <p id="section-11.3-12.3.1"><code>url_range</code>: Byte range within the xorb (end inclusive), directly usable as HTTP <code>Range</code> header values.
-The start offset is always aligned to a chunk header boundary, so clients can parse chunk headers sequentially from the start of the fetched data.<a href="#section-11.3-12.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.3-13">Error Responses:<a href="#section-11.3-13" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.3-14.1">
-            <p id="section-11.3-14.1.1"><code>400 Bad Request</code>: Invalid <code>file_id</code> format<a href="#section-11.3-14.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-14.2">
-            <p id="section-11.3-14.2.1"><code>401 Unauthorized</code>: Invalid or expired token<a href="#section-11.3-14.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-14.3">
-            <p id="section-11.3-14.3.1"><code>404 Not Found</code>: File does not exist<a href="#section-11.3-14.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.3-14.4">
-            <p id="section-11.3-14.4.1"><code>416 Range Not Satisfiable</code>: Invalid byte range<a href="#section-11.3-14.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-<div id="global-dedup-api">
-<section id="section-11.4">
-        <h3 id="name-query-chunk-deduplication">
-<a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-query-chunk-deduplication" class="section-name selfRef">Query Chunk Deduplication</a>
-        </h3>
-<p id="section-11.4-1">Checks if a chunk exists in the system for deduplication.<a href="#section-11.4-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-11.4-2">
-<pre>
-GET /v1/chunks/default-merkledb/{chunk_hash}
-</pre><a href="#section-11.4-2" class="pilcrow">¶</a>
-</div>
-<p id="section-11.4-3">Path Parameters:<a href="#section-11.4-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.4-4.1">
-            <p id="section-11.4-4.1.1"><code>chunk_hash</code>: Chunk hash as hex string (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>)<a href="#section-11.4-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.4-5">Response (<code>200 OK</code>): Shard format binary (see <a href="#shard-format" class="auto internal xref">Section 9</a>)<a href="#section-11.4-5" class="pilcrow">¶</a></p>
-<p id="section-11.4-6">Response (<code>404 Not Found</code>): Chunk not tracked by global deduplication<a href="#section-11.4-6" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="upload-xorb">
-<section id="section-11.5">
-        <h3 id="name-upload-xorb">
-<a href="#section-11.5" class="section-number selfRef">11.5. </a><a href="#name-upload-xorb" class="section-name selfRef">Upload Xorb</a>
-        </h3>
-<p id="section-11.5-1">Uploads a serialized xorb to storage.<a href="#section-11.5-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-11.5-2">
-<pre>
-POST /v1/xorbs/default/{xorb_hash}
-</pre><a href="#section-11.5-2" class="pilcrow">¶</a>
-</div>
-<p id="section-11.5-3">Path Parameters:<a href="#section-11.5-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.5-4.1">
-            <p id="section-11.5-4.1.1"><code>xorb_hash</code>: Xorb hash as hex string (see <a href="#hash-string-format" class="auto internal xref">Section 6.5</a>)<a href="#section-11.5-4.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.5-5">Request Body: Serialized xorb (binary, see <a href="#xorb-format" class="auto internal xref">Section 7</a>)<a href="#section-11.5-5" class="pilcrow">¶</a></p>
-<p id="section-11.5-6">Response (<code>200 OK</code>):<a href="#section-11.5-6" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-11.5-7">
-<pre>
-{
-  "was_inserted": true
-}
-</pre><a href="#section-11.5-7" class="pilcrow">¶</a>
-</div>
-<p id="section-11.5-8">The <code>was_inserted</code> field is <code>false</code> if the xorb already existed; this is not an error.<a href="#section-11.5-8" class="pilcrow">¶</a></p>
-<p id="section-11.5-9">Error Responses:<a href="#section-11.5-9" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.5-10.1">
-            <p id="section-11.5-10.1.1"><code>400 Bad Request</code>: Hash mismatch or invalid xorb format<a href="#section-11.5-10.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.5-10.2">
-            <p id="section-11.5-10.2.1"><code>401 Unauthorized</code>: Invalid or expired token<a href="#section-11.5-10.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.5-10.3">
-            <p id="section-11.5-10.3.1"><code>403 Forbidden</code>: Insufficient token scope<a href="#section-11.5-10.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-<div id="upload-shard">
-<section id="section-11.6">
-        <h3 id="name-upload-shard">
-<a href="#section-11.6" class="section-number selfRef">11.6. </a><a href="#name-upload-shard" class="section-name selfRef">Upload Shard</a>
-        </h3>
-<p id="section-11.6-1">Uploads a shard to register files in the system.<a href="#section-11.6-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-11.6-2">
-<pre>
-POST /v1/shards
-</pre><a href="#section-11.6-2" class="pilcrow">¶</a>
-</div>
-<p id="section-11.6-3">Request Body: Serialized shard without footer (binary, see <a href="#shard-format" class="auto internal xref">Section 9</a>)<a href="#section-11.6-3" class="pilcrow">¶</a></p>
-<p id="section-11.6-4">Response (<code>200 OK</code>):<a href="#section-11.6-4" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-11.6-5">
-<pre>
-{
-  "result": 0
-}
-</pre><a href="#section-11.6-5" class="pilcrow">¶</a>
-</div>
-<p id="section-11.6-6">Result values:<a href="#section-11.6-6" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.6-7.1">
-            <p id="section-11.6-7.1.1"><code>0</code>: Shard already exists<a href="#section-11.6-7.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.6-7.2">
-            <p id="section-11.6-7.2.1"><code>1</code>: Shard was registered<a href="#section-11.6-7.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-11.6-8">Error Responses:<a href="#section-11.6-8" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.6-9.1">
-            <p id="section-11.6-9.1.1"><code>400 Bad Request</code>: Invalid shard format or referenced xorb missing<a href="#section-11.6-9.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.6-9.2">
-            <p id="section-11.6-9.2.1"><code>401 Unauthorized</code>: Invalid or expired token<a href="#section-11.6-9.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-11.6-9.3">
-            <p id="section-11.6-9.3.1"><code>403 Forbidden</code>: Insufficient token scope<a href="#section-11.6-9.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-</section>
-</div>
 <div id="upload-protocol">
-<section id="section-12">
+<section id="section-11">
       <h2 id="name-upload-protocol">
-<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-upload-protocol" class="section-name selfRef">Upload Protocol</a>
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-upload-protocol" class="section-name selfRef">Upload Protocol</a>
       </h2>
-<p id="section-12-1">This section describes the complete procedure for uploading files.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-11-1">This section describes the complete procedure for uploading files.<a href="#section-11-1" class="pilcrow">¶</a></p>
 <div id="step-1-chunking">
-<section id="section-12.1">
+<section id="section-11.1">
         <h3 id="name-step-1-chunking">
-<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-step-1-chunking" class="section-name selfRef">Step 1: Chunking</a>
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-step-1-chunking" class="section-name selfRef">Step 1: Chunking</a>
         </h3>
-<p id="section-12.1-1">Split each file into chunks using the algorithm in <a href="#content-defined-chunking" class="auto internal xref">Section 5</a>.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
-<p id="section-12.1-2">For each chunk:<a href="#section-12.1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-12.1-3">
-<li id="section-12.1-3.1">
-            <p id="section-12.1-3.1.1">Compute the chunk hash (see <a href="#chunk-hashes" class="auto internal xref">Section 6.1</a>)<a href="#section-12.1-3.1.1" class="pilcrow">¶</a></p>
+<p id="section-11.1-1">Split each file into chunks using the algorithm in <a href="#content-defined-chunking" class="auto internal xref">Section 5</a>.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<p id="section-11.1-2">For each chunk:<a href="#section-11.1-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11.1-3">
+<li id="section-11.1-3.1">
+            <p id="section-11.1-3.1.1">Compute the chunk hash (see <a href="#chunk-hashes" class="auto internal xref">Section 6.1</a>)<a href="#section-11.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.1-3.2">
-            <p id="section-12.1-3.2.1">Record the chunk data, hash, and size<a href="#section-12.1-3.2.1" class="pilcrow">¶</a></p>
+          <li id="section-11.1-3.2">
+            <p id="section-11.1-3.2.1">Record the chunk data, hash, and size<a href="#section-11.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
 </div>
 <div id="step-2-deduplication">
-<section id="section-12.2">
+<section id="section-11.2">
         <h3 id="name-step-2-deduplication">
-<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-step-2-deduplication" class="section-name selfRef">Step 2: Deduplication</a>
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-step-2-deduplication" class="section-name selfRef">Step 2: Deduplication</a>
         </h3>
-<p id="section-12.2-1">For each chunk, attempt deduplication in order:<a href="#section-12.2-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-12.2-2">
-<li id="section-12.2-2.1">
-            <p id="section-12.2-2.1.1">Local Session: Check if chunk hash was seen earlier in this session<a href="#section-12.2-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-11.2-1">For each chunk, attempt deduplication in order:<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11.2-2">
+<li id="section-11.2-2.1">
+            <p id="section-11.2-2.1.1">Local Session: Check if chunk hash was seen earlier in this session<a href="#section-11.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.2-2.2">
-            <p id="section-12.2-2.2.1">Cached Metadata: Check local shard cache for chunk hash<a href="#section-12.2-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-11.2-2.2">
+            <p id="section-11.2-2.2.1">Cached Metadata: Check local shard cache for chunk hash<a href="#section-11.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.2-2.3">
-            <p id="section-12.2-2.3.1">Global API: For eligible chunks, query the global deduplication API<a href="#section-12.2-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-11.2-2.3">
+            <p id="section-11.2-2.3.1">Global API: For eligible chunks, query the global deduplication API<a href="#section-11.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-12.2-3">Record deduplication results:<a href="#section-12.2-3" class="pilcrow">¶</a></p>
+<p id="section-11.2-3">Record deduplication results:<a href="#section-11.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-12.2-4.1">
-            <p id="section-12.2-4.1.1">New chunks: Will be included in xorbs<a href="#section-12.2-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11.2-4.1">
+            <p id="section-11.2-4.1.1">New chunks: Will be included in xorbs<a href="#section-11.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.2-4.2">
-            <p id="section-12.2-4.2.1">Deduplicated chunks: Record existing xorb hash and chunk index<a href="#section-12.2-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-11.2-4.2">
+            <p id="section-11.2-4.2.1">Deduplicated chunks: Record existing xorb hash and chunk index<a href="#section-11.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="step-3-xorb-formation">
-<section id="section-12.3">
+<section id="section-11.3">
         <h3 id="name-step-3-xorb-formation">
-<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-step-3-xorb-formation" class="section-name selfRef">Step 3: Xorb Formation</a>
+<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-step-3-xorb-formation" class="section-name selfRef">Step 3: Xorb Formation</a>
         </h3>
-<p id="section-12.3-1">Group new (non-deduplicated) chunks into xorbs:<a href="#section-12.3-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-12.3-2">
-<li id="section-12.3-2.1">
-            <p id="section-12.3-2.1.1">Collect chunks maintaining their order within files<a href="#section-12.3-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-11.3-1">Group new (non-deduplicated) chunks into xorbs:<a href="#section-11.3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11.3-2">
+<li id="section-11.3-2.1">
+            <p id="section-11.3-2.1.1">Collect chunks maintaining their order within files<a href="#section-11.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.3-2.2">
-            <p id="section-12.3-2.2.1">Form xorbs targeting ~64 MiB total size<a href="#section-12.3-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-11.3-2.2">
+            <p id="section-11.3-2.2.1">Form xorbs targeting ~64 MiB total size<a href="#section-11.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.3-2.3">
-            <p id="section-12.3-2.3.1">Compute compression for each chunk<a href="#section-12.3-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-11.3-2.3">
+            <p id="section-11.3-2.3.1">Compute compression for each chunk<a href="#section-11.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.3-2.4">
-            <p id="section-12.3-2.4.1">Compute xorb hash for each xorb (see <a href="#xorb-hashes" class="auto internal xref">Section 6.2</a>)<a href="#section-12.3-2.4.1" class="pilcrow">¶</a></p>
+          <li id="section-11.3-2.4">
+            <p id="section-11.3-2.4.1">Compute xorb hash for each xorb (see <a href="#xorb-hashes" class="auto internal xref">Section 6.2</a>)<a href="#section-11.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
 </div>
 <div id="step-4-xorb-serialization-and-upload">
-<section id="section-12.4">
+<section id="section-11.4">
         <h3 id="name-step-4-xorb-serialization-a">
-<a href="#section-12.4" class="section-number selfRef">12.4. </a><a href="#name-step-4-xorb-serialization-a" class="section-name selfRef">Step 4: Xorb Serialization and Upload</a>
+<a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-step-4-xorb-serialization-a" class="section-name selfRef">Step 4: Xorb Serialization and Upload</a>
         </h3>
-<p id="section-12.4-1">For each new xorb:<a href="#section-12.4-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-12.4-2">
-<li id="section-12.4-2.1">
-            <p id="section-12.4-2.1.1">Serialize using the format in <a href="#xorb-format" class="auto internal xref">Section 7</a><a href="#section-12.4-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-11.4-1">For each new xorb:<a href="#section-11.4-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11.4-2">
+<li id="section-11.4-2.1">
+            <p id="section-11.4-2.1.1">Serialize using the format in <a href="#xorb-format" class="auto internal xref">Section 7</a><a href="#section-11.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.4-2.2">
-            <p id="section-12.4-2.2.1">Upload via <code>POST</code> to <code>/v1/xorbs/default/{xorb_hash}</code><a href="#section-12.4-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-11.4-2.2">
+            <p id="section-11.4-2.2.1">Upload to the CAS server<a href="#section-11.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.4-2.3">
-            <p id="section-12.4-2.3.1">Verify successful response<a href="#section-12.4-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-11.4-2.3">
+            <p id="section-11.4-2.3.1">Verify successful response<a href="#section-11.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-12.4-3">All xorbs <span class="bcp14">MUST</span> be uploaded before proceeding to shard upload.<a href="#section-12.4-3" class="pilcrow">¶</a></p>
+<p id="section-11.4-3">All xorbs <span class="bcp14">MUST</span> be uploaded before proceeding to shard upload.<a href="#section-11.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="step-5-shard-formation">
-<section id="section-12.5">
+<section id="section-11.5">
         <h3 id="name-step-5-shard-formation">
-<a href="#section-12.5" class="section-number selfRef">12.5. </a><a href="#name-step-5-shard-formation" class="section-name selfRef">Step 5: Shard Formation</a>
+<a href="#section-11.5" class="section-number selfRef">11.5. </a><a href="#name-step-5-shard-formation" class="section-name selfRef">Step 5: Shard Formation</a>
         </h3>
-<p id="section-12.5-1">Build the shard structure:<a href="#section-12.5-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-12.5-2">
-<li id="section-12.5-2.1">
-            <p id="section-12.5-2.1.1">For each file, construct file reconstruction terms<a href="#section-12.5-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-11.5-1">Build the shard structure:<a href="#section-11.5-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11.5-2">
+<li id="section-11.5-2.1">
+            <p id="section-11.5-2.1.1">For each file, construct file reconstruction terms<a href="#section-11.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.5-2.2">
-            <p id="section-12.5-2.2.1">Compute verification hashes for each term (see <a href="#verification-hashes" class="auto internal xref">Section 6.4</a>)<a href="#section-12.5-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-11.5-2.2">
+            <p id="section-11.5-2.2.1">Compute verification hashes for each term (see <a href="#verification-hashes" class="auto internal xref">Section 6.4</a>)<a href="#section-11.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.5-2.3">
-            <p id="section-12.5-2.3.1">Compute file hash (see <a href="#file-hashes" class="auto internal xref">Section 6.3</a>)<a href="#section-12.5-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-11.5-2.3">
+            <p id="section-11.5-2.3.1">Compute file hash (see <a href="#file-hashes" class="auto internal xref">Section 6.3</a>)<a href="#section-11.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.5-2.4">
-            <p id="section-12.5-2.4.1">Compute SHA-256 of raw file contents<a href="#section-12.5-2.4.1" class="pilcrow">¶</a></p>
+          <li id="section-11.5-2.4">
+            <p id="section-11.5-2.4.1">Compute SHA-256 of raw file contents<a href="#section-11.5-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.5-2.5">
-            <p id="section-12.5-2.5.1">Build CAS info blocks for new xorbs<a href="#section-12.5-2.5.1" class="pilcrow">¶</a></p>
+          <li id="section-11.5-2.5">
+            <p id="section-11.5-2.5.1">Build CAS info blocks for new xorbs<a href="#section-11.5-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
 </div>
 <div id="step-6-shard-upload">
-<section id="section-12.6">
+<section id="section-11.6">
         <h3 id="name-step-6-shard-upload">
-<a href="#section-12.6" class="section-number selfRef">12.6. </a><a href="#name-step-6-shard-upload" class="section-name selfRef">Step 6: Shard Upload</a>
+<a href="#section-11.6" class="section-number selfRef">11.6. </a><a href="#name-step-6-shard-upload" class="section-name selfRef">Step 6: Shard Upload</a>
         </h3>
-<ol start="1" type="1" class="normal type-1" id="section-12.6-1">
-<li id="section-12.6-1.1">
-            <p id="section-12.6-1.1.1">Serialize the shard without footer<a href="#section-12.6-1.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11.6-1">
+<li id="section-11.6-1.1">
+            <p id="section-11.6-1.1.1">Serialize the shard without footer<a href="#section-11.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.6-1.2">
-            <p id="section-12.6-1.2.1">Upload via <code>POST</code> to <code>/v1/shards</code><a href="#section-12.6-1.2.1" class="pilcrow">¶</a></p>
+          <li id="section-11.6-1.2">
+            <p id="section-11.6-1.2.1">Upload to the CAS server<a href="#section-11.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-12.6-1.3">
-            <p id="section-12.6-1.3.1">Verify successful response<a href="#section-12.6-1.3.1" class="pilcrow">¶</a></p>
+          <li id="section-11.6-1.3">
+            <p id="section-11.6-1.3.1">Verify successful response<a href="#section-11.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
 </div>
 <div id="ordering-and-concurrency">
-<section id="section-12.7">
+<section id="section-11.7">
         <h3 id="name-ordering-and-concurrency">
-<a href="#section-12.7" class="section-number selfRef">12.7. </a><a href="#name-ordering-and-concurrency" class="section-name selfRef">Ordering and Concurrency</a>
+<a href="#section-11.7" class="section-number selfRef">11.7. </a><a href="#name-ordering-and-concurrency" class="section-name selfRef">Ordering and Concurrency</a>
         </h3>
-<p id="section-12.7-1">The following ordering constraints apply:<a href="#section-12.7-1" class="pilcrow">¶</a></p>
+<p id="section-11.7-1">The following ordering constraints apply:<a href="#section-11.7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-12.7-2.1">
-            <p id="section-12.7-2.1.1">All xorbs referenced by a shard <span class="bcp14">MUST</span> be uploaded before the shard<a href="#section-12.7-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11.7-2.1">
+            <p id="section-11.7-2.1.1">All xorbs referenced by a shard <span class="bcp14">MUST</span> be uploaded before the shard<a href="#section-11.7-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.7-2.2">
-            <p id="section-12.7-2.2.1">Chunk computation for a file must complete before xorb formation<a href="#section-12.7-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-11.7-2.2">
+            <p id="section-11.7-2.2.1">Chunk computation for a file must complete before xorb formation<a href="#section-11.7-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.7-2.3">
-            <p id="section-12.7-2.3.1">Xorb hash computation must complete before shard formation<a href="#section-12.7-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-11.7-2.3">
+            <p id="section-11.7-2.3.1">Xorb hash computation must complete before shard formation<a href="#section-11.7-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-12.7-3">Within these constraints, operations <span class="bcp14">MAY</span> be parallelized:<a href="#section-12.7-3" class="pilcrow">¶</a></p>
+<p id="section-11.7-3">Within these constraints, operations <span class="bcp14">MAY</span> be parallelized:<a href="#section-11.7-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-12.7-4.1">
-            <p id="section-12.7-4.1.1">Multiple files can be chunked concurrently<a href="#section-12.7-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11.7-4.1">
+            <p id="section-11.7-4.1.1">Multiple files can be chunked concurrently<a href="#section-11.7-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.7-4.2">
-            <p id="section-12.7-4.2.1">Multiple xorbs can be uploaded concurrently<a href="#section-12.7-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-11.7-4.2">
+            <p id="section-11.7-4.2.1">Multiple xorbs can be uploaded concurrently<a href="#section-11.7-4.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.7-4.3">
-            <p id="section-12.7-4.3.1">Deduplication queries can run in parallel<a href="#section-12.7-4.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-11.7-4.3">
+            <p id="section-11.7-4.3.1">Deduplication queries can run in parallel<a href="#section-11.7-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3975,148 +3693,134 @@ POST /v1/shards
 </section>
 </div>
 <div id="download-protocol">
-<section id="section-13">
+<section id="section-12">
       <h2 id="name-download-protocol">
-<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-download-protocol" class="section-name selfRef">Download Protocol</a>
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-download-protocol" class="section-name selfRef">Download Protocol</a>
       </h2>
-<p id="section-13-1">This section describes the complete procedure for downloading files.<a href="#section-13-1" class="pilcrow">¶</a></p>
+<p id="section-12-1">This section describes the complete procedure for downloading files.<a href="#section-12-1" class="pilcrow">¶</a></p>
 <div id="step-1-query-reconstruction">
-<section id="section-13.1">
+<section id="section-12.1">
         <h3 id="name-step-1-query-reconstruction">
-<a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-step-1-query-reconstruction" class="section-name selfRef">Step 1: Query Reconstruction</a>
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-step-1-query-reconstruction" class="section-name selfRef">Step 1: Query Reconstruction</a>
         </h3>
-<p id="section-13.1-1">Request reconstruction information:<a href="#section-13.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-13.1-2">
-<pre>
-GET /v1/reconstructions/{file_id}
-Authorization: Bearer &lt;token&gt;
-</pre><a href="#section-13.1-2" class="pilcrow">¶</a>
-</div>
-<p id="section-13.1-3">For range queries, include the <code>Range</code> header:<a href="#section-13.1-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-13.1-4">
-<pre>
-Range: bytes=0-1048575
-</pre><a href="#section-13.1-4" class="pilcrow">¶</a>
-</div>
+<p id="section-12.1-1">Request file reconstruction information from the CAS server by providing the file hash.
+For partial downloads (range queries), specify the desired byte range.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="step-2-parse-response">
-<section id="section-13.2">
+<section id="section-12.2">
         <h3 id="name-step-2-parse-response">
-<a href="#section-13.2" class="section-number selfRef">13.2. </a><a href="#name-step-2-parse-response" class="section-name selfRef">Step 2: Parse Response</a>
+<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-step-2-parse-response" class="section-name selfRef">Step 2: Parse Response</a>
         </h3>
-<p id="section-13.2-1">Extract from the response:<a href="#section-13.2-1" class="pilcrow">¶</a></p>
+<p id="section-12.2-1">The reconstruction response provides:<a href="#section-12.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.2-2.1">
-            <p id="section-13.2-2.1.1"><code>offset_into_first_range</code>: Bytes to skip in first term<a href="#section-13.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-12.2-2.1">
+            <p id="section-12.2-2.1.1">Bytes to skip in the first term (for range queries)<a href="#section-12.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-2.2">
-            <p id="section-13.2-2.2.1"><code>terms</code>: Ordered list of terms to process<a href="#section-13.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.2-2.2">
+            <p id="section-12.2-2.2.1">An ordered list of terms to process<a href="#section-12.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-2.3">
-            <p id="section-13.2-2.3.1"><code>fetch_info</code>: URLs and ranges for downloading data<a href="#section-13.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.2-2.3">
+            <p id="section-12.2-2.3.1">URLs and byte ranges for downloading xorb data<a href="#section-12.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="step-3-download-xorb-data">
-<section id="section-13.3">
+<section id="section-12.3">
         <h3 id="name-step-3-download-xorb-data">
-<a href="#section-13.3" class="section-number selfRef">13.3. </a><a href="#name-step-3-download-xorb-data" class="section-name selfRef">Step 3: Download Xorb Data</a>
+<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-step-3-download-xorb-data" class="section-name selfRef">Step 3: Download Xorb Data</a>
         </h3>
-<p id="section-13.3-1">For each term:<a href="#section-13.3-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-13.3-2">
-<li id="section-13.3-2.1">
-            <p id="section-13.3-2.1.1">Look up <code>fetch_info</code> by xorb hash<a href="#section-13.3-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-12.3-1">For each term:<a href="#section-12.3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-12.3-2">
+<li id="section-12.3-2.1">
+            <p id="section-12.3-2.1.1">Identify the xorb and byte range needed for the term’s chunk range<a href="#section-12.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.3-2.2">
-            <p id="section-13.3-2.2.1">Find <code>fetch_info</code> entry covering the term’s chunk range<a href="#section-13.3-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-12.3-2.2">
+            <p id="section-12.3-2.2.1">Download the xorb data from the provided URL<a href="#section-12.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.3-2.3">
-            <p id="section-13.3-2.3.1">Make HTTP <code>GET</code> request to the URL with <code>Range</code> header<a href="#section-13.3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-13.3-2.4">
-            <p id="section-13.3-2.4.1">Download the xorb byte range<a href="#section-13.3-2.4.1" class="pilcrow">¶</a></p>
+          <li id="section-12.3-2.3">
+            <p id="section-12.3-2.3.1">Use HTTP range requests when only a portion of the xorb is needed<a href="#section-12.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-13.3-3">Multiple terms may share <code>fetch_info</code> entries; implementations <span class="bcp14">SHOULD</span> avoid redundant downloads.<a href="#section-13.3-3" class="pilcrow">¶</a></p>
+<p id="section-12.3-3">Multiple terms may reference the same xorb; implementations <span class="bcp14">SHOULD</span> avoid redundant downloads.<a href="#section-12.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="step-4-extract-chunks">
-<section id="section-13.4">
+<section id="section-12.4">
         <h3 id="name-step-4-extract-chunks">
-<a href="#section-13.4" class="section-number selfRef">13.4. </a><a href="#name-step-4-extract-chunks" class="section-name selfRef">Step 4: Extract Chunks</a>
+<a href="#section-12.4" class="section-number selfRef">12.4. </a><a href="#name-step-4-extract-chunks" class="section-name selfRef">Step 4: Extract Chunks</a>
         </h3>
-<p id="section-13.4-1">For each downloaded xorb range:<a href="#section-13.4-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-13.4-2">
-<li id="section-13.4-2.1">
-            <p id="section-13.4-2.1.1">Parse chunk headers sequentially<a href="#section-13.4-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-12.4-1">For each downloaded xorb range:<a href="#section-12.4-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-12.4-2">
+<li id="section-12.4-2.1">
+            <p id="section-12.4-2.1.1">Parse chunk headers sequentially<a href="#section-12.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.4-2.2">
-            <p id="section-13.4-2.2.1">Decompress chunk data according to compression type<a href="#section-13.4-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-12.4-2.2">
+            <p id="section-12.4-2.2.1">Decompress chunk data according to compression type<a href="#section-12.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.4-2.3">
-            <p id="section-13.4-2.3.1">Extract chunks for the term’s index range<a href="#section-13.4-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-12.4-2.3">
+            <p id="section-12.4-2.3.1">Extract chunks for the term’s index range<a href="#section-12.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
 </div>
 <div id="step-5-assemble-file">
-<section id="section-13.5">
+<section id="section-12.5">
         <h3 id="name-step-5-assemble-file">
-<a href="#section-13.5" class="section-number selfRef">13.5. </a><a href="#name-step-5-assemble-file" class="section-name selfRef">Step 5: Assemble File</a>
+<a href="#section-12.5" class="section-number selfRef">12.5. </a><a href="#name-step-5-assemble-file" class="section-name selfRef">Step 5: Assemble File</a>
         </h3>
-<ol start="1" type="1" class="normal type-1" id="section-13.5-1">
-<li id="section-13.5-1.1">
-            <p id="section-13.5-1.1.1">For the first term, skip <code>offset_into_first_range</code> bytes<a href="#section-13.5-1.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-12.5-1">
+<li id="section-12.5-1.1">
+            <p id="section-12.5-1.1.1">For the first term, skip <code>offset_into_first_range</code> bytes<a href="#section-12.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.5-1.2">
-            <p id="section-13.5-1.2.1">Concatenate extracted chunks in term order<a href="#section-13.5-1.2.1" class="pilcrow">¶</a></p>
+          <li id="section-12.5-1.2">
+            <p id="section-12.5-1.2.1">Concatenate extracted chunks in term order<a href="#section-12.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.5-1.3">
-            <p id="section-13.5-1.3.1">For range queries, truncate to requested length<a href="#section-13.5-1.3.1" class="pilcrow">¶</a></p>
+          <li id="section-12.5-1.3">
+            <p id="section-12.5-1.3.1">For range queries, truncate to requested length<a href="#section-12.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-13.5-1.4">
-            <p id="section-13.5-1.4.1">Write to output file or buffer<a href="#section-13.5-1.4.1" class="pilcrow">¶</a></p>
+          <li id="section-12.5-1.4">
+            <p id="section-12.5-1.4.1">Write to output file or buffer<a href="#section-12.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
 </div>
 <div id="caching-recommendations">
-<section id="section-13.6">
+<section id="section-12.6">
         <h3 id="name-caching-recommendations">
-<a href="#section-13.6" class="section-number selfRef">13.6. </a><a href="#name-caching-recommendations" class="section-name selfRef">Caching Recommendations</a>
+<a href="#section-12.6" class="section-number selfRef">12.6. </a><a href="#name-caching-recommendations" class="section-name selfRef">Caching Recommendations</a>
         </h3>
-<p id="section-13.6-1">See <a href="#caching-considerations" class="auto internal xref">Section 14</a> for comprehensive caching guidance.
-Key recommendations:<a href="#section-13.6-1" class="pilcrow">¶</a></p>
+<p id="section-12.6-1">See <a href="#caching-considerations" class="auto internal xref">Section 13</a> for comprehensive caching guidance.
+Key recommendations:<a href="#section-12.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.6-2.1">
-            <p id="section-13.6-2.1.1">Cache decompressed chunks by hash for reuse across files and sessions<a href="#section-13.6-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-12.6-2.1">
+            <p id="section-12.6-2.1.1">Cache decompressed chunks by hash for reuse across files and sessions<a href="#section-12.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.6-2.2">
-            <p id="section-13.6-2.2.1">Avoid caching reconstruction API responses (pre-signed URLs expire quickly)<a href="#section-13.6-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.6-2.2">
+            <p id="section-12.6-2.2.1">Avoid caching reconstruction API responses (pre-signed URLs expire quickly)<a href="#section-12.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.6-2.3">
-            <p id="section-13.6-2.3.1">Cache shard metadata for local deduplication during uploads<a href="#section-13.6-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.6-2.3">
+            <p id="section-12.6-2.3.1">Cache shard metadata for local deduplication during uploads<a href="#section-12.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="error-handling">
-<section id="section-13.7">
+<section id="section-12.7">
         <h3 id="name-error-handling">
-<a href="#section-13.7" class="section-number selfRef">13.7. </a><a href="#name-error-handling" class="section-name selfRef">Error Handling</a>
+<a href="#section-12.7" class="section-number selfRef">12.7. </a><a href="#name-error-handling" class="section-name selfRef">Error Handling</a>
         </h3>
-<p id="section-13.7-1">Implementations <span class="bcp14">SHOULD</span> implement:<a href="#section-13.7-1" class="pilcrow">¶</a></p>
+<p id="section-12.7-1">Implementations <span class="bcp14">SHOULD</span> implement:<a href="#section-12.7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.7-2.1">
-            <p id="section-13.7-2.1.1">Retry logic with exponential backoff for transient failures<a href="#section-13.7-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-12.7-2.1">
+            <p id="section-12.7-2.1.1">Retry logic with exponential backoff for transient failures<a href="#section-12.7-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.7-2.2">
-            <p id="section-13.7-2.2.1">Validation of decompressed chunk sizes against headers<a href="#section-13.7-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.7-2.2">
+            <p id="section-12.7-2.2.1">Validation of decompressed chunk sizes against headers<a href="#section-12.7-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.7-2.3">
-            <p id="section-13.7-2.3.1">Hash verification of reconstructed files when possible<a href="#section-13.7-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.7-2.3">
+            <p id="section-12.7-2.3.1">Hash verification of reconstructed files when possible<a href="#section-12.7-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4124,124 +3828,124 @@ Key recommendations:<a href="#section-13.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="caching-considerations">
-<section id="section-14">
+<section id="section-13">
       <h2 id="name-caching-considerations">
-<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-caching-considerations" class="section-name selfRef">Caching Considerations</a>
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-caching-considerations" class="section-name selfRef">Caching Considerations</a>
       </h2>
-<p id="section-14-1">XET’s content-addressable design enables effective caching at multiple levels.
-This section provides guidance for implementers on caching strategies and considerations.<a href="#section-14-1" class="pilcrow">¶</a></p>
+<p id="section-13-1">XET’s content-addressable design enables effective caching at multiple levels.
+This section provides guidance for implementers on caching strategies and considerations.<a href="#section-13-1" class="pilcrow">¶</a></p>
 <div id="content-immutability">
-<section id="section-14.1">
+<section id="section-13.1">
         <h3 id="name-content-immutability">
-<a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-content-immutability" class="section-name selfRef">Content Immutability</a>
+<a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-content-immutability" class="section-name selfRef">Content Immutability</a>
         </h3>
-<p id="section-14.1-1">Objects in XET are identified by cryptographic hashes of their content.
+<p id="section-13.1-1">Objects in XET are identified by cryptographic hashes of their content.
 This content-addressable design provides a fundamental property: content at a given hash never changes.
-A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.<a href="#section-14.1-1" class="pilcrow">¶</a></p>
-<p id="section-14.1-2">This immutability enables aggressive caching:<a href="#section-14.1-2" class="pilcrow">¶</a></p>
+A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.<a href="#section-13.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.1-2">This immutability enables aggressive caching:<a href="#section-13.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.1-3.1">
-            <p id="section-14.1-3.1.1">Cached xorb data never becomes stale<a href="#section-14.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.1-3.1">
+            <p id="section-13.1-3.1.1">Cached xorb data never becomes stale<a href="#section-13.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.1-3.2">
-            <p id="section-14.1-3.2.1">Cached chunk data can be reused indefinitely<a href="#section-14.1-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-3.2">
+            <p id="section-13.1-3.2.1">Cached chunk data can be reused indefinitely<a href="#section-13.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.1-3.3">
-            <p id="section-14.1-3.3.1">Cache invalidation is never required for content objects<a href="#section-14.1-3.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-3.3">
+            <p id="section-13.1-3.3.1">Cache invalidation is never required for content objects<a href="#section-13.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-14.1-4">The only time-sensitive elements are authentication tokens and pre-signed URLs, which are discussed separately below.<a href="#section-14.1-4" class="pilcrow">¶</a></p>
+<p id="section-13.1-4">The only time-sensitive elements are authentication tokens and pre-signed URLs, which are discussed separately below.<a href="#section-13.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-side-chunk-caching">
-<section id="section-14.2">
+<section id="section-13.2">
         <h3 id="name-client-side-chunk-caching">
-<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-client-side-chunk-caching" class="section-name selfRef">Client-Side Chunk Caching</a>
+<a href="#section-13.2" class="section-number selfRef">13.2. </a><a href="#name-client-side-chunk-caching" class="section-name selfRef">Client-Side Chunk Caching</a>
         </h3>
-<p id="section-14.2-1">Implementations <span class="bcp14">SHOULD</span> cache decompressed chunk data to avoid redundant decompression and network requests.
-The chunk hash provides a natural cache key.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.2-1">Implementations <span class="bcp14">SHOULD</span> cache decompressed chunk data to avoid redundant decompression and network requests.
+The chunk hash provides a natural cache key.<a href="#section-13.2-1" class="pilcrow">¶</a></p>
 <div id="cache-key-design">
-<section id="section-14.2.1">
+<section id="section-13.2.1">
           <h4 id="name-cache-key-design">
-<a href="#section-14.2.1" class="section-number selfRef">14.2.1. </a><a href="#name-cache-key-design" class="section-name selfRef">Cache Key Design</a>
+<a href="#section-13.2.1" class="section-number selfRef">13.2.1. </a><a href="#name-cache-key-design" class="section-name selfRef">Cache Key Design</a>
           </h4>
-<p id="section-14.2.1-1">Chunk caches <span class="bcp14">SHOULD</span> use the chunk hash (32 bytes or its string representation) as the cache key.
-Since hashes uniquely identify content, there is no risk of cache collisions or stale data.<a href="#section-14.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.2.1-1">Chunk caches <span class="bcp14">SHOULD</span> use the chunk hash (32 bytes or its string representation) as the cache key.
+Since hashes uniquely identify content, there is no risk of cache collisions or stale data.<a href="#section-13.2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cache-granularity">
-<section id="section-14.2.2">
+<section id="section-13.2.2">
           <h4 id="name-cache-granularity">
-<a href="#section-14.2.2" class="section-number selfRef">14.2.2. </a><a href="#name-cache-granularity" class="section-name selfRef">Cache Granularity</a>
+<a href="#section-13.2.2" class="section-number selfRef">13.2.2. </a><a href="#name-cache-granularity" class="section-name selfRef">Cache Granularity</a>
           </h4>
-<p id="section-14.2.2-1">Implementations <span class="bcp14">MAY</span> cache at different granularities:<a href="#section-14.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.2.2-1">Implementations <span class="bcp14">MAY</span> cache at different granularities:<a href="#section-13.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.2.2-2.1">
-              <p id="section-14.2.2-2.1.1">Individual chunks: Fine-grained, maximizes deduplication benefit<a href="#section-14.2.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.2.2-2.1">
+              <p id="section-13.2.2-2.1.1">Individual chunks: Fine-grained, maximizes deduplication benefit<a href="#section-13.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.2.2-2.2">
-              <p id="section-14.2.2-2.2.1">Chunk ranges: Coarser-grained, reduces metadata overhead<a href="#section-14.2.2-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.2.2-2.2">
+              <p id="section-13.2.2-2.2.1">Chunk ranges: Coarser-grained, reduces metadata overhead<a href="#section-13.2.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.2.2-2.3">
-              <p id="section-14.2.2-2.3.1">Complete xorbs: Simplest, but may cache unused chunks<a href="#section-14.2.2-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.2.2-2.3">
+              <p id="section-13.2.2-2.3.1">Complete xorbs: Simplest, but may cache unused chunks<a href="#section-13.2.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-14.2.2-3">For most workloads, caching individual chunks by hash provides the best balance of storage efficiency and hit rate.<a href="#section-14.2.2-3" class="pilcrow">¶</a></p>
+<p id="section-13.2.2-3">For most workloads, caching individual chunks by hash provides the best balance of storage efficiency and hit rate.<a href="#section-13.2.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="eviction-strategies">
-<section id="section-14.2.3">
+<section id="section-13.2.3">
           <h4 id="name-eviction-strategies">
-<a href="#section-14.2.3" class="section-number selfRef">14.2.3. </a><a href="#name-eviction-strategies" class="section-name selfRef">Eviction Strategies</a>
+<a href="#section-13.2.3" class="section-number selfRef">13.2.3. </a><a href="#name-eviction-strategies" class="section-name selfRef">Eviction Strategies</a>
           </h4>
-<p id="section-14.2.3-1">Since all cached content remains valid indefinitely, eviction is based purely on resource constraints:<a href="#section-14.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-13.2.3-1">Since all cached content remains valid indefinitely, eviction is based purely on resource constraints:<a href="#section-13.2.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.2.3-2.1">
-              <p id="section-14.2.3-2.1.1">LRU (Least Recently Used): Effective for workloads with temporal locality<a href="#section-14.2.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.2.3-2.1">
+              <p id="section-13.2.3-2.1.1">LRU (Least Recently Used): Effective for workloads with temporal locality<a href="#section-13.2.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.2.3-2.2">
-              <p id="section-14.2.3-2.2.1">LFU (Least Frequently Used): Effective for workloads with stable hot sets<a href="#section-14.2.3-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.2.3-2.2">
+              <p id="section-13.2.3-2.2.1">LFU (Least Frequently Used): Effective for workloads with stable hot sets<a href="#section-13.2.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.2.3-2.3">
-              <p id="section-14.2.3-2.3.1">Size-aware LRU: Prioritizes keeping smaller chunks that are cheaper to re-fetch<a href="#section-14.2.3-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.2.3-2.3">
+              <p id="section-13.2.3-2.3.1">Size-aware LRU: Prioritizes keeping smaller chunks that are cheaper to re-fetch<a href="#section-13.2.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-14.2.3-3">Implementations <span class="bcp14">SHOULD</span> track cache size and implement eviction when storage limits are reached.<a href="#section-14.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-13.2.3-3">Implementations <span class="bcp14">SHOULD</span> track cache size and implement eviction when storage limits are reached.<a href="#section-13.2.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="xorb-data-caching">
-<section id="section-14.3">
+<section id="section-13.3">
         <h3 id="name-xorb-data-caching">
-<a href="#section-14.3" class="section-number selfRef">14.3. </a><a href="#name-xorb-data-caching" class="section-name selfRef">Xorb Data Caching</a>
+<a href="#section-13.3" class="section-number selfRef">13.3. </a><a href="#name-xorb-data-caching" class="section-name selfRef">Xorb Data Caching</a>
         </h3>
-<p id="section-14.3-1">Raw xorb data (compressed chunks with headers) <span class="bcp14">MAY</span> be cached by clients or intermediaries.<a href="#section-14.3-1" class="pilcrow">¶</a></p>
+<p id="section-13.3-1">Raw xorb data (compressed chunks with headers) <span class="bcp14">MAY</span> be cached by clients or intermediaries.<a href="#section-13.3-1" class="pilcrow">¶</a></p>
 <div id="client-side-xorb-cache">
-<section id="section-14.3.1">
+<section id="section-13.3.1">
           <h4 id="name-client-side-xorb-cache">
-<a href="#section-14.3.1" class="section-number selfRef">14.3.1. </a><a href="#name-client-side-xorb-cache" class="section-name selfRef">Client-Side Xorb Cache</a>
+<a href="#section-13.3.1" class="section-number selfRef">13.3.1. </a><a href="#name-client-side-xorb-cache" class="section-name selfRef">Client-Side Xorb Cache</a>
           </h4>
-<p id="section-14.3.1-1">Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use.
+<p id="section-13.3.1-1">Caching raw xorb byte ranges avoids repeated downloads but requires decompression on each use.
 This uses local storage to reduce bandwidth consumption.
-Implementations <span class="bcp14">SHOULD</span> prefer caching decompressed chunks unless bandwidth is severely constrained.<a href="#section-14.3.1-1" class="pilcrow">¶</a></p>
+Implementations <span class="bcp14">SHOULD</span> prefer caching decompressed chunks unless bandwidth is severely constrained.<a href="#section-13.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="byte-range-considerations">
-<section id="section-14.3.2">
+<section id="section-13.3.2">
           <h4 id="name-byte-range-considerations">
-<a href="#section-14.3.2" class="section-number selfRef">14.3.2. </a><a href="#name-byte-range-considerations" class="section-name selfRef">Byte Range Considerations</a>
+<a href="#section-13.3.2" class="section-number selfRef">13.3.2. </a><a href="#name-byte-range-considerations" class="section-name selfRef">Byte Range Considerations</a>
           </h4>
-<p id="section-14.3.2-1">When caching partial xorb downloads (byte ranges), implementations <span class="bcp14">SHOULD</span>:<a href="#section-14.3.2-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-14.3.2-2">
-<li id="section-14.3.2-2.1">
-              <p id="section-14.3.2-2.1.1">Cache at chunk-header-aligned boundaries to enable independent chunk extraction<a href="#section-14.3.2-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-13.3.2-1">When caching partial xorb downloads (byte ranges), implementations <span class="bcp14">SHOULD</span>:<a href="#section-13.3.2-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-13.3.2-2">
+<li id="section-13.3.2-2.1">
+              <p id="section-13.3.2-2.1.1">Cache at chunk-header-aligned boundaries to enable independent chunk extraction<a href="#section-13.3.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-14.3.2-2.2">
-              <p id="section-14.3.2-2.2.1">Track which byte ranges are cached for each xorb hash<a href="#section-14.3.2-2.2.1" class="pilcrow">¶</a></p>
+            <li id="section-13.3.2-2.2">
+              <p id="section-13.3.2-2.2.1">Track which byte ranges are cached for each xorb hash<a href="#section-13.3.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-14.3.2-2.3">
-              <p id="section-14.3.2-2.3.1">Coalesce adjacent cached ranges when possible<a href="#section-14.3.2-2.3.1" class="pilcrow">¶</a></p>
+            <li id="section-13.3.2-2.3">
+              <p id="section-13.3.2-2.3.1">Coalesce adjacent cached ranges when possible<a href="#section-13.3.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -4249,335 +3953,335 @@ Implementations <span class="bcp14">SHOULD</span> prefer caching decompressed ch
 </section>
 </div>
 <div id="shard-metadata-caching">
-<section id="section-14.4">
+<section id="section-13.4">
         <h3 id="name-shard-metadata-caching">
-<a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-shard-metadata-caching" class="section-name selfRef">Shard Metadata Caching</a>
+<a href="#section-13.4" class="section-number selfRef">13.4. </a><a href="#name-shard-metadata-caching" class="section-name selfRef">Shard Metadata Caching</a>
         </h3>
-<p id="section-14.4-1">Shard metadata enables deduplication without network queries.
-Implementations <span class="bcp14">SHOULD</span> cache shards from recent uploads for local deduplication.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
+<p id="section-13.4-1">Shard metadata enables deduplication without network queries.
+Implementations <span class="bcp14">SHOULD</span> cache shards from recent uploads for local deduplication.<a href="#section-13.4-1" class="pilcrow">¶</a></p>
 <div id="cache-lifetime">
-<section id="section-14.4.1">
+<section id="section-13.4.1">
           <h4 id="name-cache-lifetime">
-<a href="#section-14.4.1" class="section-number selfRef">14.4.1. </a><a href="#name-cache-lifetime" class="section-name selfRef">Cache Lifetime</a>
+<a href="#section-13.4.1" class="section-number selfRef">13.4.1. </a><a href="#name-cache-lifetime" class="section-name selfRef">Cache Lifetime</a>
           </h4>
-<p id="section-14.4.1-1">Unlike content objects, shard metadata has implicit lifetime constraints:<a href="#section-14.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-1">Unlike content objects, shard metadata has implicit lifetime constraints:<a href="#section-13.4.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.4.1-2.1">
-              <p id="section-14.4.1-2.1.1">Global deduplication responses include a <code>chunk_hash_key</code> that rotates periodically<a href="#section-14.4.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.4.1-2.1">
+              <p id="section-13.4.1-2.1.1">Global deduplication responses include a <code>chunk_hash_key</code> that rotates periodically<a href="#section-13.4.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.4.1-2.2">
-              <p id="section-14.4.1-2.2.1">The <code>shard_key_expiry</code> field in the footer indicates when the key expires<a href="#section-14.4.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.4.1-2.2">
+              <p id="section-13.4.1-2.2.1">The <code>shard_key_expiry</code> field in the footer indicates when the key expires<a href="#section-13.4.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.4.1-2.3">
-              <p id="section-14.4.1-2.3.1">After expiry, keyed hash matches will fail<a href="#section-14.4.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.4.1-2.3">
+              <p id="section-13.4.1-2.3.1">After expiry, keyed hash matches will fail<a href="#section-13.4.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-14.4.1-3">Implementations <span class="bcp14">SHOULD</span> evict cached deduplication shards when their keys expire.<a href="#section-14.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-3">Implementations <span class="bcp14">SHOULD</span> evict cached deduplication shards when their keys expire.<a href="#section-13.4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cache-size">
-<section id="section-14.4.2">
+<section id="section-13.4.2">
           <h4 id="name-cache-size">
-<a href="#section-14.4.2" class="section-number selfRef">14.4.2. </a><a href="#name-cache-size" class="section-name selfRef">Cache Size</a>
+<a href="#section-13.4.2" class="section-number selfRef">13.4.2. </a><a href="#name-cache-size" class="section-name selfRef">Cache Size</a>
           </h4>
-<p id="section-14.4.2-1">Shard metadata is relatively compact (typically under 1 MiB per upload session).
-Implementations <span class="bcp14">MAY</span> cache several hundred recent shards without significant storage impact.<a href="#section-14.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-1">Shard metadata is relatively compact (typically under 1 MiB per upload session).
+Implementations <span class="bcp14">MAY</span> cache several hundred recent shards without significant storage impact.<a href="#section-13.4.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="pre-signed-url-handling">
-<section id="section-14.5">
+<section id="section-13.5">
         <h3 id="name-pre-signed-url-handling">
-<a href="#section-14.5" class="section-number selfRef">14.5. </a><a href="#name-pre-signed-url-handling" class="section-name selfRef">Pre-Signed URL Handling</a>
+<a href="#section-13.5" class="section-number selfRef">13.5. </a><a href="#name-pre-signed-url-handling" class="section-name selfRef">Pre-Signed URL Handling</a>
         </h3>
-<p id="section-14.5-1">The reconstruction API returns pre-signed URLs for downloading xorb data.
-These URLs have short expiration times (typically minutes to hours) and <span class="bcp14">MUST NOT</span> be cached beyond their validity period.<a href="#section-14.5-1" class="pilcrow">¶</a></p>
-<p id="section-14.5-2">Implementations <span class="bcp14">MUST</span>:<a href="#section-14.5-2" class="pilcrow">¶</a></p>
+<p id="section-13.5-1">The reconstruction API returns pre-signed URLs for downloading xorb data.
+These URLs have short expiration times (typically minutes to hours) and <span class="bcp14">MUST NOT</span> be cached beyond their validity period.<a href="#section-13.5-1" class="pilcrow">¶</a></p>
+<p id="section-13.5-2">Implementations <span class="bcp14">MUST</span>:<a href="#section-13.5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.5-3.1">
-            <p id="section-14.5-3.1.1">Use URLs promptly after receiving them<a href="#section-14.5-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.5-3.1">
+            <p id="section-13.5-3.1.1">Use URLs promptly after receiving them<a href="#section-13.5-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.5-3.2">
-            <p id="section-14.5-3.2.1">Re-query the reconstruction API if URLs have expired<a href="#section-14.5-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.5-3.2">
+            <p id="section-13.5-3.2.1">Re-query the reconstruction API if URLs have expired<a href="#section-13.5-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.5-3.3">
-            <p id="section-14.5-3.3.1">Never persist URLs to disk for later sessions<a href="#section-14.5-3.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.5-3.3">
+            <p id="section-13.5-3.3.1">Never persist URLs to disk for later sessions<a href="#section-13.5-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-14.5-4">Reconstruction responses <span class="bcp14">SHOULD</span> be treated as ephemeral and re-fetched when needed rather than cached.<a href="#section-14.5-4" class="pilcrow">¶</a></p>
+<p id="section-13.5-4">Reconstruction responses <span class="bcp14">SHOULD</span> be treated as ephemeral and re-fetched when needed rather than cached.<a href="#section-13.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="http-caching-headers">
-<section id="section-14.6">
+<section id="section-13.6">
         <h3 id="name-http-caching-headers">
-<a href="#section-14.6" class="section-number selfRef">14.6. </a><a href="#name-http-caching-headers" class="section-name selfRef">HTTP Caching Headers</a>
+<a href="#section-13.6" class="section-number selfRef">13.6. </a><a href="#name-http-caching-headers" class="section-name selfRef">HTTP Caching Headers</a>
         </h3>
 <div id="server-recommendations">
-<section id="section-14.6.1">
+<section id="section-13.6.1">
           <h4 id="name-server-recommendations">
-<a href="#section-14.6.1" class="section-number selfRef">14.6.1. </a><a href="#name-server-recommendations" class="section-name selfRef">Server Recommendations</a>
+<a href="#section-13.6.1" class="section-number selfRef">13.6.1. </a><a href="#name-server-recommendations" class="section-name selfRef">Server Recommendations</a>
           </h4>
-<p id="section-14.6.1-1">CAS servers <span class="bcp14">SHOULD</span> return appropriate HTTP caching headers for xorb downloads:<a href="#section-14.6.1-1" class="pilcrow">¶</a></p>
-<p id="section-14.6.1-2">For xorb content (immutable):<a href="#section-14.6.1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-14.6.1-3">
+<p id="section-13.6.1-1">CAS servers <span class="bcp14">SHOULD</span> return appropriate HTTP caching headers for xorb downloads:<a href="#section-13.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.6.1-2">For xorb content (immutable):<a href="#section-13.6.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-13.6.1-3">
 <pre>
 Cache-Control: public, immutable, max-age=&lt;url_ttl_seconds&gt;
 ETag: "&lt;xorb_hash&gt;"
-</pre><a href="#section-14.6.1-3" class="pilcrow">¶</a>
+</pre><a href="#section-13.6.1-3" class="pilcrow">¶</a>
 </div>
 <ul class="normal">
-<li class="normal" id="section-14.6.1-4.1">
-              <p id="section-14.6.1-4.1.1"><code>max-age</code> <span class="bcp14">MUST</span> be set to a value no greater than the remaining validity window of the pre-signed URL used to serve the object (e.g., a URL that expires in 900 seconds <span class="bcp14">MUST NOT</span> be served with <code>max-age</code> larger than 900).<a href="#section-14.6.1-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.6.1-4.1">
+              <p id="section-13.6.1-4.1.1"><code>max-age</code> <span class="bcp14">MUST</span> be set to a value no greater than the remaining validity window of the pre-signed URL used to serve the object (e.g., a URL that expires in 900 seconds <span class="bcp14">MUST NOT</span> be served with <code>max-age</code> larger than 900).<a href="#section-13.6.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.6.1-4.2">
-              <p id="section-14.6.1-4.2.1">Servers <span class="bcp14">SHOULD</span> also emit an <code>Expires</code> header aligned to the URL expiry time.<a href="#section-14.6.1-4.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.6.1-4.2">
+              <p id="section-13.6.1-4.2.1">Servers <span class="bcp14">SHOULD</span> also emit an <code>Expires</code> header aligned to the URL expiry time.<a href="#section-13.6.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.6.1-4.3">
-              <p id="section-14.6.1-4.3.1">Shared caches <span class="bcp14">MUST NOT</span> serve the response after either header indicates expiry, even if the content is immutable.<a href="#section-14.6.1-4.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.6.1-4.3">
+              <p id="section-13.6.1-4.3.1">Shared caches <span class="bcp14">MUST NOT</span> serve the response after either header indicates expiry, even if the content is immutable.<a href="#section-13.6.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-14.6.1-5">The <code>immutable</code> directive still applies within that bounded window, allowing caches to skip revalidation until the signature expires.<a href="#section-14.6.1-5" class="pilcrow">¶</a></p>
-<p id="section-14.6.1-6">For reconstruction API responses (ephemeral):<a href="#section-14.6.1-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-14.6.1-7">
+<p id="section-13.6.1-5">The <code>immutable</code> directive still applies within that bounded window, allowing caches to skip revalidation until the signature expires.<a href="#section-13.6.1-5" class="pilcrow">¶</a></p>
+<p id="section-13.6.1-6">For reconstruction API responses (ephemeral):<a href="#section-13.6.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-13.6.1-7">
 <pre>
 Cache-Control: private, no-store
-</pre><a href="#section-14.6.1-7" class="pilcrow">¶</a>
+</pre><a href="#section-13.6.1-7" class="pilcrow">¶</a>
 </div>
-<p id="section-14.6.1-8">Reconstruction responses contain pre-signed URLs that expire and <span class="bcp14">MUST NOT</span> be cached by intermediaries.<a href="#section-14.6.1-8" class="pilcrow">¶</a></p>
-<p id="section-14.6.1-9">For global deduplication responses:<a href="#section-14.6.1-9" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-14.6.1-10">
+<p id="section-13.6.1-8">Reconstruction responses contain pre-signed URLs that expire and <span class="bcp14">MUST NOT</span> be cached by intermediaries.<a href="#section-13.6.1-8" class="pilcrow">¶</a></p>
+<p id="section-13.6.1-9">For global deduplication responses:<a href="#section-13.6.1-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-13.6.1-10">
 <pre>
 Cache-Control: private, max-age=3600
 Vary: Authorization
-</pre><a href="#section-14.6.1-10" class="pilcrow">¶</a>
+</pre><a href="#section-13.6.1-10" class="pilcrow">¶</a>
 </div>
-<p id="section-14.6.1-11">Deduplication responses are user-specific and may be cached briefly by the client.<a href="#section-14.6.1-11" class="pilcrow">¶</a></p>
+<p id="section-13.6.1-11">Deduplication responses are user-specific and may be cached briefly by the client.<a href="#section-13.6.1-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="client-recommendations">
-<section id="section-14.6.2">
+<section id="section-13.6.2">
           <h4 id="name-client-recommendations">
-<a href="#section-14.6.2" class="section-number selfRef">14.6.2. </a><a href="#name-client-recommendations" class="section-name selfRef">Client Recommendations</a>
+<a href="#section-13.6.2" class="section-number selfRef">13.6.2. </a><a href="#name-client-recommendations" class="section-name selfRef">Client Recommendations</a>
           </h4>
-<p id="section-14.6.2-1">Clients <span class="bcp14">SHOULD</span> respect <code>Cache-Control</code> headers from servers.
-When downloading xorb data, clients <span class="bcp14">MAY</span> cache responses locally even if no caching headers are present, since content-addressed data is inherently immutable.<a href="#section-14.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.6.2-1">Clients <span class="bcp14">SHOULD</span> respect <code>Cache-Control</code> headers from servers.
+When downloading xorb data, clients <span class="bcp14">MAY</span> cache responses locally even if no caching headers are present, since content-addressed data is inherently immutable.<a href="#section-13.6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="cdn-integration">
-<section id="section-14.7">
+<section id="section-13.7">
         <h3 id="name-cdn-integration">
-<a href="#section-14.7" class="section-number selfRef">14.7. </a><a href="#name-cdn-integration" class="section-name selfRef">CDN Integration</a>
+<a href="#section-13.7" class="section-number selfRef">13.7. </a><a href="#name-cdn-integration" class="section-name selfRef">CDN Integration</a>
         </h3>
-<p id="section-14.7-1">XET deployments typically serve xorb data through CDNs.
-The content-addressable design is well-suited for CDN caching:<a href="#section-14.7-1" class="pilcrow">¶</a></p>
+<p id="section-13.7-1">XET deployments typically serve xorb data through CDNs.
+The content-addressable design is well-suited for CDN caching:<a href="#section-13.7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.7-2.1">
-            <p id="section-14.7-2.1.1">Hash-based URLs enable cache key stability<a href="#section-14.7-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.7-2.1">
+            <p id="section-13.7-2.1.1">Hash-based URLs enable cache key stability<a href="#section-13.7-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.7-2.2">
-            <p id="section-14.7-2.2.1">Immutable content eliminates cache invalidation complexity<a href="#section-14.7-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.7-2.2">
+            <p id="section-13.7-2.2.1">Immutable content eliminates cache invalidation complexity<a href="#section-13.7-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.7-2.3">
-            <p id="section-14.7-2.3.1">Range requests enable partial caching of large xorbs<a href="#section-14.7-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.7-2.3">
+            <p id="section-13.7-2.3.1">Range requests enable partial caching of large xorbs<a href="#section-13.7-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <div id="cdn-cache-keys">
-<section id="section-14.7.1">
+<section id="section-13.7.1">
           <h4 id="name-cdn-cache-keys">
-<a href="#section-14.7.1" class="section-number selfRef">14.7.1. </a><a href="#name-cdn-cache-keys" class="section-name selfRef">CDN Cache Keys</a>
+<a href="#section-13.7.1" class="section-number selfRef">13.7.1. </a><a href="#name-cdn-cache-keys" class="section-name selfRef">CDN Cache Keys</a>
           </h4>
-<p id="section-14.7.1-1">Effective cache key design determines whether multiple users can share cached xorb data.
+<p id="section-13.7.1-1">Effective cache key design determines whether multiple users can share cached xorb data.
 Since xorb content is immutable and identified by hash, the ideal cache key includes only the xorb hash and byte range, maximizing cache reuse.
-However, access control requirements constrain this choice.<a href="#section-14.7.1-1" class="pilcrow">¶</a></p>
-<p id="section-14.7.1-2">Two URL authorization strategies are applicable to XET deployments:<a href="#section-14.7.1-2" class="pilcrow">¶</a></p>
-<p id="section-14.7.1-3"><strong>Edge-Authenticated URLs.</strong>
+However, access control requirements constrain this choice.<a href="#section-13.7.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.7.1-2">Two URL authorization strategies are applicable to XET deployments:<a href="#section-13.7.1-2" class="pilcrow">¶</a></p>
+<p id="section-13.7.1-3"><strong>Edge-Authenticated URLs.</strong>
 The URL path contains the xorb hash with no signature parameters.
 Authorization is enforced at the CDN edge via signed cookies or tokens validated on every request.
 The cache key is derived from the xorb hash and byte range only, excluding any authorization tokens.
 This allows all authorized users to share the same cache entries.
-This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth <span class="bcp14">MUST NOT</span> be used.<a href="#section-14.7.1-3" class="pilcrow">¶</a></p>
-<p id="section-14.7.1-4"><strong>Query-Signed URLs.</strong>
+This pattern requires CDNs capable of per-request authorization; generic shared caches without edge auth <span class="bcp14">MUST NOT</span> be used.<a href="#section-13.7.1-3" class="pilcrow">¶</a></p>
+<p id="section-13.7.1-4"><strong>Query-Signed URLs.</strong>
 The URL includes signature parameters in the query string (similar to pre-signed cloud storage URLs).
 Cache keys <span class="bcp14">MUST</span> include all signature-bearing query parameters.
 Each unique signature produces a separate cache entry, resulting in lower hit rates.
-This approach works with any CDN but sacrifices cache efficiency for simplicity.<a href="#section-14.7.1-4" class="pilcrow">¶</a></p>
-<p id="section-14.7.1-5">For both strategies:<a href="#section-14.7.1-5" class="pilcrow">¶</a></p>
+This approach works with any CDN but sacrifices cache efficiency for simplicity.<a href="#section-13.7.1-4" class="pilcrow">¶</a></p>
+<p id="section-13.7.1-5">For both strategies:<a href="#section-13.7.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.7.1-6.1">
-              <p id="section-14.7.1-6.1.1">Cache keys <span class="bcp14">SHOULD</span> include the byte range when <code>Range</code> headers are present<a href="#section-14.7.1-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.7.1-6.1">
+              <p id="section-13.7.1-6.1.1">Cache keys <span class="bcp14">SHOULD</span> include the byte range when <code>Range</code> headers are present<a href="#section-13.7.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.7.1-6.2">
-              <p id="section-14.7.1-6.2.1">Cache keys <span class="bcp14">SHOULD NOT</span> include <code>Authorization</code> headers, since different users have different tokens but request identical content<a href="#section-14.7.1-6.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.7.1-6.2">
+              <p id="section-13.7.1-6.2.1">Cache keys <span class="bcp14">SHOULD NOT</span> include <code>Authorization</code> headers, since different users have different tokens but request identical content<a href="#section-13.7.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-14.7.1-7">For deployments with access-controlled content (e.g., gated models requiring user agreement), see <a href="#access-controlled-content" class="auto internal xref">Section 15.4</a> for additional CDN considerations.<a href="#section-14.7.1-7" class="pilcrow">¶</a></p>
+<p id="section-13.7.1-7">For deployments with access-controlled content (e.g., gated models requiring user agreement), see <a href="#access-controlled-content" class="auto internal xref">Section 14.4</a> for additional CDN considerations.<a href="#section-13.7.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="range-request-caching">
-<section id="section-14.7.2">
+<section id="section-13.7.2">
           <h4 id="name-range-request-caching">
-<a href="#section-14.7.2" class="section-number selfRef">14.7.2. </a><a href="#name-range-request-caching" class="section-name selfRef">Range Request Caching</a>
+<a href="#section-13.7.2" class="section-number selfRef">13.7.2. </a><a href="#name-range-request-caching" class="section-name selfRef">Range Request Caching</a>
           </h4>
-<p id="section-14.7.2-1">CDNs <span class="bcp14">SHOULD</span> cache partial responses (<code>206 Partial Content</code>) by byte range.
-When a subsequent request covers a cached range, the CDN can serve from cache without contacting the origin.<a href="#section-14.7.2-1" class="pilcrow">¶</a></p>
-<p id="section-14.7.2-2">Some CDNs support range coalescing, where multiple partial caches are combined to serve larger requests.
-This is particularly effective for XET where different users may request different chunk ranges from the same xorb.<a href="#section-14.7.2-2" class="pilcrow">¶</a></p>
+<p id="section-13.7.2-1">CDNs <span class="bcp14">SHOULD</span> cache partial responses (<code>206 Partial Content</code>) by byte range.
+When a subsequent request covers a cached range, the CDN can serve from cache without contacting the origin.<a href="#section-13.7.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.7.2-2">Some CDNs support range coalescing, where multiple partial caches are combined to serve larger requests.
+This is particularly effective for XET where different users may request different chunk ranges from the same xorb.<a href="#section-13.7.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="proxy-and-intermediary-considerations">
-<section id="section-14.8">
+<section id="section-13.8">
         <h3 id="name-proxy-and-intermediary-cons">
-<a href="#section-14.8" class="section-number selfRef">14.8. </a><a href="#name-proxy-and-intermediary-cons" class="section-name selfRef">Proxy and Intermediary Considerations</a>
+<a href="#section-13.8" class="section-number selfRef">13.8. </a><a href="#name-proxy-and-intermediary-cons" class="section-name selfRef">Proxy and Intermediary Considerations</a>
         </h3>
-<p id="section-14.8-1">Corporate proxies and other intermediaries <span class="bcp14">MAY</span> cache XET traffic.<a href="#section-14.8-1" class="pilcrow">¶</a></p>
-<p id="section-14.8-2">Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses.
-However, reconstruction API requests include Bearer tokens in the <code>Authorization</code> header and <span class="bcp14">SHOULD NOT</span> be cached by intermediaries (the <code>private</code> directive prevents this).<a href="#section-14.8-2" class="pilcrow">¶</a></p>
+<p id="section-13.8-1">Corporate proxies and other intermediaries <span class="bcp14">MAY</span> cache XET traffic.<a href="#section-13.8-1" class="pilcrow">¶</a></p>
+<p id="section-13.8-2">Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses.
+However, reconstruction API requests include Bearer tokens in the <code>Authorization</code> header and <span class="bcp14">SHOULD NOT</span> be cached by intermediaries (the <code>private</code> directive prevents this).<a href="#section-13.8-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-15">
+<section id="section-14">
       <h2 id="name-security-considerations">
-<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <div id="content-integrity">
-<section id="section-15.1">
+<section id="section-14.1">
         <h3 id="name-content-integrity">
-<a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-content-integrity" class="section-name selfRef">Content Integrity</a>
+<a href="#section-14.1" class="section-number selfRef">14.1. </a><a href="#name-content-integrity" class="section-name selfRef">Content Integrity</a>
         </h3>
-<p id="section-15.1-1">XET provides content integrity through cryptographic hashing:<a href="#section-15.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.1-1">XET provides content integrity through cryptographic hashing:<a href="#section-14.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.1-2.1">
-            <p id="section-15.1-2.1.1">Chunk hashes verify individual chunk integrity<a href="#section-15.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.1-2.1">
+            <p id="section-14.1-2.1.1">Chunk hashes verify individual chunk integrity<a href="#section-14.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.1-2.2">
-            <p id="section-15.1-2.2.1">Xorb hashes verify complete xorb contents<a href="#section-15.1-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.1-2.2">
+            <p id="section-14.1-2.2.1">Xorb hashes verify complete xorb contents<a href="#section-14.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.1-2.3">
-            <p id="section-15.1-2.3.1">File hashes verify complete file reconstruction<a href="#section-15.1-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.1-2.3">
+            <p id="section-14.1-2.3.1">File hashes verify complete file reconstruction<a href="#section-14.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-15.1-3">Implementations <span class="bcp14">SHOULD</span> verify hashes when possible, particularly for downloaded content.<a href="#section-15.1-3" class="pilcrow">¶</a></p>
+<p id="section-14.1-3">Implementations <span class="bcp14">SHOULD</span> verify hashes when possible, particularly for downloaded content.<a href="#section-14.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authentication-and-authorization">
-<section id="section-15.2">
+<section id="section-14.2">
         <h3 id="name-authentication-and-authoriz">
-<a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-authentication-and-authoriz" class="section-name selfRef">Authentication and Authorization</a>
+<a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-authentication-and-authoriz" class="section-name selfRef">Authentication and Authorization</a>
         </h3>
-<p id="section-15.2-1">Token-based authentication controls access to storage operations.
-Implementations <span class="bcp14">MUST</span>:<a href="#section-15.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.2-1">Token-based authentication controls access to storage operations.
+Implementations <span class="bcp14">MUST</span>:<a href="#section-14.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.2-2.1">
-            <p id="section-15.2-2.1.1">Transmit tokens only over TLS-protected connections<a href="#section-15.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.2-2.1">
+            <p id="section-14.2-2.1.1">Transmit tokens only over TLS-protected connections<a href="#section-14.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.2-2.2">
-            <p id="section-15.2-2.2.1">Avoid logging tokens<a href="#section-15.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.2-2.2">
+            <p id="section-14.2-2.2.1">Avoid logging tokens<a href="#section-14.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.2-2.3">
-            <p id="section-15.2-2.3.1">Implement token refresh before expiration<a href="#section-15.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.2-2.3">
+            <p id="section-14.2-2.3.1">Implement token refresh before expiration<a href="#section-14.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.2-2.4">
-            <p id="section-15.2-2.4.1">Use minimum required scope (prefer read over write)<a href="#section-15.2-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.2-2.4">
+            <p id="section-14.2-2.4.1">Use minimum required scope (prefer read over write)<a href="#section-14.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="global-deduplication-privacy">
-<section id="section-15.3">
+<section id="section-14.3">
         <h3 id="name-global-deduplication-privac">
-<a href="#section-15.3" class="section-number selfRef">15.3. </a><a href="#name-global-deduplication-privac" class="section-name selfRef">Global Deduplication Privacy</a>
+<a href="#section-14.3" class="section-number selfRef">14.3. </a><a href="#name-global-deduplication-privac" class="section-name selfRef">Global Deduplication Privacy</a>
         </h3>
-<p id="section-15.3-1">The keyed hash protection in global deduplication prevents enumeration attacks:<a href="#section-15.3-1" class="pilcrow">¶</a></p>
+<p id="section-14.3-1">The keyed hash protection in global deduplication prevents enumeration attacks:<a href="#section-14.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.3-2.1">
-            <p id="section-15.3-2.1.1">Servers never reveal raw chunk hashes<a href="#section-15.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.3-2.1">
+            <p id="section-14.3-2.1.1">Servers never reveal raw chunk hashes<a href="#section-14.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.3-2.2">
-            <p id="section-15.3-2.2.1">Clients can only match chunks they possess<a href="#section-15.3-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.3-2.2">
+            <p id="section-14.3-2.2.1">Clients can only match chunks they possess<a href="#section-14.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.3-2.3">
-            <p id="section-15.3-2.3.1">The chunk hash key rotates periodically, and shard expiry limits the reuse window<a href="#section-15.3-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.3-2.3">
+            <p id="section-14.3-2.3.1">The chunk hash key rotates periodically, and shard expiry limits the reuse window<a href="#section-14.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="access-controlled-content">
-<section id="section-15.4">
+<section id="section-14.4">
         <h3 id="name-access-controlled-content">
-<a href="#section-15.4" class="section-number selfRef">15.4. </a><a href="#name-access-controlled-content" class="section-name selfRef">Access-Controlled Content</a>
+<a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-access-controlled-content" class="section-name selfRef">Access-Controlled Content</a>
         </h3>
-<p id="section-15.4-1">XET deployments may support access-controlled or “gated” content, where users must be authorized (e.g., by accepting terms of service or requesting access) before downloading certain files.
-This has several implications for XET implementations.<a href="#section-15.4-1" class="pilcrow">¶</a></p>
+<p id="section-14.4-1">XET deployments may support access-controlled or “gated” content, where users must be authorized (e.g., by accepting terms of service or requesting access) before downloading certain files.
+This has several implications for XET implementations.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
 <div id="repository-level-access-control">
-<section id="section-15.4.1">
+<section id="section-14.4.1">
           <h4 id="name-repository-level-access-con">
-<a href="#section-15.4.1" class="section-number selfRef">15.4.1. </a><a href="#name-repository-level-access-con" class="section-name selfRef">Repository-Level Access Control</a>
+<a href="#section-14.4.1" class="section-number selfRef">14.4.1. </a><a href="#name-repository-level-access-con" class="section-name selfRef">Repository-Level Access Control</a>
           </h4>
-<p id="section-15.4.1-1">Access control in XET is typically enforced at the repository or file level, not at the xorb or chunk level.
+<p id="section-14.4.1-1">Access control in XET is typically enforced at the repository or file level, not at the xorb or chunk level.
 The reconstruction API <span class="bcp14">MUST</span> verify that the requesting user has access to the file before returning pre-signed URLs.
-Unauthorized requests <span class="bcp14">MUST</span> return <code>401 Unauthorized</code> or <code>403 Forbidden</code>.<a href="#section-15.4.1-1" class="pilcrow">¶</a></p>
+Unauthorized requests <span class="bcp14">MUST</span> return <code>401 Unauthorized</code> or <code>403 Forbidden</code>.<a href="#section-14.4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cdn-considerations-for-gated-content">
-<section id="section-15.4.2">
+<section id="section-14.4.2">
           <h4 id="name-cdn-considerations-for-gate">
-<a href="#section-15.4.2" class="section-number selfRef">15.4.2. </a><a href="#name-cdn-considerations-for-gate" class="section-name selfRef">CDN Considerations for Gated Content</a>
+<a href="#section-14.4.2" class="section-number selfRef">14.4.2. </a><a href="#name-cdn-considerations-for-gate" class="section-name selfRef">CDN Considerations for Gated Content</a>
           </h4>
-<p id="section-15.4.2-1">Since the same xorb may be referenced by both public and access-controlled files, CDN caching requires careful design:<a href="#section-15.4.2-1" class="pilcrow">¶</a></p>
-<p id="section-15.4.2-2"><strong>Edge-Authenticated Deployments.</strong>
+<p id="section-14.4.2-1">Since the same xorb may be referenced by both public and access-controlled files, CDN caching requires careful design:<a href="#section-14.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-14.4.2-2"><strong>Edge-Authenticated Deployments.</strong>
 When using edge authentication (cookies or tokens validated per-request), the CDN enforces access control on every request.
 Xorbs referenced only by access-controlled files remain protected even when cached.
-This is the recommended approach for deployments with gated content.<a href="#section-15.4.2-2" class="pilcrow">¶</a></p>
-<p id="section-15.4.2-3"><strong>Query-Signed URL Deployments.</strong>
+This is the recommended approach for deployments with gated content.<a href="#section-14.4.2-2" class="pilcrow">¶</a></p>
+<p id="section-14.4.2-3"><strong>Query-Signed URL Deployments.</strong>
 When using query-signed URLs, each authorized user receives unique signatures.
 Cache efficiency is reduced, but access control is enforced by signature validity.
-Deployments <span class="bcp14">MAY</span> choose to exclude xorbs from access-controlled repositories from CDN caching entirely.<a href="#section-15.4.2-3" class="pilcrow">¶</a></p>
+Deployments <span class="bcp14">MAY</span> choose to exclude xorbs from access-controlled repositories from CDN caching entirely.<a href="#section-14.4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cross-repository-deduplication">
-<section id="section-15.4.3">
+<section id="section-14.4.3">
           <h4 id="name-cross-repository-deduplicat">
-<a href="#section-15.4.3" class="section-number selfRef">15.4.3. </a><a href="#name-cross-repository-deduplicat" class="section-name selfRef">Cross-Repository Deduplication</a>
+<a href="#section-14.4.3" class="section-number selfRef">14.4.3. </a><a href="#name-cross-repository-deduplicat" class="section-name selfRef">Cross-Repository Deduplication</a>
           </h4>
-<p id="section-15.4.3-1">The same chunk may exist in both access-controlled and public repositories.
-XET’s content-addressable design allows storage deduplication across access boundaries:<a href="#section-15.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-14.4.3-1">The same chunk may exist in both access-controlled and public repositories.
+XET’s content-addressable design allows storage deduplication across access boundaries:<a href="#section-14.4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.4.3-2.1">
-              <p id="section-15.4.3-2.1.1">When a user uploads to a public repository, chunks matching access-controlled content may be deduplicated<a href="#section-15.4.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.4.3-2.1">
+              <p id="section-14.4.3-2.1.1">When a user uploads to a public repository, chunks matching access-controlled content may be deduplicated<a href="#section-14.4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-15.4.3-2.2">
-              <p id="section-15.4.3-2.2.1">The user does not gain access to the access-controlled repository; they simply avoid re-uploading data they already possess<a href="#section-15.4.3-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.3-2.2">
+              <p id="section-14.4.3-2.2.1">The user does not gain access to the access-controlled repository; they simply avoid re-uploading data they already possess<a href="#section-14.4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-15.4.3-2.3">
-              <p id="section-15.4.3-2.3.1">The keyed hash protection in global deduplication (<a href="#global-deduplication" class="auto internal xref">Section 10.3</a>) ensures users can only match chunks they possess<a href="#section-15.4.3-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.3-2.3">
+              <p id="section-14.4.3-2.3.1">The keyed hash protection in global deduplication (<a href="#global-deduplication" class="auto internal xref">Section 10.3</a>) ensures users can only match chunks they possess<a href="#section-14.4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-15.4.3-3">This is a storage optimization, not an access control bypass.
-Implementations <span class="bcp14">MUST</span> still enforce repository-level access control for all download operations.<a href="#section-15.4.3-3" class="pilcrow">¶</a></p>
+<p id="section-14.4.3-3">This is a storage optimization, not an access control bypass.
+Implementations <span class="bcp14">MUST</span> still enforce repository-level access control for all download operations.<a href="#section-14.4.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="privacy-implications">
-<section id="section-15.4.4">
+<section id="section-14.4.4">
           <h4 id="name-privacy-implications">
-<a href="#section-15.4.4" class="section-number selfRef">15.4.4. </a><a href="#name-privacy-implications" class="section-name selfRef">Privacy Implications</a>
+<a href="#section-14.4.4" class="section-number selfRef">14.4.4. </a><a href="#name-privacy-implications" class="section-name selfRef">Privacy Implications</a>
           </h4>
-<p id="section-15.4.4-1">Deployments with access-controlled content <span class="bcp14">SHOULD</span> consider:<a href="#section-15.4.4-1" class="pilcrow">¶</a></p>
+<p id="section-14.4.4-1">Deployments with access-controlled content <span class="bcp14">SHOULD</span> consider:<a href="#section-14.4.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.4.4-2.1">
-              <p id="section-15.4.4-2.1.1">Global deduplication queries reveal chunk existence (via 200/404 responses), though not which repositories contain the chunk<a href="#section-15.4.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.4.4-2.1">
+              <p id="section-14.4.4-2.1.1">Global deduplication queries reveal chunk existence (via 200/404 responses), though not which repositories contain the chunk<a href="#section-14.4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-15.4.4-2.2">
-              <p id="section-15.4.4-2.2.1">Keyed hash protection in responses ensures clients can only identify chunks they already possess; key rotation limits temporal correlation<a href="#section-15.4.4-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.4-2.2">
+              <p id="section-14.4.4-2.2.1">Keyed hash protection in responses ensures clients can only identify chunks they already possess; key rotation limits temporal correlation<a href="#section-14.4.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-15.4.4-2.3">
-              <p id="section-15.4.4-2.3.1">For highly sensitive content, deployments <span class="bcp14">MAY</span> exclude chunks from the global deduplication index entirely<a href="#section-15.4.4-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.4.4-2.3">
+              <p id="section-14.4.4-2.3.1">For highly sensitive content, deployments <span class="bcp14">MAY</span> exclude chunks from the global deduplication index entirely<a href="#section-14.4.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -4585,21 +4289,21 @@ Implementations <span class="bcp14">MUST</span> still enforce repository-level a
 </section>
 </div>
 <div id="denial-of-service-considerations">
-<section id="section-15.5">
+<section id="section-14.5">
         <h3 id="name-denial-of-service-considera">
-<a href="#section-15.5" class="section-number selfRef">15.5. </a><a href="#name-denial-of-service-considera" class="section-name selfRef">Denial of Service Considerations</a>
+<a href="#section-14.5" class="section-number selfRef">14.5. </a><a href="#name-denial-of-service-considera" class="section-name selfRef">Denial of Service Considerations</a>
         </h3>
-<p id="section-15.5-1">Large file uploads could exhaust server resources.
-Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.5-1" class="pilcrow">¶</a></p>
+<p id="section-14.5-1">Large file uploads could exhaust server resources.
+Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-14.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-15.5-2.1">
-            <p id="section-15.5-2.1.1">Rate limiting on API endpoints<a href="#section-15.5-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.5-2.1">
+            <p id="section-14.5-2.1.1">Rate limiting on API endpoints<a href="#section-14.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.5-2.2">
-            <p id="section-15.5-2.2.1">Maximum shard size limits (64 MiB)<a href="#section-15.5-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.5-2.2">
+            <p id="section-14.5-2.2.1">Maximum shard size limits (64 MiB)<a href="#section-14.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-15.5-2.3">
-            <p id="section-15.5-2.3.1">Maximum xorb size limits (64 MiB)<a href="#section-15.5-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.5-2.3">
+            <p id="section-14.5-2.3.1">Maximum xorb size limits (64 MiB)<a href="#section-14.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4607,20 +4311,20 @@ Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.5-1" cl
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-16">
+<section id="section-15">
       <h2 id="name-iana-considerations">
 <a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-16-1">This document does not require any IANA actions.<a href="#section-16-1" class="pilcrow">¶</a></p>
+<p id="section-15-1">This document does not require any IANA actions.<a href="#section-15-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-17">
+<section id="section-16">
       <h2 id="name-references">
 <a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-17.1">
+<section id="section-16.1">
         <h3 id="name-normative-references">
 <a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
@@ -4645,7 +4349,7 @@ Servers <span class="bcp14">SHOULD</span> implement:<a href="#section-15.5-1" cl
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-17.2">
+<section id="section-16.2">
         <h3 id="name-informative-references">
 <a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>

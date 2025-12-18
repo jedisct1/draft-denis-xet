@@ -4,8 +4,8 @@
 
 Network Working Group                                           F. Denis
 Internet-Draft                                   Independent Contributor
-Intended status: Informational                          17 December 2025
-Expires: 20 June 2026
+Intended status: Informational                          18 December 2025
+Expires: 21 June 2026
 
 
  XET: Content-Addressable Storage Protocol for Efficient Data Transfer
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 June 2026.
+   This Internet-Draft will expire on 21 June 2026.
 
 Copyright Notice
 
@@ -139,59 +139,52 @@ Table of Contents
        10.3.2.  Query Process
        10.3.3.  Keyed Hash Security
      10.4.  Fragmentation Prevention
-   11. CAS API
-     11.1.  Authentication
-     11.2.  Common Headers
-     11.3.  Get File Reconstruction
-     11.4.  Query Chunk Deduplication
-     11.5.  Upload Xorb
-     11.6.  Upload Shard
-   12. Upload Protocol
-     12.1.  Step 1: Chunking
-     12.2.  Step 2: Deduplication
-     12.3.  Step 3: Xorb Formation
-     12.4.  Step 4: Xorb Serialization and Upload
-     12.5.  Step 5: Shard Formation
-     12.6.  Step 6: Shard Upload
-     12.7.  Ordering and Concurrency
-   13. Download Protocol
-     13.1.  Step 1: Query Reconstruction
-     13.2.  Step 2: Parse Response
-     13.3.  Step 3: Download Xorb Data
-     13.4.  Step 4: Extract Chunks
-     13.5.  Step 5: Assemble File
-     13.6.  Caching Recommendations
-     13.7.  Error Handling
-   14. Caching Considerations
-     14.1.  Content Immutability
-     14.2.  Client-Side Chunk Caching
-       14.2.1.  Cache Key Design
-       14.2.2.  Cache Granularity
-       14.2.3.  Eviction Strategies
-     14.3.  Xorb Data Caching
-       14.3.1.  Client-Side Xorb Cache
-       14.3.2.  Byte Range Considerations
-     14.4.  Shard Metadata Caching
-       14.4.1.  Cache Lifetime
-       14.4.2.  Cache Size
-     14.5.  Pre-Signed URL Handling
-     14.6.  HTTP Caching Headers
-       14.6.1.  Server Recommendations
-       14.6.2.  Client Recommendations
-     14.7.  CDN Integration
-       14.7.1.  CDN Cache Keys
-       14.7.2.  Range Request Caching
-     14.8.  Proxy and Intermediary Considerations
-   15. Security Considerations
-     15.1.  Content Integrity
-     15.2.  Authentication and Authorization
-     15.3.  Global Deduplication Privacy
-     15.4.  Access-Controlled Content
-       15.4.1.  Repository-Level Access Control
-       15.4.2.  CDN Considerations for Gated Content
-       15.4.3.  Cross-Repository Deduplication
-       15.4.4.  Privacy Implications
-     15.5.  Denial of Service Considerations
+   11. Upload Protocol
+     11.1.  Step 1: Chunking
+     11.2.  Step 2: Deduplication
+     11.3.  Step 3: Xorb Formation
+     11.4.  Step 4: Xorb Serialization and Upload
+     11.5.  Step 5: Shard Formation
+     11.6.  Step 6: Shard Upload
+     11.7.  Ordering and Concurrency
+   12. Download Protocol
+     12.1.  Step 1: Query Reconstruction
+     12.2.  Step 2: Parse Response
+     12.3.  Step 3: Download Xorb Data
+     12.4.  Step 4: Extract Chunks
+     12.5.  Step 5: Assemble File
+     12.6.  Caching Recommendations
+     12.7.  Error Handling
+   13. Caching Considerations
+     13.1.  Content Immutability
+     13.2.  Client-Side Chunk Caching
+       13.2.1.  Cache Key Design
+       13.2.2.  Cache Granularity
+       13.2.3.  Eviction Strategies
+     13.3.  Xorb Data Caching
+       13.3.1.  Client-Side Xorb Cache
+       13.3.2.  Byte Range Considerations
+     13.4.  Shard Metadata Caching
+       13.4.1.  Cache Lifetime
+       13.4.2.  Cache Size
+     13.5.  Pre-Signed URL Handling
+     13.6.  HTTP Caching Headers
+       13.6.1.  Server Recommendations
+       13.6.2.  Client Recommendations
+     13.7.  CDN Integration
+       13.7.1.  CDN Cache Keys
+       13.7.2.  Range Request Caching
+     13.8.  Proxy and Intermediary Considerations
+   14. Security Considerations
+     14.1.  Content Integrity
+     14.2.  Authentication and Authorization
+     14.3.  Global Deduplication Privacy
+     14.4.  Access-Controlled Content
+       14.4.1.  Repository-Level Access Control
+       14.4.2.  CDN Considerations for Gated Content
+       14.4.3.  Cross-Repository Deduplication
+       14.4.4.  Privacy Implications
+     14.5.  Denial of Service Considerations
    IANA Considerations
    References
      Normative References
@@ -837,8 +830,8 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
 
 6.5.  Hash String Representation
 
-   When representing hashes as strings (e.g., in API paths), a specific
-   byte reordering is applied before hexadecimal encoding.
+   When representing hashes as strings, a specific byte reordering is
+   applied before hexadecimal encoding.
 
 6.5.1.  Conversion Procedure
 
@@ -1544,8 +1537,7 @@ Offset  Size  Field
 
 10.3.2.  Query Process
 
-   1.  For eligible chunks, query the global deduplication API (see
-       Section 11.4).
+   1.  For eligible chunks, query the global deduplication API.
 
    2.  On a match, the API returns a shard containing CAS info for xorbs
        containing the chunk.
@@ -1578,194 +1570,11 @@ Offset  Size  Field
    *  Target minimum run lengths (e.g., 8 chunks or 1 MiB) before
       accepting deduplicated references
 
-11.  CAS API
-
-   The CAS (Content Addressable Storage) API provides HTTP endpoints for
-   upload and download operations.
-
-11.1.  Authentication
-
-   All API requests require authentication via Bearer token in the
-   Authorization header:
-
-   Authorization: Bearer <access_token>
-
-   Tokens have associated scopes:
-
-   *  read: Required for reconstruction and global deduplication queries
-
-   *  write: Required for xorb and shard uploads (includes read
-      permissions)
-
-   Token acquisition is provider-specific and outside the scope of this
-   specification.
-
-11.2.  Common Headers
-
-   Request headers:
-
-   *  Authorization: Bearer token (required)
-
-   *  Content-Type: application/octet-stream for binary uploads
-
-   *  Range: Byte range for partial requests (optional)
-
-   Response headers:
-
-   *  Content-Type: application/json or application/octet-stream
-
-11.3.  Get File Reconstruction
-
-   Retrieves reconstruction information for downloading a file.
-
-   GET /v1/reconstructions/{file_id}
-
-   Path Parameters:
-
-   *  file_id: File hash as hex string (see Section 6.5)
-
-   Optional Headers:
-
-   *  Range: bytes={start}-{end}: Request specific byte range (end
-      inclusive)
-
-   Response (200 OK):
-
-   {
-     "offset_into_first_range": 0,
-     "terms": [
-       {
-         "hash": "<xorb_hash_hex>",
-         "unpacked_length": 263873,
-         "range": {
-           "start": 0,
-           "end": 4
-         }
-       }
-     ],
-     "fetch_info": {
-       "<xorb_hash_hex>": [
-         {
-           "range": {
-             "start": 0,
-             "end": 4
-           },
-           "url": "https://...",
-           "url_range": {
-             "start": 0,
-             "end": 131071
-           }
-         }
-       ]
-     }
-   }
-
-   Response Fields:
-
-   *  offset_into_first_range: Bytes to skip in first term (for range
-      queries)
-
-   *  terms: Ordered list of reconstruction terms
-
-   *  fetch_info: Map from xorb hash to fetch information
-
-   Fetch Info Fields:
-
-   *  range: Chunk index range this entry covers
-
-   *  url: Pre-signed URL for downloading xorb data
-
-   *  url_range: Byte range within the xorb (end inclusive), directly
-      usable as HTTP Range header values.  The start offset is always
-      aligned to a chunk header boundary, so clients can parse chunk
-      headers sequentially from the start of the fetched data.
-
-   Error Responses:
-
-   *  400 Bad Request: Invalid file_id format
-
-   *  401 Unauthorized: Invalid or expired token
-
-   *  404 Not Found: File does not exist
-
-   *  416 Range Not Satisfiable: Invalid byte range
-
-11.4.  Query Chunk Deduplication
-
-   Checks if a chunk exists in the system for deduplication.
-
-   GET /v1/chunks/default-merkledb/{chunk_hash}
-
-   Path Parameters:
-
-   *  chunk_hash: Chunk hash as hex string (see Section 6.5)
-
-   Response (200 OK): Shard format binary (see Section 9)
-
-   Response (404 Not Found): Chunk not tracked by global deduplication
-
-11.5.  Upload Xorb
-
-   Uploads a serialized xorb to storage.
-
-   POST /v1/xorbs/default/{xorb_hash}
-
-   Path Parameters:
-
-   *  xorb_hash: Xorb hash as hex string (see Section 6.5)
-
-   Request Body: Serialized xorb (binary, see Section 7)
-
-   Response (200 OK):
-
-   {
-     "was_inserted": true
-   }
-
-   The was_inserted field is false if the xorb already existed; this is
-   not an error.
-
-   Error Responses:
-
-   *  400 Bad Request: Hash mismatch or invalid xorb format
-
-   *  401 Unauthorized: Invalid or expired token
-
-   *  403 Forbidden: Insufficient token scope
-
-11.6.  Upload Shard
-
-   Uploads a shard to register files in the system.
-
-   POST /v1/shards
-
-   Request Body: Serialized shard without footer (binary, see Section 9)
-
-   Response (200 OK):
-
-   {
-     "result": 0
-   }
-
-   Result values:
-
-   *  0: Shard already exists
-
-   *  1: Shard was registered
-
-   Error Responses:
-
-   *  400 Bad Request: Invalid shard format or referenced xorb missing
-
-   *  401 Unauthorized: Invalid or expired token
-
-   *  403 Forbidden: Insufficient token scope
-
-12.  Upload Protocol
+11.  Upload Protocol
 
    This section describes the complete procedure for uploading files.
 
-12.1.  Step 1: Chunking
+11.1.  Step 1: Chunking
 
    Split each file into chunks using the algorithm in Section 5.
 
@@ -1775,7 +1584,7 @@ Offset  Size  Field
 
    2.  Record the chunk data, hash, and size
 
-12.2.  Step 2: Deduplication
+11.2.  Step 2: Deduplication
 
    For each chunk, attempt deduplication in order:
 
@@ -1793,7 +1602,7 @@ Offset  Size  Field
 
    *  Deduplicated chunks: Record existing xorb hash and chunk index
 
-12.3.  Step 3: Xorb Formation
+11.3.  Step 3: Xorb Formation
 
    Group new (non-deduplicated) chunks into xorbs:
 
@@ -1805,19 +1614,19 @@ Offset  Size  Field
 
    4.  Compute xorb hash for each xorb (see Section 6.2)
 
-12.4.  Step 4: Xorb Serialization and Upload
+11.4.  Step 4: Xorb Serialization and Upload
 
    For each new xorb:
 
    1.  Serialize using the format in Section 7
 
-   2.  Upload via POST to /v1/xorbs/default/{xorb_hash}
+   2.  Upload to the CAS server
 
    3.  Verify successful response
 
    All xorbs MUST be uploaded before proceeding to shard upload.
 
-12.5.  Step 5: Shard Formation
+11.5.  Step 5: Shard Formation
 
    Build the shard structure:
 
@@ -1831,15 +1640,15 @@ Offset  Size  Field
 
    5.  Build CAS info blocks for new xorbs
 
-12.6.  Step 6: Shard Upload
+11.6.  Step 6: Shard Upload
 
    1.  Serialize the shard without footer
 
-   2.  Upload via POST to /v1/shards
+   2.  Upload to the CAS server
 
    3.  Verify successful response
 
-12.7.  Ordering and Concurrency
+11.7.  Ordering and Concurrency
 
    The following ordering constraints apply:
 
@@ -1857,47 +1666,41 @@ Offset  Size  Field
 
    *  Deduplication queries can run in parallel
 
-13.  Download Protocol
+12.  Download Protocol
 
    This section describes the complete procedure for downloading files.
 
-13.1.  Step 1: Query Reconstruction
+12.1.  Step 1: Query Reconstruction
 
-   Request reconstruction information:
+   Request file reconstruction information from the CAS server by
+   providing the file hash.  For partial downloads (range queries),
+   specify the desired byte range.
 
-   GET /v1/reconstructions/{file_id}
-   Authorization: Bearer <token>
+12.2.  Step 2: Parse Response
 
-   For range queries, include the Range header:
+   The reconstruction response provides:
 
-   Range: bytes=0-1048575
+   *  Bytes to skip in the first term (for range queries)
 
-13.2.  Step 2: Parse Response
+   *  An ordered list of terms to process
 
-   Extract from the response:
+   *  URLs and byte ranges for downloading xorb data
 
-   *  offset_into_first_range: Bytes to skip in first term
-
-   *  terms: Ordered list of terms to process
-
-   *  fetch_info: URLs and ranges for downloading data
-
-13.3.  Step 3: Download Xorb Data
+12.3.  Step 3: Download Xorb Data
 
    For each term:
 
-   1.  Look up fetch_info by xorb hash
+   1.  Identify the xorb and byte range needed for the term’s chunk
+       range
 
-   2.  Find fetch_info entry covering the term’s chunk range
+   2.  Download the xorb data from the provided URL
 
-   3.  Make HTTP GET request to the URL with Range header
+   3.  Use HTTP range requests when only a portion of the xorb is needed
 
-   4.  Download the xorb byte range
-
-   Multiple terms may share fetch_info entries; implementations SHOULD
+   Multiple terms may reference the same xorb; implementations SHOULD
    avoid redundant downloads.
 
-13.4.  Step 4: Extract Chunks
+12.4.  Step 4: Extract Chunks
 
    For each downloaded xorb range:
 
@@ -1907,7 +1710,7 @@ Offset  Size  Field
 
    3.  Extract chunks for the term’s index range
 
-13.5.  Step 5: Assemble File
+12.5.  Step 5: Assemble File
 
    1.  For the first term, skip offset_into_first_range bytes
 
@@ -1917,9 +1720,9 @@ Offset  Size  Field
 
    4.  Write to output file or buffer
 
-13.6.  Caching Recommendations
+12.6.  Caching Recommendations
 
-   See Section 14 for comprehensive caching guidance.  Key
+   See Section 13 for comprehensive caching guidance.  Key
    recommendations:
 
    *  Cache decompressed chunks by hash for reuse across files and
@@ -1930,7 +1733,7 @@ Offset  Size  Field
 
    *  Cache shard metadata for local deduplication during uploads
 
-13.7.  Error Handling
+12.7.  Error Handling
 
    Implementations SHOULD implement:
 
@@ -1940,13 +1743,13 @@ Offset  Size  Field
 
    *  Hash verification of reconstructed files when possible
 
-14.  Caching Considerations
+13.  Caching Considerations
 
    XET’s content-addressable design enables effective caching at
    multiple levels.  This section provides guidance for implementers on
    caching strategies and considerations.
 
-14.1.  Content Immutability
+13.1.  Content Immutability
 
    Objects in XET are identified by cryptographic hashes of their
    content.  This content-addressable design provides a fundamental
@@ -1965,19 +1768,19 @@ Offset  Size  Field
    The only time-sensitive elements are authentication tokens and pre-
    signed URLs, which are discussed separately below.
 
-14.2.  Client-Side Chunk Caching
+13.2.  Client-Side Chunk Caching
 
    Implementations SHOULD cache decompressed chunk data to avoid
    redundant decompression and network requests.  The chunk hash
    provides a natural cache key.
 
-14.2.1.  Cache Key Design
+13.2.1.  Cache Key Design
 
    Chunk caches SHOULD use the chunk hash (32 bytes or its string
    representation) as the cache key.  Since hashes uniquely identify
    content, there is no risk of cache collisions or stale data.
 
-14.2.2.  Cache Granularity
+13.2.2.  Cache Granularity
 
    Implementations MAY cache at different granularities:
 
@@ -1990,7 +1793,7 @@ Offset  Size  Field
    For most workloads, caching individual chunks by hash provides the
    best balance of storage efficiency and hit rate.
 
-14.2.3.  Eviction Strategies
+13.2.3.  Eviction Strategies
 
    Since all cached content remains valid indefinitely, eviction is
    based purely on resource constraints:
@@ -2007,19 +1810,19 @@ Offset  Size  Field
    Implementations SHOULD track cache size and implement eviction when
    storage limits are reached.
 
-14.3.  Xorb Data Caching
+13.3.  Xorb Data Caching
 
    Raw xorb data (compressed chunks with headers) MAY be cached by
    clients or intermediaries.
 
-14.3.1.  Client-Side Xorb Cache
+13.3.1.  Client-Side Xorb Cache
 
    Caching raw xorb byte ranges avoids repeated downloads but requires
    decompression on each use.  This uses local storage to reduce
    bandwidth consumption.  Implementations SHOULD prefer caching
    decompressed chunks unless bandwidth is severely constrained.
 
-14.3.2.  Byte Range Considerations
+13.3.2.  Byte Range Considerations
 
    When caching partial xorb downloads (byte ranges), implementations
    SHOULD:
@@ -2031,13 +1834,13 @@ Offset  Size  Field
 
    3.  Coalesce adjacent cached ranges when possible
 
-14.4.  Shard Metadata Caching
+13.4.  Shard Metadata Caching
 
    Shard metadata enables deduplication without network queries.
    Implementations SHOULD cache shards from recent uploads for local
    deduplication.
 
-14.4.1.  Cache Lifetime
+13.4.1.  Cache Lifetime
 
    Unlike content objects, shard metadata has implicit lifetime
    constraints:
@@ -2053,13 +1856,13 @@ Offset  Size  Field
    Implementations SHOULD evict cached deduplication shards when their
    keys expire.
 
-14.4.2.  Cache Size
+13.4.2.  Cache Size
 
    Shard metadata is relatively compact (typically under 1 MiB per
    upload session).  Implementations MAY cache several hundred recent
    shards without significant storage impact.
 
-14.5.  Pre-Signed URL Handling
+13.5.  Pre-Signed URL Handling
 
    The reconstruction API returns pre-signed URLs for downloading xorb
    data.  These URLs have short expiration times (typically minutes to
@@ -2076,9 +1879,9 @@ Offset  Size  Field
    Reconstruction responses SHOULD be treated as ephemeral and re-
    fetched when needed rather than cached.
 
-14.6.  HTTP Caching Headers
+13.6.  HTTP Caching Headers
 
-14.6.1.  Server Recommendations
+13.6.1.  Server Recommendations
 
    CAS servers SHOULD return appropriate HTTP caching headers for xorb
    downloads:
@@ -2117,14 +1920,14 @@ Offset  Size  Field
    Deduplication responses are user-specific and may be cached briefly
    by the client.
 
-14.6.2.  Client Recommendations
+13.6.2.  Client Recommendations
 
    Clients SHOULD respect Cache-Control headers from servers.  When
    downloading xorb data, clients MAY cache responses locally even if no
    caching headers are present, since content-addressed data is
    inherently immutable.
 
-14.7.  CDN Integration
+13.7.  CDN Integration
 
    XET deployments typically serve xorb data through CDNs.  The content-
    addressable design is well-suited for CDN caching:
@@ -2135,7 +1938,7 @@ Offset  Size  Field
 
    *  Range requests enable partial caching of large xorbs
 
-14.7.1.  CDN Cache Keys
+13.7.1.  CDN Cache Keys
 
    Effective cache key design determines whether multiple users can
    share cached xorb data.  Since xorb content is immutable and
@@ -2171,10 +1974,10 @@ Offset  Size  Field
       content
 
    For deployments with access-controlled content (e.g., gated models
-   requiring user agreement), see Section 15.4 for additional CDN
+   requiring user agreement), see Section 14.4 for additional CDN
    considerations.
 
-14.7.2.  Range Request Caching
+13.7.2.  Range Request Caching
 
    CDNs SHOULD cache partial responses (206 Partial Content) by byte
    range.  When a subsequent request covers a cached range, the CDN can
@@ -2185,7 +1988,7 @@ Offset  Size  Field
    for XET where different users may request different chunk ranges from
    the same xorb.
 
-14.8.  Proxy and Intermediary Considerations
+13.8.  Proxy and Intermediary Considerations
 
    Corporate proxies and other intermediaries MAY cache XET traffic.
 
@@ -2195,9 +1998,9 @@ Offset  Size  Field
    Authorization header and SHOULD NOT be cached by intermediaries (the
    private directive prevents this).
 
-15.  Security Considerations
+14.  Security Considerations
 
-15.1.  Content Integrity
+14.1.  Content Integrity
 
    XET provides content integrity through cryptographic hashing:
 
@@ -2210,7 +2013,7 @@ Offset  Size  Field
    Implementations SHOULD verify hashes when possible, particularly for
    downloaded content.
 
-15.2.  Authentication and Authorization
+14.2.  Authentication and Authorization
 
    Token-based authentication controls access to storage operations.
    Implementations MUST:
@@ -2223,7 +2026,7 @@ Offset  Size  Field
 
    *  Use minimum required scope (prefer read over write)
 
-15.3.  Global Deduplication Privacy
+14.3.  Global Deduplication Privacy
 
    The keyed hash protection in global deduplication prevents
    enumeration attacks:
@@ -2235,14 +2038,14 @@ Offset  Size  Field
    *  The chunk hash key rotates periodically, and shard expiry limits
       the reuse window
 
-15.4.  Access-Controlled Content
+14.4.  Access-Controlled Content
 
    XET deployments may support access-controlled or “gated” content,
    where users must be authorized (e.g., by accepting terms of service
    or requesting access) before downloading certain files.  This has
    several implications for XET implementations.
 
-15.4.1.  Repository-Level Access Control
+14.4.1.  Repository-Level Access Control
 
    Access control in XET is typically enforced at the repository or file
    level, not at the xorb or chunk level.  The reconstruction API MUST
@@ -2250,7 +2053,7 @@ Offset  Size  Field
    returning pre-signed URLs.  Unauthorized requests MUST return 401
    Unauthorized or 403 Forbidden.
 
-15.4.2.  CDN Considerations for Gated Content
+14.4.2.  CDN Considerations for Gated Content
 
    Since the same xorb may be referenced by both public and access-
    controlled files, CDN caching requires careful design:
@@ -2267,7 +2070,7 @@ Offset  Size  Field
    Deployments MAY choose to exclude xorbs from access-controlled
    repositories from CDN caching entirely.
 
-15.4.3.  Cross-Repository Deduplication
+14.4.3.  Cross-Repository Deduplication
 
    The same chunk may exist in both access-controlled and public
    repositories.  XET’s content-addressable design allows storage
@@ -2286,7 +2089,7 @@ Offset  Size  Field
    Implementations MUST still enforce repository-level access control
    for all download operations.
 
-15.4.4.  Privacy Implications
+14.4.4.  Privacy Implications
 
    Deployments with access-controlled content SHOULD consider:
 
@@ -2300,7 +2103,7 @@ Offset  Size  Field
    *  For highly sensitive content, deployments MAY exclude chunks from
       the global deduplication index entirely
 
-15.5.  Denial of Service Considerations
+14.5.  Denial of Service Considerations
 
    Large file uploads could exhaust server resources.  Servers SHOULD
    implement:
