@@ -232,7 +232,6 @@ TARGET_CHUNK_SIZE  = 65536      # 64 KiB (2^16 bytes)
 MIN_CHUNK_SIZE     = 8192       # 8 KiB (TARGET / 8)
 MAX_CHUNK_SIZE     = 131072     # 128 KiB (TARGET * 2)
 MASK               = 0xFFFF000000000000  # 16 one-bits
-GEARHASH_WINDOW    = 64         # Rolling hash window size in bytes
 ~~~
 
 The `Gearhash` algorithm uses a lookup table of 256 64-bit constants.
@@ -299,9 +298,8 @@ Other algorithm suites MUST specify their own determinism requirements.
 
 ## Performance Optimization
 
-Implementations MAY skip hash computation for the first `MIN_CHUNK_SIZE - GEARHASH_WINDOW` bytes of each chunk, as boundary tests are not performed in this region.
-
-This optimization does not affect output correctness because the `Gearhash` window is `GEARHASH_WINDOW` bytes, ensuring the hash state is fully populated by the time boundary tests begin.
+Implementations MAY skip boundary checks until `chunk_size` reaches `MIN_CHUNK_SIZE`, since boundaries are forbidden before that point.
+They MUST still update the rolling hash for every byte; skipping hash updates would change `h` and therefore alter boundary placement, violating determinism.
 
 # Hashing Methods {#hashing-methods}
 
@@ -1686,6 +1684,8 @@ Fetch info fields:
 - `range`: Chunk index range this entry covers
 - `url`: Pre-signed URL for downloading xorb data
 - `url_range`: Byte range within the xorb (end inclusive), directly usable as HTTP `Range` header values
+
+Chunk index ranges (`range` fields) continue to use the document-wide `[start, end)` convention (exclusive end; see {{notational-conventions}}), while `url_range` follows HTTP Range semantics and is therefore inclusive.
 
 Error responses:
 
