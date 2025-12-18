@@ -189,13 +189,20 @@ Table of Contents
    References
      Normative References
      Informative References
-   Appendix A.  Gearhash Lookup Table
-   Appendix B.  Test Vectors
-     B.1.  Chunk Hash Test Vector
-     B.2.  Hash String Conversion Test Vector
-     B.3.  Internal Node Hash Test Vector
-     B.4.  Verification Range Hash Test Vector
-     B.5.  Reference Files
+   Appendix A.  Recommended HTTP API
+     A.1.  Authentication
+     A.2.  Common Headers
+     A.3.  Get File Reconstruction
+     A.4.  Query Chunk Deduplication
+     A.5.  Upload Xorb
+     A.6.  Upload Shard
+   Appendix B.  Gearhash Lookup Table
+   Appendix C.  Test Vectors
+     C.1.  Chunk Hash Test Vector
+     C.2.  Hash String Conversion Test Vector
+     C.3.  Internal Node Hash Test Vector
+     C.4.  Verification Range Hash Test Vector
+     C.5.  Reference Files
    Acknowledgments
    Author's Address
 
@@ -508,7 +515,7 @@ Table of Contents
 
    The Gearhash algorithm uses a lookup table of 256 64-bit constants.
    Implementations of the XET-BLAKE3-GEARHASH-LZ4 suite MUST use the
-   table defined in [GEARHASH] (see Appendix A for the complete lookup
+   table defined in [GEARHASH] (see Appendix B for the complete lookup
    table).
 
 5.3.  Algorithm Description
@@ -570,7 +577,7 @@ Table of Contents
    Implementations MUST produce identical chunk boundaries for identical
    input data.  For the XET-BLAKE3-GEARHASH-LZ4 suite, this requires:
 
-   *  Using the exact lookup table values from Appendix A
+   *  Using the exact lookup table values from Appendix B
 
    *  Using 64-bit wrapping arithmetic for hash updates
 
@@ -2154,7 +2161,200 @@ Informative References
               Conventional Encryption Function", CRYPTO 1987, LNCS 293,
               pp. 369-378 , 1987.
 
-Appendix A.  Gearhash Lookup Table
+Appendix A.  Recommended HTTP API
+
+   This appendix defines a recommended HTTP API for CAS servers
+   implementing the XET protocol.  This is informative guidance;
+   deployments MAY use different URL structures, authentication
+   mechanisms, or transport protocols entirely.
+
+A.1.  Authentication
+
+   API requests requiring authorization use a Bearer token in the
+   Authorization header:
+
+   Authorization: Bearer <access_token>
+
+   Tokens have associated scopes:
+
+   *  read: Required for reconstruction queries and global deduplication
+
+   *  write: Required for xorb and shard uploads (typically includes
+      read permissions)
+
+   Token acquisition and refresh mechanisms are deployment-specific.
+
+A.2.  Common Headers
+
+   Request headers:
+
+   *  Authorization: Bearer token (when authentication is required)
+
+   *  Content-Type: application/octet-stream for binary uploads
+
+   *  Range: Byte range for partial downloads (optional)
+
+   Response headers:
+
+   *  Content-Type: application/json or application/octet-stream
+
+A.3.  Get File Reconstruction
+
+   Retrieves reconstruction information for downloading a file.
+
+   GET /api/v1/reconstructions/{file_hash}
+
+   Path parameters:
+
+   *  file_hash: File hash as hex string (see Section 6.5)
+
+   Optional request headers:
+
+   *  Range: bytes={start}-{end}: Request reconstruction for a specific
+      byte range
+
+   Response (200 OK):
+
+   {
+     "offset_into_first_range": 0,
+     "terms": [
+       {
+         "hash": "<xorb_hash_hex>",
+         "unpacked_length": 263873,
+         "range": {
+           "start": 0,
+           "end": 4
+         }
+       }
+     ],
+     "fetch_info": {
+       "<xorb_hash_hex>": [
+         {
+           "range": {
+             "start": 0,
+             "end": 4
+           },
+           "url": "https://...",
+           "url_range": {
+             "start": 0,
+             "end": 131071
+           }
+         }
+       ]
+     }
+   }
+
+   Response fields:
+
+   *  offset_into_first_range: Bytes to skip in first term (for range
+      queries)
+
+   *  terms: Ordered list of reconstruction terms
+
+   *  fetch_info: Map from xorb hash to fetch information
+
+   Fetch info fields:
+
+   *  range: Chunk index range this entry covers
+
+   *  url: Pre-signed URL for downloading xorb data
+
+   *  url_range: Byte range within the xorb (end inclusive), directly
+      usable as HTTP Range header values
+
+   Error responses:
+
+   *  400 Bad Request: Invalid file hash format
+
+   *  401 Unauthorized: Missing or invalid token
+
+   *  404 Not Found: File does not exist
+
+   *  416 Range Not Satisfiable: Invalid byte range
+
+A.4.  Query Chunk Deduplication
+
+   Checks if a chunk exists in the global deduplication index.
+
+   GET /api/v1/chunks/{namespace}/{chunk_hash}
+
+   Path parameters:
+
+   *  namespace: Deduplication namespace (e.g., default-merkledb)
+
+   *  chunk_hash: Chunk hash as hex string (see Section 6.5)
+
+   Response (200 OK): Shard format binary (see Section 9)
+
+   The returned shard contains CAS info for xorbs that include the
+   queried chunk.  Chunk hashes in the response are protected with a
+   keyed hash (see Section 10.3).
+
+   Response (404 Not Found): Chunk is not tracked by global
+   deduplication.
+
+A.5.  Upload Xorb
+
+   Uploads a serialized xorb to storage.
+
+   POST /api/v1/xorbs/{namespace}/{xorb_hash}
+   Content-Type: application/octet-stream
+
+   Path parameters:
+
+   *  namespace: Storage namespace (e.g., default)
+
+   *  xorb_hash: Xorb hash as hex string (see Section 6.5)
+
+   Request body: Serialized xorb binary (see Section 7)
+
+   Response (200 OK):
+
+   {
+     "was_inserted": true
+   }
+
+   The was_inserted field is false if the xorb already existed; this is
+   not an error.
+
+   Error responses:
+
+   *  400 Bad Request: Hash mismatch or invalid xorb format
+
+   *  401 Unauthorized: Missing or invalid token
+
+   *  403 Forbidden: Insufficient token scope
+
+A.6.  Upload Shard
+
+   Uploads a shard to register files in the system.
+
+   POST /api/v1/shards
+   Content-Type: application/octet-stream
+
+   Request body: Serialized shard without footer (see Section 9)
+
+   Response (200 OK):
+
+   {
+     "result": 0
+   }
+
+   Result values:
+
+   *  0: Shard already exists
+
+   *  1: Shard was registered
+
+   Error responses:
+
+   *  400 Bad Request: Invalid shard format or referenced xorb missing
+
+   *  401 Unauthorized: Missing or invalid token
+
+   *  403 Forbidden: Insufficient token scope
+
+Appendix B.  Gearhash Lookup Table
 
    The XET-BLAKE3-GEARHASH-LZ4 content-defined chunking algorithm
    requires a lookup table of 256 64-bit constants.  Implementations of
@@ -2229,12 +2429,12 @@ TABLE = [
 
    This table is from the rust-gearhash crate [GEARHASH].
 
-Appendix B.  Test Vectors
+Appendix C.  Test Vectors
 
    The following test vectors are for the XET-BLAKE3-GEARHASH-LZ4
    algorithm suite.
 
-B.1.  Chunk Hash Test Vector
+C.1.  Chunk Hash Test Vector
 
    Input (ASCII): Hello World!
    Input (hex): 48656c6c6f20576f726c6421
@@ -2245,7 +2445,7 @@ B.1.  Chunk Hash Test Vector
    Hash (XET string representation):
      d8d408e608fb9ca213b9909a65d86d725f2de4d8d540324be8a363e7a6e228cb
 
-B.2.  Hash String Conversion Test Vector
+C.2.  Hash String Conversion Test Vector
 
    The XET hash string format interprets the 32-byte hash as four
    little-endian 64-bit unsigned values and prints each as 16
@@ -2261,7 +2461,7 @@ B.2.  Hash String Conversion Test Vector
    See the hash_to_string function in Section 6.5 for the conversion
    algorithm.
 
-B.3.  Internal Node Hash Test Vector
+C.3.  Internal Node Hash Test Vector
 
 Child 1:
   hash (XET string): c28f58387a60d4aa200c311cda7c7f77f686614864f5869eadebf765d0a14a69
@@ -2278,7 +2478,7 @@ Buffer being hashed (ASCII, with literal \n newlines):
 Result (XET string):
   be64c7003ccd3cf4357364750e04c9592b3c36705dee76a71590c011766b6c14
 
-B.4.  Verification Range Hash Test Vector
+C.4.  Verification Range Hash Test Vector
 
    Input: Two chunk hashes from the Internal Node Hash Test Vector
    above, concatenated as raw bytes (not XET string format).
@@ -2296,7 +2496,7 @@ B.4.  Verification Range Hash Test Vector
    Verification hash (XET string):
      eb06a8ad81d588ac05d1d9a079232d9c1e7d0b07232fa58091caa7bf333a2768
 
-B.5.  Reference Files
+C.5.  Reference Files
 
    Complete reference files including sample chunks, xorbs, and shards
    are available at: https://huggingface.co/datasets/xet-team/xet-spec-
