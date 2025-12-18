@@ -299,6 +299,7 @@ Other algorithm suites MUST specify their own determinism requirements.
 ## Performance Optimization
 
 Implementations MAY skip boundary checks until `chunk_size` reaches `MIN_CHUNK_SIZE`, since boundaries are forbidden before that point.
+
 They MUST still update the rolling hash for every byte; skipping hash updates would change `h` and therefore alter boundary placement, violating determinism.
 
 # Hashing Methods {#hashing-methods}
