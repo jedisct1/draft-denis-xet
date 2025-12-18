@@ -4139,8 +4139,8 @@ This is particularly effective for XET where different users may request differe
 <a href="#section-13.8" class="section-number selfRef">13.8. </a><a href="#name-proxy-and-intermediary-cons" class="section-name selfRef">Proxy and Intermediary Considerations</a>
         </h3>
 <p id="section-13.8-1">Corporate proxies and other intermediaries <span class="bcp14">MAY</span> cache XET traffic.<a href="#section-13.8-1" class="pilcrow">¶</a></p>
-<p id="section-13.8-2">Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses.
-However, reconstruction API requests include Bearer tokens in the <code>Authorization</code> header and <span class="bcp14">SHOULD NOT</span> be cached by intermediaries (the <code>private</code> directive prevents this).<a href="#section-13.8-2" class="pilcrow">¶</a></p>
+<p id="section-13.8-2">Pre-signed URLs include authentication in the URL itself, allowing unauthenticated intermediaries to cache responses.<a href="#section-13.8-2" class="pilcrow">¶</a></p>
+<p id="section-13.8-3">However, reconstruction API requests include authentication tokens and <span class="bcp14">SHOULD NOT</span> be cached by intermediaries.<a href="#section-13.8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

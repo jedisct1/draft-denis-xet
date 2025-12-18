@@ -1993,10 +1993,10 @@ Offset  Size  Field
    Corporate proxies and other intermediaries MAY cache XET traffic.
 
    Pre-signed URLs include authentication in the URL itself, allowing
-   unauthenticated intermediaries to cache responses.  However,
-   reconstruction API requests include Bearer tokens in the
-   Authorization header and SHOULD NOT be cached by intermediaries (the
-   private directive prevents this).
+   unauthenticated intermediaries to cache responses.
+
+   However, reconstruction API requests include authentication tokens
+   and SHOULD NOT be cached by intermediaries.
 
 14.  Security Considerations
 
