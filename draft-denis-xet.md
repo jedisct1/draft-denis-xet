@@ -1612,12 +1612,7 @@ API requests requiring authorization use a Bearer token in the `Authorization` h
 Authorization: Bearer <access_token>
 ~~~
 
-Tokens have associated scopes:
-
-- `read`: Required for reconstruction queries and global deduplication
-- `write`: Required for xorb and shard uploads (typically includes `read` permissions)
-
-Token acquisition and refresh mechanisms are deployment-specific.
+Token format, acquisition and refresh mechanisms are deployment-specific.
 
 ## Common Headers
 
