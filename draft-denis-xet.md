@@ -123,7 +123,7 @@ Throughout this document, the following terms apply:
 | Content-Addressable Storage (CAS) | A storage system where objects are addressed by cryptographic hashes of their content rather than by location or name.                                                                                         |
 | Global Deduplication              | The process of identifying chunks that already exist in the storage system to avoid redundant uploads.                                                                                                         |
 
-## Notational Conventions
+## Notational Conventions {#notational-conventions}
 
 All multi-byte integers in binary formats (xorb headers, shard structures) use little-endian byte order unless otherwise specified.
 
