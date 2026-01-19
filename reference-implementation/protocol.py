@@ -21,7 +21,7 @@ from shard import (
     FileDataSequenceEntry,
     serialize_shard_for_upload,
 )
-from api import CASClient, DeduplicationCache
+from api import CASClient, DeduplicationCache, FetchInfo
 
 
 @dataclass
@@ -416,44 +416,95 @@ class DownloadSession:
         recon = self.client.get_reconstruction(file_hash, byte_range)
         self._report_progress("query", 1, 1)
 
-        # Step 2: Download xorb data
-        # Group terms by xorb to avoid redundant downloads
-        xorb_data: dict[bytes, bytes] = {}
-        xorb_ranges: dict[bytes, set[tuple[int, int]]] = {}
-
-        for term in recon.terms:
-            if term.xorb_hash not in xorb_ranges:
-                xorb_ranges[term.xorb_hash] = set()
-            xorb_ranges[term.xorb_hash].add(
-                (term.chunk_range.start, term.chunk_range.end)
+        # Step 2: Download xorb data (may be partial ranges)
+        def fetch_key(xorb_hash: bytes, fi: FetchInfo) -> tuple:
+            return (
+                xorb_hash,
+                fi.chunk_range.start,
+                fi.chunk_range.end,
+                fi.url,
+                fi.url_range.start,
+                fi.url_range.end,
             )
 
-        total_xorbs = len(xorb_ranges)
-        for i, xorb_hash in enumerate(xorb_ranges.keys()):
-            self._report_progress("download", i + 1, total_xorbs)
+        def covering_fetch_infos(
+            term: ReconstructionTerm, fetch_infos: list[FetchInfo]
+        ) -> list[FetchInfo]:
+            """Return fetch info entries that cover the term's chunk range."""
+            infos = sorted(fetch_infos, key=lambda f: f.chunk_range.start)
+            needed: list[FetchInfo] = []
+            remaining_start = term.chunk_range.start
 
-            # Find fetch info covering our needed ranges
-            fetch_infos = recon.fetch_info.get(xorb_hash, [])
+            for fi in infos:
+                if fi.chunk_range.end <= remaining_start:
+                    continue
+                if fi.chunk_range.start > remaining_start:
+                    break
 
-            for fi in fetch_infos:
-                # Download the URL range
-                data = self.client.download_xorb_range(fi.url, fi.url_range)
-                if xorb_hash not in xorb_data:
-                    xorb_data[xorb_hash] = data
-                else:
-                    # Append if multiple ranges (would need proper handling)
-                    xorb_data[xorb_hash] = data
+                needed.append(fi)
+                if fi.chunk_range.end >= term.chunk_range.end:
+                    return needed
+                remaining_start = max(remaining_start, fi.chunk_range.end)
+
+            raise ValueError(
+                "No fetch_info entry covers chunk range "
+                f"[{term.chunk_range.start}, {term.chunk_range.end}) "
+                f"for xorb {term.xorb_hash.hex()}"
+            )
+
+        # Determine unique fetches needed across all terms
+        required_fetches: dict[tuple, FetchInfo] = {}
+        for term in recon.terms:
+            fetch_infos = recon.fetch_info.get(term.xorb_hash, [])
+            if not fetch_infos:
+                raise ValueError(
+                    "Missing fetch_info for xorb "
+                    f"{term.xorb_hash.hex()} in reconstruction response"
+                )
+            for fi in covering_fetch_infos(term, fetch_infos):
+                key = fetch_key(term.xorb_hash, fi)
+                if key not in required_fetches:
+                    required_fetches[key] = fi
+
+        fetched_data: dict[tuple, bytes] = {}
+        total_fetches = len(required_fetches)
+        for i, (key, fi) in enumerate(required_fetches.items()):
+            self._report_progress("download", i + 1, total_fetches)
+            fetched_data[key] = self.client.download_xorb_range(fi.url, fi.url_range)
 
         # Step 3: Extract chunks and assemble file
         result = bytearray()
 
         for term_idx, term in enumerate(recon.terms):
-            data = xorb_data[term.xorb_hash]
-            chunks = extract_chunk_range(
-                data, term.chunk_range.start, term.chunk_range.end
-            )
+            fetch_infos = recon.fetch_info.get(term.xorb_hash, [])
+            term_chunks: list[bytes] = []
+            remaining_start = term.chunk_range.start
 
-            chunk_data = b"".join(chunks)
+            for fi in covering_fetch_infos(term, fetch_infos):
+                key = fetch_key(term.xorb_hash, fi)
+                data = fetched_data[key]
+
+                segment_start = remaining_start
+                segment_end = min(term.chunk_range.end, fi.chunk_range.end)
+
+                relative_start = segment_start - fi.chunk_range.start
+                relative_end = segment_end - fi.chunk_range.start
+
+                chunks = extract_chunk_range(data, relative_start, relative_end)
+                term_chunks.extend(chunks)
+
+                remaining_start = segment_end
+                if remaining_start >= term.chunk_range.end:
+                    break
+
+            if remaining_start < term.chunk_range.end:
+                raise ValueError(
+                    "Incomplete fetch_info coverage for chunk range "
+                    f"[{term.chunk_range.start}, {term.chunk_range.end}) "
+                    f"for xorb {term.xorb_hash.hex()}"
+                )
+
+            chunk_data = b"".join(term_chunks)
 
             # Apply offset for first term
             if term_idx == 0 and recon.offset_into_first_range > 0:
