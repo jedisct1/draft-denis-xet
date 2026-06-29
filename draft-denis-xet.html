@@ -3475,13 +3475,16 @@ Clients <span class="bcp14">MUST</span>:<a href="#section-9.6.2-1" class="pilcro
 <a href="#section-10.3.1" class="section-number selfRef">10.3.1. </a><a href="#name-eligibility-criteria" class="section-name selfRef">Eligibility Criteria</a>
           </h4>
 <p id="section-10.3.1-1">Not all chunks are eligible for global deduplication queries.
-A chunk is eligible if:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
+A chunk is eligible if any of these conditions is true:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-10.3.1-2">
 <li id="section-10.3.1-2.1">
               <p id="section-10.3.1-2.1.1">It is the first chunk of a file, OR<a href="#section-10.3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-10.3.1-2.2">
-              <p id="section-10.3.1-2.2.1">The last 8 bytes of its hash, interpreted as a little-endian 64-bit unsigned integer, satisfy: <code>value % 1024 == 0</code><a href="#section-10.3.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-10.3.1-2.2.1">Its shard CAS entry has the <code>GLOBAL_DEDUP_ELIGIBLE</code> flag set, OR<a href="#section-10.3.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-10.3.1-2.3">
+              <p id="section-10.3.1-2.3.1">The last 8 bytes of its hash, interpreted as a little-endian 64-bit unsigned integer, satisfy: <code>value % 1024 == 0</code><a href="#section-10.3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
