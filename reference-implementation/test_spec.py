@@ -10,9 +10,10 @@ from hashing import (
     string_to_hash,
     blake3_keyed_hash,
     compute_verification_hash,
+    is_global_dedup_eligible,
     _merge_hash_sequence,
 )
-from constants import INTERNAL_NODE_KEY
+from constants import CHUNK_FLAG_GLOBAL_DEDUP_ELIGIBLE, INTERNAL_NODE_KEY
 
 
 def test_chunk_hash():
@@ -136,6 +137,28 @@ def test_verification_range_hash():
     print(f"  Result (XET): {result_xet}")
     print(f"  Expected:     {expected_xet}")
     assert result_xet == expected_xet, "Verification hash mismatch!"
+
+    print("  PASSED\n")
+
+
+def test_global_dedup_eligibility():
+    """Test global deduplication eligibility criteria."""
+    print("Testing global dedup eligibility...")
+
+    non_modulus_hash = bytes(24) + (1).to_bytes(8, "little")
+    modulus_hash = bytes(24) + (1024).to_bytes(8, "little")
+
+    assert is_global_dedup_eligible(non_modulus_hash, True), "First chunk should qualify"
+    assert is_global_dedup_eligible(
+        non_modulus_hash, False, CHUNK_FLAG_GLOBAL_DEDUP_ELIGIBLE
+    ), "Explicit flag should qualify"
+    assert is_global_dedup_eligible(modulus_hash, False), "Modulus match should qualify"
+    assert not is_global_dedup_eligible(
+        non_modulus_hash, False
+    ), "Unflagged non-modulus chunk should not qualify"
+    assert not is_global_dedup_eligible(
+        non_modulus_hash, False, 1
+    ), "Reserved flags should not qualify"
 
     print("  PASSED\n")
 
@@ -483,6 +506,7 @@ def run_all_tests():
     test_hash_string_conversion()
     test_internal_node_hash()
     test_verification_range_hash()
+    test_global_dedup_eligibility()
     test_chunking()
     test_xorb_serialization()
     test_shard_serialization()

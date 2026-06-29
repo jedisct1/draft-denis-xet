@@ -15,6 +15,8 @@ from constants import (
     MEAN_BRANCHING_FACTOR,
     MIN_CHILDREN,
     MAX_CHILDREN,
+    CHUNK_FLAG_GLOBAL_DEDUP_ELIGIBLE,
+    GLOBAL_DEDUP_MODULUS,
 )
 
 
@@ -236,24 +238,28 @@ def compute_verification_hash(
     return blake3_keyed_hash(VERIFICATION_KEY, buffer)
 
 
-def is_global_dedup_eligible(chunk_hash: bytes, is_first_chunk: bool) -> bool:
+def is_global_dedup_eligible(
+    chunk_hash: bytes, is_first_chunk: bool, flags: int = 0
+) -> bool:
     """Check if a chunk is eligible for global deduplication queries.
 
     A chunk is eligible if:
     1. It is the first chunk of a file, OR
-    2. The last 8 bytes of its hash, as little-endian u64, mod 1024 == 0
+    2. Its shard CAS entry has the GLOBAL_DEDUP_ELIGIBLE flag set, OR
+    3. The last 8 bytes of its hash, as little-endian u64, mod 1024 == 0
 
     Args:
         chunk_hash: 32-byte chunk hash.
         is_first_chunk: Whether this is the first chunk of a file.
+        flags: CAS chunk flags associated with a shard entry.
 
     Returns:
         True if eligible for global dedup.
     """
-    if is_first_chunk:
+    if is_first_chunk or (flags & CHUNK_FLAG_GLOBAL_DEDUP_ELIGIBLE):
         return True
     hash_value = struct.unpack("<Q", chunk_hash[24:32])[0]
-    return hash_value % 1024 == 0
+    return hash_value % GLOBAL_DEDUP_MODULUS == 0
 
 
 def compute_keyed_chunk_hash(chunk_hash: bytes, key: bytes) -> bytes:

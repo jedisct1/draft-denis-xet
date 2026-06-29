@@ -1156,10 +1156,11 @@ The global deduplication API enables discovering existing chunks across the enti
 ### Eligibility Criteria
 
 Not all chunks are eligible for global deduplication queries.
-A chunk is eligible if:
+A chunk is eligible if any of these conditions is true:
 
 1. It is the first chunk of a file, OR
-2. The last 8 bytes of its hash, interpreted as a little-endian 64-bit unsigned integer, satisfy: `value % 1024 == 0`
+2. Its shard CAS entry has the `GLOBAL_DEDUP_ELIGIBLE` flag set, OR
+3. The last 8 bytes of its hash, interpreted as a little-endian 64-bit unsigned integer, satisfy: `value % 1024 == 0`
 
 ### Query Process
 
