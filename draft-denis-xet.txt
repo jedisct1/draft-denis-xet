@@ -1128,7 +1128,9 @@ function compute_verification_hash(chunk_hashes, start_index, end_index):
    *  Boundary section offset from end: 32-bit unsigned byte offset from
       the end of the footer to the start of the boundary section
 
-   *  Reserved: 16 bytes, zero
+   *  Footer buffer: 16 bytes.  The first 4 bytes MAY contain a
+      uniqueness nonce and MUST be ignored by readers.  The remaining 12
+      bytes are reserved and MUST be zero.
 
    The 4-byte length trailer that follows the footer stores info_length
    (little-endian 32-bit unsigned) for the CasObjectInfo block only.
