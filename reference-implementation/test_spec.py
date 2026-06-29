@@ -212,6 +212,26 @@ def test_xorb_serialization():
     print(f"  Created xorb with {len(xorb.chunks)} chunks")
     print(f"  Serialized size: {len(serialized)} bytes")
 
+    # The xorb size limit applies to raw payload bytes, not serialized bytes.
+    from constants import COMPRESSION_NONE
+    from xorb import XorbBuilder
+    import xorb as xorb_module
+
+    raw_size = len(chunk1_data) + len(chunk2_data)
+    builder = XorbBuilder(max_size=raw_size, compression_type=COMPRESSION_NONE)
+    assert builder.add(chunk1_data, chunk1_hash)
+    assert builder.add(chunk2_data, chunk2_hash)
+    assert builder.current_size == raw_size, "Builder should track raw payload size"
+    assert not builder.add(b"x"), "Builder should enforce raw payload size"
+
+    old_max_xorb_size = xorb_module.MAX_XORB_SIZE
+    try:
+        xorb_module.MAX_XORB_SIZE = raw_size
+        serialized_at_raw_limit = serialize_xorb(xorb, compression_type=COMPRESSION_NONE)
+    finally:
+        xorb_module.MAX_XORB_SIZE = old_max_xorb_size
+    assert len(serialized_at_raw_limit) > raw_size
+
     # Deserialize
     recovered = deserialize_xorb(serialized)
     print(f"  Recovered {len(recovered.chunks)} chunks")

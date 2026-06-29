@@ -10,7 +10,7 @@ MAX_CHUNK_SIZE = 131072  # 128 KiB (TARGET * 2)
 MASK = 0xFFFF000000000000  # 16 one-bits for boundary detection
 
 # Xorb constraints
-MAX_XORB_SIZE = 67108864  # 64 MiB maximum serialized size
+MAX_XORB_SIZE = 67108864  # 64 MiB maximum raw payload size
 MAX_XORB_CHUNKS = 8192  # Maximum chunks per xorb
 TARGET_XORB_CHUNKS = 1024  # Recommended target
 

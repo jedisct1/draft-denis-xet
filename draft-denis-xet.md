@@ -602,14 +602,15 @@ Xorbs are identified by their xorb hash (see {{xorb-hashes}}).
 ## Size Constraints
 
 ~~~
-MAX_XORB_SIZE   = 67108864  # 64 MiB maximum serialized size
+MAX_XORB_SIZE   = 67108864  # 64 MiB maximum raw payload size
 MAX_XORB_CHUNKS = 8192      # Maximum chunks per xorb
 ~~~
 
 Implementations MUST NOT exceed either limit.
+`MAX_XORB_SIZE` applies to the sum of uncompressed chunk data bytes in the xorb; the serialized xorb can be larger due to headers, footer metadata, and compression framing.
 When collecting chunks:
 
-1. Stop if adding the next chunk would exceed `MAX_XORB_SIZE`
+1. Stop if adding the next chunk's uncompressed bytes would exceed `MAX_XORB_SIZE`
 2. Stop if the chunk count would exceed `MAX_XORB_CHUNKS`
 3. Target approximately 1,024 chunks per xorb for typical workloads
 

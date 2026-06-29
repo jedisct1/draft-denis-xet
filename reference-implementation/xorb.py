@@ -193,11 +193,17 @@ def serialize_xorb(xorb: Xorb, compression_type: int = COMPRESSION_LZ4) -> bytes
         Serialized xorb bytes.
 
     Raises:
-        ValueError: If xorb exceeds size/count limits.
+        ValueError: If xorb exceeds raw size/count limits.
     """
     if len(xorb.chunks) > MAX_XORB_CHUNKS:
         raise ValueError(
             f"Xorb has {len(xorb.chunks)} chunks, max is {MAX_XORB_CHUNKS}"
+        )
+
+    raw_payload_size = sum(len(chunk.data) for chunk in xorb.chunks)
+    if raw_payload_size > MAX_XORB_SIZE:
+        raise ValueError(
+            f"Xorb raw payload is {raw_payload_size} bytes, max is {MAX_XORB_SIZE}"
         )
 
     result = bytearray()
@@ -224,11 +230,6 @@ def serialize_xorb(xorb: Xorb, compression_type: int = COMPRESSION_LZ4) -> bytes
 
         result.extend(header)
         result.extend(compressed)
-
-    if len(result) > MAX_XORB_SIZE:
-        raise ValueError(
-            f"Serialized xorb is {len(result)} bytes, max is {MAX_XORB_SIZE}"
-        )
 
     return bytes(result)
 
@@ -347,13 +348,11 @@ class XorbBuilder:
         self.current_size = 0
 
     def can_add(self, chunk_data: bytes) -> bool:
-        """Check if a chunk can be added without exceeding limits."""
+        """Check if a chunk can be added without exceeding raw limits."""
         if len(self.chunks) >= self.max_chunks:
             return False
 
-        # Estimate compressed size (conservative: assume no compression benefit)
-        estimated_entry_size = 8 + len(chunk_data)
-        return self.current_size + estimated_entry_size <= self.max_size
+        return self.current_size + len(chunk_data) <= self.max_size
 
     def add(self, chunk_data: bytes, chunk_hash: Optional[bytes] = None) -> bool:
         """Add a chunk to the xorb.
@@ -381,7 +380,7 @@ class XorbBuilder:
         )
 
         self.chunks.append(entry)
-        self.current_size += 8 + len(compressed)
+        self.current_size += len(chunk_data)
         return True
 
     def build(self) -> Xorb:
