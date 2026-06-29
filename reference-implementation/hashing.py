@@ -197,7 +197,8 @@ def compute_xorb_hash(chunk_hashes: list[bytes], chunk_sizes: list[int]) -> byte
 def compute_file_hash(chunk_hashes: list[bytes], chunk_sizes: list[int]) -> bytes:
     """Compute file hash from its chunks.
 
-    The file hash is the Merkle root with an additional keyed hash using ZERO_KEY.
+    Empty files are represented by the zero hash. Non-empty files use the
+    Merkle root with an additional keyed hash using ZERO_KEY.
 
     Args:
         chunk_hashes: List of 32-byte chunk hashes.
@@ -206,6 +207,9 @@ def compute_file_hash(chunk_hashes: list[bytes], chunk_sizes: list[int]) -> byte
     Returns:
         32-byte file hash.
     """
+    if len(chunk_hashes) == 0:
+        return bytes(32)
+
     entries = list(zip(chunk_hashes, chunk_sizes))
     merkle_root = compute_merkle_root(entries)
     return blake3_keyed_hash(ZERO_KEY, merkle_root)

@@ -485,7 +485,8 @@ function compute_xorb_hash(chunk_hashes, chunk_sizes):
 ## File Hashes {#file-hashes}
 
 File hashes identify files based on their complete chunk composition.
-The computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.
+For non-empty files, the computation is similar to xorb hashes, but with an additional final keyed hash step for domain separation.
+Empty files are a special case and use `ZERO_HASH` directly.
 
 For the `XET-BLAKE3-GEARHASH-LZ4` suite, file hashes use an all-zero key (`ZERO_KEY`) for the final hash:
 
@@ -501,6 +502,8 @@ ZERO_KEY = {
 ~~~
 function compute_file_hash(chunk_hashes, chunk_sizes):
     n = length(chunk_hashes)
+    if n == 0:
+        return ZERO_HASH
     entries = []
     for i = 0 to n - 1:
         entries.append((chunk_hashes[i], chunk_sizes[i]))
@@ -508,8 +511,8 @@ function compute_file_hash(chunk_hashes, chunk_sizes):
     return blake3_keyed_hash(ZERO_KEY, merkle_root)
 ~~~
 
-For empty files (zero bytes), there are no chunks, so `compute_merkle_root([])` returns `ZERO_HASH` (32 zero bytes).
-The file hash is therefore `blake3_keyed_hash(ZERO_KEY, ZERO_HASH)`.
+For empty files (zero bytes), there are no chunks, so `compute_file_hash([], [])` returns `ZERO_HASH` (32 zero bytes).
+The final `ZERO_KEY` keyed hash is not applied to empty files.
 
 ## Term Verification Hashes {#verification-hashes}
 

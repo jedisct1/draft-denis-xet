@@ -429,6 +429,10 @@ def test_file_hash():
     print(f"  File hash: {hash_to_string(file_hash)}")
     assert len(file_hash) == 32
 
+    # Empty files use the zero hash directly
+    empty_file_hash = compute_file_hash([], [])
+    assert empty_file_hash == bytes(32), "Empty file hash should be zero hash"
+
     # Verify determinism
     file_hash2 = compute_file_hash(chunk_hashes, chunk_sizes)
     assert file_hash == file_hash2, "File hash should be deterministic"
