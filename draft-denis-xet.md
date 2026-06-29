@@ -778,7 +778,7 @@ Implementations MUST serialize fields in this exact order and reject unknown ide
 - `num_chunks`: 32-bit unsigned (repeated for convenience)
 - Hashes section offset from end: 32-bit unsigned byte offset from the end of the footer to the start of the hash section
 - Boundary section offset from end: 32-bit unsigned byte offset from the end of the footer to the start of the boundary section
-- Reserved: 16 bytes, zero
+- Footer buffer: 16 bytes. The first 4 bytes MAY contain a uniqueness nonce and MUST be ignored by readers. The remaining 12 bytes are reserved and MUST be zero.
 
 The 4-byte length trailer that follows the footer stores `info_length` (little-endian 32-bit unsigned) for the `CasObjectInfo` block only.
 This length field is not counted inside the footer itself.

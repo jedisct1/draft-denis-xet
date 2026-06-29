@@ -19,6 +19,27 @@ from constants import (
 from hashing import compute_chunk_hash, compute_xorb_hash
 
 
+MAIN_FOOTER_IDENT = b"XETBLOB"
+HASH_FOOTER_IDENT = b"XBLBHSH"
+BOUNDARY_FOOTER_IDENT = b"XBLBBND"
+FOOTER_BUFFER_SIZE = 16
+UNIQUENESS_NONCE_SIZE = 4
+FOOTER_TRAILER_SIZE = 12 + FOOTER_BUFFER_SIZE
+INFO_LENGTH_SIZE = 4
+
+
+@dataclass
+class _FooterInfo:
+    """Parsed CasObjectInfo footer metadata."""
+
+    xorb_hash: bytes
+    num_chunks: int
+    chunk_hashes: list[bytes]
+    chunk_boundary_offsets: list[int]
+    unpacked_chunk_offsets: list[int]
+    footer_buffer: bytes
+
+
 @dataclass
 class ChunkEntry:
     """A chunk entry within a xorb."""
@@ -35,6 +56,7 @@ class Xorb:
 
     chunks: list[ChunkEntry]
     xorb_hash: bytes = b""
+    footer_buffer: bytes = bytes(FOOTER_BUFFER_SIZE)
 
     def __post_init__(self):
         if not self.xorb_hash:
@@ -171,13 +193,155 @@ def _decode_u24_le(data: bytes) -> int:
     return struct.unpack("<I", data + b"\x00")[0]
 
 
-def serialize_xorb(xorb: Xorb, compression_type: int = COMPRESSION_LZ4) -> bytes:
+def _build_footer(
+    xorb: Xorb,
+    chunk_boundary_offsets: list[int],
+    unpacked_chunk_offsets: list[int],
+    uniqueness_nonce: bytes,
+) -> bytes:
+    """Build the CasObjectInfo footer."""
+    if len(uniqueness_nonce) != UNIQUENESS_NONCE_SIZE:
+        raise ValueError("Uniqueness nonce must be exactly 4 bytes")
+
+    num_chunks = len(xorb.chunks)
+    main_header = MAIN_FOOTER_IDENT + bytes([1]) + xorb.xorb_hash
+
+    hash_section_start = len(main_header)
+    hash_section = bytearray()
+    hash_section.extend(HASH_FOOTER_IDENT)
+    hash_section.append(0)
+    hash_section.extend(struct.pack("<I", num_chunks))
+    for chunk in xorb.chunks:
+        hash_section.extend(chunk.chunk_hash)
+
+    boundary_section_start = hash_section_start + len(hash_section)
+    boundary_section = bytearray()
+    boundary_section.extend(BOUNDARY_FOOTER_IDENT)
+    boundary_section.append(1)
+    boundary_section.extend(struct.pack("<I", num_chunks))
+    for offset in chunk_boundary_offsets:
+        boundary_section.extend(struct.pack("<I", offset))
+    for offset in unpacked_chunk_offsets:
+        boundary_section.extend(struct.pack("<I", offset))
+
+    body = main_header + bytes(hash_section) + bytes(boundary_section)
+    footer_length = len(body) + FOOTER_TRAILER_SIZE
+    hashes_offset_from_end = footer_length - hash_section_start
+    boundaries_offset_from_end = footer_length - boundary_section_start
+    footer_buffer = uniqueness_nonce + bytes(FOOTER_BUFFER_SIZE - UNIQUENESS_NONCE_SIZE)
+    trailer = struct.pack(
+        "<III", num_chunks, hashes_offset_from_end, boundaries_offset_from_end
+    ) + footer_buffer
+
+    return body + trailer
+
+
+def _parse_footer(footer: bytes) -> _FooterInfo:
+    """Parse the CasObjectInfo footer."""
+    if len(footer) < len(MAIN_FOOTER_IDENT) + 1 + 32 + FOOTER_TRAILER_SIZE:
+        raise ValueError("CasObjectInfo footer is too short")
+    if footer[:7] != MAIN_FOOTER_IDENT:
+        raise ValueError("Missing CasObjectInfo footer ident")
+    if footer[7] != 1:
+        raise ValueError(f"Unknown CasObjectInfo version {footer[7]}")
+
+    xorb_hash = footer[8:40]
+    trailer = footer[-FOOTER_TRAILER_SIZE:]
+    num_chunks, hashes_offset, boundaries_offset = struct.unpack("<III", trailer[:12])
+    footer_buffer = trailer[12:]
+    if footer_buffer[UNIQUENESS_NONCE_SIZE:] != bytes(
+        FOOTER_BUFFER_SIZE - UNIQUENESS_NONCE_SIZE
+    ):
+        raise ValueError("Reserved footer buffer bytes must be zero")
+
+    hash_section_start = len(footer) - hashes_offset
+    boundary_section_start = len(footer) - boundaries_offset
+    if not (40 <= hash_section_start < boundary_section_start < len(footer)):
+        raise ValueError("Invalid CasObjectInfo section offsets")
+
+    if footer[hash_section_start : hash_section_start + 7] != HASH_FOOTER_IDENT:
+        raise ValueError("Missing hash section ident")
+    hashes_version = footer[hash_section_start + 7]
+    if hashes_version != 0:
+        raise ValueError(f"Unknown hashes section version {hashes_version}")
+    hash_count = struct.unpack(
+        "<I", footer[hash_section_start + 8 : hash_section_start + 12]
+    )[0]
+    if hash_count != num_chunks:
+        raise ValueError("Hash section chunk count mismatch")
+    hashes_start = hash_section_start + 12
+    hashes_end = hashes_start + 32 * num_chunks
+    if hashes_end > len(footer):
+        raise ValueError("Hash section is truncated")
+    chunk_hashes = [
+        footer[hashes_start + 32 * i : hashes_start + 32 * (i + 1)]
+        for i in range(num_chunks)
+    ]
+
+    if footer[boundary_section_start : boundary_section_start + 7] != BOUNDARY_FOOTER_IDENT:
+        raise ValueError("Missing boundary section ident")
+    boundaries_version = footer[boundary_section_start + 7]
+    if boundaries_version != 1:
+        raise ValueError(f"Unknown boundary section version {boundaries_version}")
+    boundary_count = struct.unpack(
+        "<I", footer[boundary_section_start + 8 : boundary_section_start + 12]
+    )[0]
+    if boundary_count != num_chunks:
+        raise ValueError("Boundary section chunk count mismatch")
+    offsets_start = boundary_section_start + 12
+    offsets_end = offsets_start + 8 * num_chunks
+    if offsets_end > len(footer) - FOOTER_TRAILER_SIZE:
+        raise ValueError("Boundary section is truncated")
+    chunk_boundary_offsets = [
+        struct.unpack("<I", footer[offsets_start + 4 * i : offsets_start + 4 * (i + 1)])[0]
+        for i in range(num_chunks)
+    ]
+    unpacked_start = offsets_start + 4 * num_chunks
+    unpacked_chunk_offsets = [
+        struct.unpack("<I", footer[unpacked_start + 4 * i : unpacked_start + 4 * (i + 1)])[0]
+        for i in range(num_chunks)
+    ]
+
+    return _FooterInfo(
+        xorb_hash=xorb_hash,
+        num_chunks=num_chunks,
+        chunk_hashes=chunk_hashes,
+        chunk_boundary_offsets=chunk_boundary_offsets,
+        unpacked_chunk_offsets=unpacked_chunk_offsets,
+        footer_buffer=footer_buffer,
+    )
+
+
+def _split_xorb_regions(data: bytes) -> tuple[bytes, Optional[_FooterInfo]]:
+    """Split serialized bytes into chunk data and optional footer metadata."""
+    if len(data) < INFO_LENGTH_SIZE:
+        return data, None
+
+    info_length = struct.unpack("<I", data[-INFO_LENGTH_SIZE:])[0]
+    if info_length == 0 or info_length > len(data) - INFO_LENGTH_SIZE:
+        return data, None
+
+    footer_start = len(data) - INFO_LENGTH_SIZE - info_length
+    footer = data[footer_start : len(data) - INFO_LENGTH_SIZE]
+    if not footer.startswith(MAIN_FOOTER_IDENT):
+        return data, None
+
+    return data[:footer_start], _parse_footer(footer)
+
+
+def serialize_xorb(
+    xorb: Xorb,
+    compression_type: int = COMPRESSION_LZ4,
+    uniqueness_nonce: bytes = bytes(UNIQUENESS_NONCE_SIZE),
+) -> bytes:
     """Serialize a xorb to binary format.
 
     Xorb format:
     - Sequence of chunk entries, each with:
       - 8-byte header
       - Variable-length compressed data
+    - CasObjectInfo footer
+    - 4-byte footer length
 
     Chunk header (8 bytes):
     - Byte 0: Version (must be 0)
@@ -188,6 +352,7 @@ def serialize_xorb(xorb: Xorb, compression_type: int = COMPRESSION_LZ4) -> bytes
     Args:
         xorb: The xorb to serialize.
         compression_type: Default compression type to use.
+        uniqueness_nonce: Optional 4-byte value for the footer buffer.
 
     Returns:
         Serialized xorb bytes.
@@ -207,6 +372,9 @@ def serialize_xorb(xorb: Xorb, compression_type: int = COMPRESSION_LZ4) -> bytes
         )
 
     result = bytearray()
+    chunk_boundary_offsets = []
+    unpacked_chunk_offsets = []
+    unpacked_offset = 0
 
     for chunk in xorb.chunks:
         # Compress if not already compressed
@@ -230,6 +398,15 @@ def serialize_xorb(xorb: Xorb, compression_type: int = COMPRESSION_LZ4) -> bytes
 
         result.extend(header)
         result.extend(compressed)
+        chunk_boundary_offsets.append(len(result))
+        unpacked_offset += uncompressed_size
+        unpacked_chunk_offsets.append(unpacked_offset)
+
+    footer = _build_footer(
+        xorb, chunk_boundary_offsets, unpacked_chunk_offsets, uniqueness_nonce
+    )
+    result.extend(footer)
+    result.extend(struct.pack("<I", len(footer)))
 
     return bytes(result)
 
@@ -246,14 +423,15 @@ def deserialize_xorb(data: bytes) -> Xorb:
     Raises:
         ValueError: If format is invalid.
     """
+    chunk_data_region, footer_info = _split_xorb_regions(data)
     chunks = []
     offset = 0
 
-    while offset < len(data):
-        if offset + 8 > len(data):
+    while offset < len(chunk_data_region):
+        if offset + 8 > len(chunk_data_region):
             raise ValueError(f"Truncated header at offset {offset}")
 
-        header = data[offset : offset + 8]
+        header = chunk_data_region[offset : offset + 8]
         version = header[0]
         if version != 0:
             raise ValueError(f"Unknown chunk version {version} at offset {offset}")
@@ -264,10 +442,10 @@ def deserialize_xorb(data: bytes) -> Xorb:
 
         offset += 8
 
-        if offset + compressed_size > len(data):
+        if offset + compressed_size > len(chunk_data_region):
             raise ValueError(f"Truncated chunk data at offset {offset}")
 
-        compressed_data = data[offset : offset + compressed_size]
+        compressed_data = chunk_data_region[offset : offset + compressed_size]
         offset += compressed_size
 
         # Decompress
@@ -286,6 +464,18 @@ def deserialize_xorb(data: bytes) -> Xorb:
         )
 
     xorb = Xorb(chunks=chunks)
+    if footer_info is not None:
+        if footer_info.num_chunks != len(chunks):
+            raise ValueError("Footer chunk count does not match chunk data region")
+        if footer_info.chunk_hashes != [chunk.chunk_hash for chunk in chunks]:
+            raise ValueError("Footer chunk hashes do not match chunk data")
+        if footer_info.chunk_boundary_offsets and footer_info.chunk_boundary_offsets[-1] != len(
+            chunk_data_region
+        ):
+            raise ValueError("Footer chunk boundary offsets do not match chunk data")
+        if footer_info.xorb_hash != xorb.xorb_hash:
+            raise ValueError("Footer xorb hash does not match chunk data")
+        xorb.footer_buffer = footer_info.footer_buffer
     return xorb
 
 
@@ -300,15 +490,16 @@ def extract_chunk_range(data: bytes, start_index: int, end_index: int) -> list[b
     Returns:
         List of decompressed chunk data.
     """
+    chunk_data_region, _ = _split_xorb_regions(data)
     chunks = []
     offset = 0
     chunk_index = 0
 
-    while offset < len(data) and chunk_index < end_index:
-        if offset + 8 > len(data):
+    while offset < len(chunk_data_region) and chunk_index < end_index:
+        if offset + 8 > len(chunk_data_region):
             raise ValueError(f"Truncated header at offset {offset}")
 
-        header = data[offset : offset + 8]
+        header = chunk_data_region[offset : offset + 8]
         version = header[0]
         if version != 0:
             raise ValueError(f"Unknown chunk version {version}")
@@ -318,7 +509,9 @@ def extract_chunk_range(data: bytes, start_index: int, end_index: int) -> list[b
         uncompressed_size = _decode_u24_le(header[5:8])
 
         offset += 8
-        compressed_data = data[offset : offset + compressed_size]
+        if offset + compressed_size > len(chunk_data_region):
+            raise ValueError(f"Truncated chunk data at offset {offset}")
+        compressed_data = chunk_data_region[offset : offset + compressed_size]
         offset += compressed_size
 
         if chunk_index >= start_index:

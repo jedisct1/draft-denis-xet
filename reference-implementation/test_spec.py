@@ -232,6 +232,14 @@ def test_xorb_serialization():
         xorb_module.MAX_XORB_SIZE = old_max_xorb_size
     assert len(serialized_at_raw_limit) > raw_size
 
+    # The footer buffer may carry a 4-byte uniqueness nonce ignored by readers.
+    nonce = b"\x01\x02\x03\x04"
+    serialized_with_nonce = serialize_xorb(xorb, uniqueness_nonce=nonce)
+    recovered_with_nonce = deserialize_xorb(serialized_with_nonce)
+    assert recovered_with_nonce.footer_buffer[:4] == nonce
+    assert recovered_with_nonce.footer_buffer[4:] == bytes(12)
+    assert recovered_with_nonce.xorb_hash == xorb.xorb_hash
+
     # Deserialize
     recovered = deserialize_xorb(serialized)
     print(f"  Recovered {len(recovered.chunks)} chunks")
