@@ -4,8 +4,8 @@
 
 Network Working Group                                           F. Denis
 Internet-Draft                                   Independent Contributor
-Intended status: Informational                           19 January 2025
-Expires: 23 July 2025
+Intended status: Informational                              29 June 2025
+Expires: 31 December 2025
 
 
  XET: Content-Addressable Storage Protocol for Efficient Data Transfer
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 July 2025.
+   This Internet-Draft will expire on 31 December 2025.
 
 Copyright Notice
 
@@ -780,8 +780,9 @@ function merged_hash_of_sequence(hash_pairs):
 6.3.  File Hashes
 
    File hashes identify files based on their complete chunk composition.
-   The computation is similar to xorb hashes, but with an additional
-   final keyed hash step for domain separation.
+   For non-empty files, the computation is similar to xorb hashes, but
+   with an additional final keyed hash step for domain separation.
+   Empty files are a special case and use ZERO_HASH directly.
 
    For the XET-BLAKE3-GEARHASH-LZ4 suite, file hashes use an all-zero
    key (ZERO_KEY) for the final hash:
@@ -795,6 +796,8 @@ function merged_hash_of_sequence(hash_pairs):
 
    function compute_file_hash(chunk_hashes, chunk_sizes):
        n = length(chunk_hashes)
+       if n == 0:
+           return ZERO_HASH
        entries = []
        for i = 0 to n - 1:
            entries.append((chunk_hashes[i], chunk_sizes[i]))
@@ -802,8 +805,8 @@ function merged_hash_of_sequence(hash_pairs):
        return blake3_keyed_hash(ZERO_KEY, merkle_root)
 
    For empty files (zero bytes), there are no chunks, so
-   compute_merkle_root([]) returns ZERO_HASH (32 zero bytes).  The file
-   hash is therefore blake3_keyed_hash(ZERO_KEY, ZERO_HASH).
+   compute_file_hash([], []) returns ZERO_HASH (32 zero bytes).  The
+   final ZERO_KEY keyed hash is not applied to empty files.
 
 6.4.  Term Verification Hashes
 
