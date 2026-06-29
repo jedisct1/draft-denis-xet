@@ -334,8 +334,9 @@ function compute_chunk_hash(chunk_data):
 
 ## Xorb Hashes {#xorb-hashes}
 
-Xorb hashes identify xorbs based on their constituent chunks.
+Xorb hashes identify xorbs based on their ordered chunk content, not a byte-for-byte serialization.
 The hash is computed using a Merkle tree construction where leaf nodes are chunk hashes.
+Compression framing and ignored footer fields, such as the uniqueness nonce, are excluded.
 The Merkle tree construction is defined separately from the hash function.
 
 ### Internal Node Hash Function
@@ -1326,7 +1327,8 @@ This section provides guidance for implementers on caching strategies and consid
 
 Objects in XET are identified by cryptographic hashes of their content.
 This content-addressable design provides a fundamental property: content at a given hash never changes.
-A xorb with hash H will always contain the same bytes, and a chunk with hash C will always decompress to the same data.
+A xorb with hash H will always contain the same decompressed chunks in the same order, and a chunk with hash C will always decompress to the same data.
+The serialized bytes of a xorb can vary in ignored footer fields such as the uniqueness nonce.
 
 This immutability enables aggressive caching:
 
@@ -1429,6 +1431,8 @@ For xorb content (immutable):
 Cache-Control: public, immutable, max-age=<url_ttl_seconds>
 ETag: "<xorb_hash>"
 ~~~
+
+When used as an ETag, the xorb hash validates the semantic xorb content (the ordered decompressed chunks), not byte-for-byte identity of the serialized response.
 
 - `max-age` MUST be set to a value no greater than the remaining validity window of the pre-signed URL used to serve the object (e.g., a URL that expires in 900 seconds MUST NOT be served with `max-age` larger than 900).
 - Servers SHOULD also emit an `Expires` header aligned to the URL expiry time.

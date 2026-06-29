@@ -236,9 +236,14 @@ def test_xorb_serialization():
     nonce = b"\x01\x02\x03\x04"
     serialized_with_nonce = serialize_xorb(xorb, uniqueness_nonce=nonce)
     recovered_with_nonce = deserialize_xorb(serialized_with_nonce)
+    assert serialized_with_nonce != serialized
     assert recovered_with_nonce.footer_buffer[:4] == nonce
     assert recovered_with_nonce.footer_buffer[4:] == bytes(12)
     assert recovered_with_nonce.xorb_hash == xorb.xorb_hash
+    assert [chunk.data for chunk in recovered_with_nonce.chunks] == [
+        chunk1_data,
+        chunk2_data,
+    ]
 
     # Deserialize
     recovered = deserialize_xorb(serialized)
