@@ -4,8 +4,8 @@
 
 Network Working Group                                           F. Denis
 Internet-Draft                                   Independent Contributor
-Intended status: Informational                              29 June 2025
-Expires: 31 December 2025
+Intended status: Informational                         14 September 2026
+Expires: 18 March 2027
 
 
  XET: Content-Addressable Storage Protocol for Efficient Data Transfer
@@ -44,11 +44,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 December 2025.
+   This Internet-Draft will expire on 18 March 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -693,39 +693,39 @@ Table of Contents
    Note: When the input has 2 or fewer hashes, all are merged together.
    This ensures each internal node has at least 2 children.
 
-function next_merge_cut(hashes):
-    # hashes is a list of (hash, size) pairs
-    # Returns the number of entries to merge (cut point)
-    n = length(hashes)
-    if n <= 2:
-        return n
+   function next_merge_cut(hashes):
+       # hashes is a list of (hash, size) pairs
+       # Returns the number of entries to merge (cut point)
+       n = length(hashes)
+       if n <= 2:
+           return n
 
-    end = min(MAX_CHILDREN, n)
+       end = min(MAX_CHILDREN, n)
 
-    # Check indices 2 through end-1 (0-based indexing)
-    # Minimum merge is 3 children when input has more than 2 hashes
-    for i = 2 to end - 1:
-        h = hashes[i].hash
-        # Interpret last 8 bytes of hash as little-endian 64-bit unsigned int
-        hash_value = u64_le(h[24:32])
-        if hash_value % MEAN_BRANCHING_FACTOR == 0:
-            return i + 1  # Cut after element i (include i+1 elements)
+       # Check indices 2 through end-1 (0-based indexing)
+       # Minimum merge is 3 children when input has more than 2 hashes
+       for i = 2 to end - 1:
+           h = hashes[i].hash
+           # Interpret last 8 bytes of hash as little-endian 64-bit unsigned int
+           hash_value = u64_le(h[24:32])
+           if hash_value % MEAN_BRANCHING_FACTOR == 0:
+               return i + 1  # Cut after element i (include i+1 elements)
 
-    return end
+       return end
 
 6.2.2.3.  Merging Hash Sequences
 
-function merged_hash_of_sequence(hash_pairs):
-    # hash_pairs is a list of (hash, size) pairs
-    buffer = ""
-    total_size = 0
+   function merged_hash_of_sequence(hash_pairs):
+       # hash_pairs is a list of (hash, size) pairs
+       buffer = ""
+       total_size = 0
 
-    for each (h, s) in hash_pairs:
-        buffer += hash_to_string(h) + " : " + decimal_string(s) + "\n"
-        total_size += s
+       for each (h, s) in hash_pairs:
+           buffer += hash_to_string(h) + " : " + decimal_string(s) + "\n"
+           total_size += s
 
-    new_hash = blake3_keyed_hash(INTERNAL_NODE_KEY, utf8_encode(buffer))
-    return (new_hash, total_size)
+       new_hash = blake3_keyed_hash(INTERNAL_NODE_KEY, utf8_encode(buffer))
+       return (new_hash, total_size)
 
    This produces lines like:
 
@@ -829,12 +829,12 @@ function merged_hash_of_sequence(hash_pairs):
    The input is the raw concatenation of chunk hashes (not hex-encoded)
    for the term’s chunk range:
 
-function compute_verification_hash(chunk_hashes, start_index, end_index):
-    # Range is [start_index, end_index) - end is exclusive
-    buffer = empty_byte_array()
-    for i = start_index to end_index - 1:
-        buffer += chunk_hashes[i]  # 32 bytes each
-    return blake3_keyed_hash(VERIFICATION_KEY, buffer)
+   function compute_verification_hash(chunk_hashes, start_index, end_index):
+       # Range is [start_index, end_index) - end is exclusive
+       buffer = empty_byte_array()
+       for i = start_index to end_index - 1:
+           buffer += chunk_hashes[i]  # 32 bytes each
+       return blake3_keyed_hash(VERIFICATION_KEY, buffer)
 
 6.5.  Hash String Representation
 
