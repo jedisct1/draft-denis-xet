@@ -241,7 +241,7 @@ Implementations of the `XET-BLAKE3-GEARHASH-LZ4` suite MUST use the table define
 
 The algorithm maintains a 64-bit rolling hash value and processes input bytes sequentially:
 
-~~~
+~~~ pseudocode
 function chunk_file(data):
     h = 0                    # 64-bit rolling hash
     start_offset = 0         # Start of current chunk
@@ -327,7 +327,7 @@ DATA_KEY = {
 }
 ~~~
 
-~~~
+~~~ pseudocode
 function compute_chunk_hash(chunk_data):
     return blake3_keyed_hash(DATA_KEY, chunk_data)
 ~~~
@@ -392,7 +392,7 @@ A cut point occurs when:
 Note: When the input has 2 or fewer hashes, all are merged together.
 This ensures each internal node has at least 2 children.
 
-~~~
+~~~ pseudocode
 function next_merge_cut(hashes):
     # hashes is a list of (hash, size) pairs
     # Returns the number of entries to merge (cut point)
@@ -416,7 +416,7 @@ function next_merge_cut(hashes):
 
 #### Merging Hash Sequences
 
-~~~
+~~~ pseudocode
 function merged_hash_of_sequence(hash_pairs):
     # hash_pairs is a list of (hash, size) pairs
     buffer = ""
@@ -445,7 +445,7 @@ Each line contains:
 
 #### Root Computation
 
-~~~
+~~~ pseudocode
 function compute_merkle_root(entries):
     # entries is a list of (hash, size) pairs
     if length(entries) == 0:
@@ -474,7 +474,7 @@ Where `ZERO_HASH` is 32 bytes of zeros, and `hv[start:end]` denotes slicing elem
 
 The xorb hash is the root of a Merkle tree built from chunk hashes:
 
-~~~
+~~~ pseudocode
 function compute_xorb_hash(chunk_hashes, chunk_sizes):
     n = length(chunk_hashes)
     entries = []
@@ -500,7 +500,7 @@ ZERO_KEY = {
 }
 ~~~
 
-~~~
+~~~ pseudocode
 function compute_file_hash(chunk_hashes, chunk_sizes):
     n = length(chunk_hashes)
     if n == 0:
@@ -533,7 +533,7 @@ VERIFICATION_KEY = {
 
 The input is the raw concatenation of chunk hashes (not hex-encoded) for the term's chunk range:
 
-~~~
+~~~ pseudocode
 function compute_verification_hash(chunk_hashes, start_index, end_index):
     # Range is [start_index, end_index) - end is exclusive
     buffer = empty_byte_array()
@@ -555,7 +555,7 @@ The 32-byte hash is interpreted as four little-endian 64-bit unsigned values, an
 3. Format each value as a zero-padded 16-character lowercase hexadecimal string
 4. Concatenate the four strings (64 characters total)
 
-~~~
+~~~ pseudocode
 function hash_to_string(hash):
     out = ""
     for segment = 0 to 3:
@@ -695,7 +695,7 @@ Original:  [A0 A1 A2 A3 | B0 B1 B2 B3 | C0 C1 C2 C3 | ...]
 Grouped:   [A0 B0 C0 ... | A1 B1 C1 ... | A2 B2 C2 ... | A3 B3 C3 ...]
 ~~~
 
-~~~
+~~~ pseudocode
 function byte_group_4(data):
     n = length(data)
     groups = [[], [], [], []]
@@ -1015,7 +1015,7 @@ Offset  Size  Field
 The `chunk_byte_range_start` field is the cumulative byte offset of this chunk within the uncompressed xorb data.
 It is calculated as the sum of `unpacked_segment_bytes` for all preceding chunks in the xorb:
 
-~~~
+~~~ pseudocode
 function calculate_byte_range_starts(chunks):
     position = 0
     for each chunk in chunks:
